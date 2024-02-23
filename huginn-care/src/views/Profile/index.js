@@ -2,15 +2,15 @@ import React from 'react';
 import { View, Text, TouchableHighlight, Image } from 'react-native';
 import styles from './styles';
 
-const Main = ({ navigation: { navigate } }) => (
+const Profile = ({ navigation: { navigate } }) => (
     <View style={styles.container}>
-        <Text style={styles.paragraph}>Home</Text>
+        <Text style={styles.paragraph}>Profile</Text>
         <TouchableHighlight
             style={styles.button}
-            onPress={() => { navigate('Reports') }}>
-            <Text style={styles.buttonText}>Reports</Text>
+            onPress={() => { navigate('Main') }}>
+            <Text style={styles.buttonText}>Gallery</Text>
         </TouchableHighlight>
     </View>
 );
 
-export default Main;
+export default Profile;
