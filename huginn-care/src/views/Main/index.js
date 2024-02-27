@@ -5,12 +5,12 @@ import staffs from '../../resources/group.png';
 import next from '../../resources/right-arrow.png';
 import styles from './styles';
 
-const Main = ({ navigation }) => (
+const Main = ({ navigation: { navigate } }) => (
     <View style={styles.container}>
         <Text style={styles.title}>Flýtileiðir</Text>
         <TouchableOpacity
             style={styles.button}
-            onPress={() => { navigate('Report') }}>
+            onPress={() => { navigate('Reports') }}>
             <View style={styles.section}>
                 <View style={styles.blueIcon}>
                     <Image source={report} style={styles.icon} />
@@ -23,7 +23,7 @@ const Main = ({ navigation }) => (
         </TouchableOpacity>
         <TouchableOpacity
             style={styles.button}
-            onPress={() => { navigate('Report') }}>
+            onPress={() => { navigate('Staffs') }}>
             <View style={styles.section}>
                 <View style={styles.greenIcon}>
                     <Image source={staffs} style={styles.icon} />
