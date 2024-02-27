@@ -1,17 +1,39 @@
 import React from 'react';
-import { View, Text, TouchableHighlight, Image } from 'react-native';
-import dashboard from '../../resources/dashboard.svg';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
+import report from '../../resources/file.png';
+import staffs from '../../resources/group.png';
+import next from '../../resources/right-arrow.png';
 import styles from './styles';
 
 const Main = ({ navigation: { navigate } }) => (
     <View style={styles.container}>
-        <Image source={dashboard} style={styles.logo} />
-        <Text style={styles.paragraph}>The most powerful image manipulation application out there! Feel free to test out its powers!</Text>
-        <TouchableHighlight
+        <Text style={styles.title}>Flýtileiðir</Text>
+        <TouchableOpacity
             style={styles.button}
-            onPress={() => { navigate('Gallery') }}>
-            <Text style={styles.buttonText}>Gallery</Text>
-        </TouchableHighlight>
+            onPress={() => { navigate('Report') }}>
+            <View style={styles.section}>
+                <View style={styles.blueIcon}>
+                    <Image source={report} style={styles.icon} />
+                </View>
+                <View style={styles.navText}>
+                    <Text style={styles.buttonText}>Skoða eldri skýrslur</Text>
+                    <Image source={next} style={styles.nextIcon} />
+                </View>
+            </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+            style={styles.button}
+            onPress={() => { navigate('Report') }}>
+            <View style={styles.section}>
+                <View style={styles.greenIcon}>
+                    <Image source={staffs} style={styles.icon} />
+                </View>
+                <View style={styles.navText}>
+                    <Text style={styles.buttonText}>Skoða Starfsmenn</Text>
+                    <Image source={next} style={styles.nextIcon} />
+                </View>
+            </View>
+        </TouchableOpacity>
     </View>
 );
 
