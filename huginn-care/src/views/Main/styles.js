@@ -1,32 +1,61 @@
 import { StyleSheet } from 'react-native';
-import { whiteBackground } from '../../styles/colors';
+import { blueIcon, greenIcon } from '../../styles/colors';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
-        backgroundColor: whiteBackground,
+        padding: 15,
+        justifyContent: 'start'
+    },
+    section: {
+        paddingTop: 10,
         alignItems: 'center',
         justifyContent: 'space-around'
+    },
+    title: {
+        marginTop: 15,
+        textTransform: 'uppercase',
+        fontWeight: 'bold'
     },
     paragraph: {
         textAlign: 'center',
         color: 'black'
     },
     button: {
-        marginTop: 30,
-        paddingTop: 10,
-        paddingBottom: 10,
-        paddingLeft: 20,
-        paddingRight: 20,
-        borderColor: 'white',
-        borderWidth: 2
+        marginTop: 10,
+        marginBottom: 5,
+        padding: 20,
+        borderColor: 'gainsboro',
+        borderWidth: 1,
+        borderRadius: 10,
+        backgroundColor: 'white'
+    },
+    navText: {
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     buttonText: {
-        color: 'white'
+        padding: 10,
+        fontWeight: 'bold'
     },
-    logo: {
-        width: 200,
-        height: 200
+    blueIcon: {
+        width: 50,
+        padding: 10,
+        borderRadius: 10,
+        backgroundColor: blueIcon
+    },
+    greenIcon: {
+        width: 50,
+        padding: 10,
+        borderRadius: 10,
+        backgroundColor: greenIcon
+    },
+    icon: {
+        width: 30,
+        height: 30
+    },
+    nextIcon: {
+        width: 15,
+        height: 15
     }
 });
