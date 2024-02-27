@@ -5,7 +5,7 @@ import staffs from '../../resources/group.png';
 import next from '../../resources/right-arrow.png';
 import styles from './styles';
 
-const Main = ({ navigation: { navigate } }) => (
+const Main = ({ navigation }) => (
     <View style={styles.container}>
         <Text style={styles.title}>Flýtileiðir</Text>
         <TouchableOpacity

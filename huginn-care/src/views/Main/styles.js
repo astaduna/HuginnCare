@@ -19,7 +19,7 @@ export default StyleSheet.create({
     },
     paragraph: {
         textAlign: 'center',
-        color: 'white'
+        color: 'black'
     },
     button: {
         marginTop: 10,
