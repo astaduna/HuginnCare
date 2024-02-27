@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
-import { Black, darkerBlue, graniteGray } from '../../styles/colors';
+import { whiteBackground } from '../../styles/colors';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: 'black',
+        backgroundColor: whiteBackground,
         alignItems: 'center',
         justifyContent: 'space-around'
     },
@@ -20,8 +20,7 @@ export default StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20,
         borderColor: 'white',
-        borderWidth: 2,
-        backgroundColor: graniteGray
+        borderWidth: 2
     },
     buttonText: {
         color: 'white'
