@@ -10,7 +10,7 @@ const Main = ({ navigation: { navigate } }) => (
         <Text style={styles.title}>Flýtileiðir</Text>
         <TouchableOpacity
             style={styles.button}
-            onPress={() => { navigate('Reports') }}>
+            onPress={() => { navigate('Reports'); }}>
             <View style={styles.section}>
                 <View style={styles.blueIcon}>
                     <Image source={report} style={styles.icon} />
@@ -23,7 +23,7 @@ const Main = ({ navigation: { navigate } }) => (
         </TouchableOpacity>
         <TouchableOpacity
             style={styles.button}
-            onPress={() => { navigate('Staffs') }}>
+            onPress={() => { navigate('Staffs'); }}>
             <View style={styles.section}>
                 <View style={styles.greenIcon}>
                     <Image source={staffs} style={styles.icon} />
