@@ -1,61 +1,40 @@
 import { StyleSheet } from 'react-native';
-import { blueIcon, greenIcon } from '../../styles/colors';
+import { grayCircle, greenIcon } from '../../styles/colors';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
         padding: 15,
-        justifyContent: 'start'
-    },
-    section: {
-        paddingTop: 10,
+        justifyContent: 'space-around',
         alignItems: 'center',
-        justifyContent: 'space-around'
+        backgroundColor: 'white'
     },
-    title: {
-        marginTop: 15,
-        textTransform: 'uppercase',
-        fontWeight: 'bold'
+    icon: {
+        width: 100,
+        height: 100,
+        top: 300
     },
-    paragraph: {
-        textAlign: 'center',
+    circle: {
+        width: 900,
+        height: 900,
+        borderRadius: 750,
+        top: 600,
+        left: -150,
+        backgroundColor: grayCircle,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    buttonText: {
+        padding: 10,
+        fontWeight: 'bold',
         color: 'black'
     },
     button: {
         marginTop: 10,
-        marginBottom: 5,
-        padding: 20,
+        padding: 10,
         borderColor: 'gainsboro',
         borderWidth: 1,
         borderRadius: 10,
         backgroundColor: 'white'
-    },
-    navText: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    buttonText: {
-        padding: 10,
-        fontWeight: 'bold'
-    },
-    blueIcon: {
-        width: 50,
-        padding: 10,
-        borderRadius: 10,
-        backgroundColor: blueIcon
-    },
-    greenIcon: {
-        width: 50,
-        padding: 10,
-        borderRadius: 10,
-        backgroundColor: greenIcon
-    },
-    icon: {
-        width: 30,
-        height: 30
-    },
-    nextIcon: {
-        width: 15,
-        height: 15
     }
 });

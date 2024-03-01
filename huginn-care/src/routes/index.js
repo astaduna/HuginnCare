@@ -27,7 +27,7 @@ const Routes = () => (
                         iconSource = require('../resources/user.png');
                     }
                     return <Image source={iconSource} style={{ width: 24, height: 24, tintColor: color }} />;
-                },
+                }
             })}
             tabBarOptions={{
                 activeTintColor: 'black',
@@ -41,19 +41,6 @@ const Routes = () => (
             <Tab.Screen name="Profile" component={Profile} options={{ title: 'Notandi' }} />
         </Tab.Navigator>
     </NavigationContainer>
-);
-
-const DefaultTabButton = ({ children, onPress }) => (
-    <TouchableOpacity
-        style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center'
-        }}
-        onPress={onPress}
-    >
-        {children}
-    </TouchableOpacity>
 );
 
 export default Routes;
