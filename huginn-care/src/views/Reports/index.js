@@ -23,7 +23,7 @@ const Reports = ({ navigation: { navigate } }) => (
         </TouchableOpacity>
         <TouchableOpacity
             style={styles.button}
-            onPress={() => { navigate('Reports'); }}>
+            onPress={() => { navigate('Home'); }}>
             <View style={styles.section}>
                 <View style={styles.blueIcon}>
                     <Image source={report} style={styles.icon} />
