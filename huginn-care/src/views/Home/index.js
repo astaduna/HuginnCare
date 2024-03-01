@@ -5,7 +5,7 @@ import staffs from '../../resources/group.png';
 import next from '../../resources/right-arrow.png';
 import styles from './styles';
 
-const Main = ({ navigation: { navigate } }) => (
+const Home = ({ navigation: { navigate } }) => (
     <View style={styles.container}>
         <Text style={styles.title}>Flýtileiðir</Text>
         <TouchableOpacity
@@ -37,4 +37,4 @@ const Main = ({ navigation: { navigate } }) => (
     </View>
 );
 
-export default Main;
+export default Home;
