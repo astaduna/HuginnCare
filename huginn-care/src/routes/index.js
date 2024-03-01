@@ -3,6 +3,7 @@ import { Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import Main from '../views/Main';
 import Home from '../views/Home';
 import Reports from '../views/Reports';
 import AllReports from '../views/AllReports';
@@ -13,7 +14,7 @@ const Tab = createBottomTabNavigator();
 const Routes = () => (
     <NavigationContainer>
         <Tab.Navigator
-            initialRouteName="Home"
+            initialRouteName="Main"
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconSource;
@@ -27,21 +28,16 @@ const Routes = () => (
                     }
                     return <Image source={iconSource} style={{ width: 24, height: 24, tintColor: color }} />;
                 },
-                tabBarButton: (props) => {
-                    if (route.name === 'AllReports') {
-                        return null;
-                    }
-                    return <DefaultTabButton {...props} />;
-                }
             })}
             tabBarOptions={{
                 activeTintColor: 'black',
                 inactiveTintColor: 'gray'
             }}
         >
+            <Tab.Screen name="Main" component={Main} options={{ tabBarButton: () => null }}/>
             <Tab.Screen name="Home" component={Home} options={{ title: 'Forsíða' }} />
             <Tab.Screen name="Reports" component={Reports} options={{ title: 'Skýrslur' }} />
-            <Tab.Screen name="AllReports" component={AllReports} options={{ title: 'Eldri Skýrslur' }} />
+            <Tab.Screen name="AllReports" component={AllReports} options={{ title: 'Eldri Skýrslur', tabBarButton: () => null }} />
             <Tab.Screen name="Profile" component={Profile} options={{ title: 'Notandi' }} />
         </Tab.Navigator>
     </NavigationContainer>
