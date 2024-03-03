@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { Animated, View, Text, TouchableOpacity, Image } from 'react-native';
-import staffs from '../../resources/group.png';
+import logo from '../../resources/huginn-care-logo.png';
 import styles from './styles';
 
 const Main = ({ navigation: { navigate } }) => {
@@ -10,12 +10,12 @@ const Main = ({ navigation: { navigate } }) => {
         Animated.sequence([
             Animated.timing(position, {
                 toValue: -200,
-                duration: 2000,
+                duration: 3000,
                 useNativeDriver: true
             }),
             Animated.timing(opacity, {
                 toValue: 1,
-                duration: 2000,
+                duration: 1000,
                 useNativeDriver: true
             })
         ]).start();
@@ -24,7 +24,7 @@ const Main = ({ navigation: { navigate } }) => {
     return (
         <View style={styles.container}>
             <Animated.Image 
-                source={staffs} 
+                source={logo} 
                 style={{
                     ...styles.icon,
                     transform: [
@@ -38,16 +38,22 @@ const Main = ({ navigation: { navigate } }) => {
                     { translateY: position }
                 ]
             }}>
-                <Animated.Text style={{...styles.buttonText, opacity: opacity}}>blablablab</Animated.Text>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => { navigate('Home'); }}>
-                    <View style={styles.section}>
-                        <Text style={styles.buttonText}>Innskráning</Text>
-                    </View>
-                </TouchableOpacity>
             </Animated.View>
-    
+            <Animated.View style={{
+                    ...styles.section,
+                    opacity: opacity
+                    }}>
+                    <Text style={styles.title}>Velkomin í{"\n"}
+                        Huginn care appið</Text>
+                    <Text style={styles.paragraph}>Hér getur þú fundið upplýsingar sem og skráð dagsskýrslur og fleira.</Text>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => { navigate('Login'); }}>
+                        <View style={styles.section}>
+                            <Text style={styles.buttonText}>Innskráning</Text>
+                        </View>
+                    </TouchableOpacity>
+                </Animated.View>
             {/* <Text style={styles.title}>Main</Text>
              */}
         </View>
