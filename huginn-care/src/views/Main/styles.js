@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { grayCircle, greenIcon } from '../../styles/colors';
+import { grayCircle, greenBlue } from '../../styles/colors';
 
 export default StyleSheet.create({
     container: {
@@ -9,9 +9,12 @@ export default StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white'
     },
+    section: {
+        width: '100%',
+        top: '-20%'
+    },
     icon: {
-        width: 100,
-        height: 100,
+        width: '50%',
         top: 300
     },
     circle: {
@@ -22,19 +25,29 @@ export default StyleSheet.create({
         left: -150,
         backgroundColor: grayCircle,
         alignItems: 'center',
-        justifyContent: 'center'
+    },
+    title: {
+        fontWeight: 'bold',
+        fontSize: 32
+    },
+    paragraph: {
+        fontSize: 17,
+        marginTop: 10,
+        marginBottom: 40
     },
     buttonText: {
         padding: 10,
         fontWeight: 'bold',
-        color: 'black'
+        fontSize: 17,
+        color: 'white',
+        textAlign: 'center'
     },
     button: {
         marginTop: 10,
-        padding: 10,
+        paddingTop: 20,
         borderColor: 'gainsboro',
         borderWidth: 1,
-        borderRadius: 10,
-        backgroundColor: 'white'
+        borderRadius: 7,
+        backgroundColor: greenBlue
     }
 });
