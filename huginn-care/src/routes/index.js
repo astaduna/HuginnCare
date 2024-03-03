@@ -8,6 +8,7 @@ import Home from '../views/Home';
 import Reports from '../views/Reports';
 import AllReports from '../views/AllReports';
 import Profile from '../views/Profile';
+import NewReport from '../views/NewReport';
 
 const Tab = createBottomTabNavigator();
 
@@ -39,6 +40,7 @@ const Routes = () => (
             <Tab.Screen name="Reports" component={Reports} options={{ title: 'Skýrslur' }} />
             <Tab.Screen name="AllReports" component={AllReports} options={{ title: 'Eldri Skýrslur', tabBarButton: () => null }} />
             <Tab.Screen name="Profile" component={Profile} options={{ title: 'Notandi' }} />
+            <Tab.Screen name='NewReport' component={NewReport} options={{ title: 'Ný Skýrsla', tabBarButton: () => null}} />
         </Tab.Navigator>
     </NavigationContainer>
 );
