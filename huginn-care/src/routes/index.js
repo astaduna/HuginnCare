@@ -41,6 +41,8 @@ const Tabs = () => (
         <Tab.Screen name="Home" component={Home} options={{ title: 'Forsíða' }} />
         <Tab.Screen name="Reports" component={Reports} options={{ title: 'Skýrslur' }} />
         <Tab.Screen name="Profile" component={Profile} options={{ title: 'Notandi' }} />
+        <Tab.Screen name="AllReports" component={AllReports} options={{ title: 'Eldri Skýrslur', tabBarButton: () => null }} />
+        <Tab.Screen name='NewReport' component={NewReport} options={{ title: 'Ný Skýrsla', tabBarButton: () => null }} />
     </Tab.Navigator>
 );
 
@@ -49,10 +51,8 @@ const Routes = () => (
         <Stack.Navigator
             initialRouteName="Main">
             <Stack.Screen name="Home" component={Tabs} options={{ headerShown: false }}/>
-            <Stack.Screen name="Main" component={Main} options={{ tabBarButton: () => null, headerShown: false }}/>
-            <Stack.Screen name="Login" component={Login} options={{ tabBarButton: () => null, headerShown: false }}/>
-            <Stack.Screen name="AllReports" component={AllReports} options={{ title: 'Eldri Skýrslur', tabBarButton: () => null }} />
-            <Stack.Screen name='NewReport' component={NewReport} options={{ title: 'Ný Skýrsla', tabBarButton: () => null }} />
+            <Stack.Screen name="Main" component={Main} options={{ headerShown: false }}/>
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
         </Stack.Navigator>
     </NavigationContainer>
 );
