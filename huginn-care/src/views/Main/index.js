@@ -40,20 +40,20 @@ const Main = ({ navigation: { navigate } }) => {
             }}>
             </Animated.View>
             <Animated.View style={{
-                    ...styles.section,
-                    opacity: opacity
-                    }}>
-                    <Text style={styles.title}>Velkomin í{"\n"}
+                ...styles.section,
+                opacity
+            }}>
+                <Text style={styles.title}>Velkomin í{'\n'}
                         Huginn care appið</Text>
-                    <Text style={styles.paragraph}>Hér getur þú fundið upplýsingar sem og skráð dagsskýrslur og fleira.</Text>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => { navigate('Login'); }}>
-                        <View style={styles.section}>
-                            <Text style={styles.buttonText}>Innskráning</Text>
-                        </View>
-                    </TouchableOpacity>
-                </Animated.View>
+                <Text style={styles.paragraph}>Hér getur þú fundið upplýsingar sem og skráð dagsskýrslur og fleira.</Text>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => { navigate('Login'); }}>
+                    <View style={styles.section}>
+                        <Text style={styles.buttonText}>Innskráning</Text>
+                    </View>
+                </TouchableOpacity>
+            </Animated.View>
             {/* <Text style={styles.title}>Main</Text>
              */}
         </View>
