@@ -24,7 +24,7 @@ export default StyleSheet.create({
         top: 600,
         left: -150,
         backgroundColor: grayCircle,
-        alignItems: 'center',
+        alignItems: 'center'
     },
     title: {
         fontWeight: 'bold',
@@ -45,8 +45,6 @@ export default StyleSheet.create({
     button: {
         marginTop: 10,
         paddingTop: 20,
-        borderColor: 'gainsboro',
-        borderWidth: 1,
         borderRadius: 7,
         backgroundColor: greenBlue
     }

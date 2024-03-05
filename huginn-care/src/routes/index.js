@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Main from '../views/Main';
+import Login from '../views/Login';
 import Home from '../views/Home';
 import Reports from '../views/Reports';
 import AllReports from '../views/AllReports';
@@ -36,11 +37,12 @@ const Routes = () => (
             }}
         >
             <Tab.Screen name="Main" component={Main} options={{ tabBarButton: () => null }}/>
+            <Tab.Screen name="Login" component={Login} options={{ tabBarButton: () => null }}/>
             <Tab.Screen name="Home" component={Home} options={{ title: 'Forsíða' }} />
             <Tab.Screen name="Reports" component={Reports} options={{ title: 'Skýrslur' }} />
             <Tab.Screen name="AllReports" component={AllReports} options={{ title: 'Eldri Skýrslur', tabBarButton: () => null }} />
             <Tab.Screen name="Profile" component={Profile} options={{ title: 'Notandi' }} />
-            <Tab.Screen name='NewReport' component={NewReport} options={{ title: 'Ný Skýrsla', tabBarButton: () => null}} />
+            <Tab.Screen name='NewReport' component={NewReport} options={{ title: 'Ný Skýrsla', tabBarButton: () => null }} />
         </Tab.Navigator>
     </NavigationContainer>
 );
