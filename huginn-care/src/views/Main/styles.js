@@ -3,7 +3,6 @@ import { grayCircle, greenBlue } from '../../styles/colors';
 
 export default StyleSheet.create({
     container: {
-        flex: 1,
         padding: 15,
         justifyContent: 'space-around',
         alignItems: 'center',
@@ -11,11 +10,11 @@ export default StyleSheet.create({
     },
     section: {
         width: '100%',
-        top: '-20%'
+        top: '-15%'
     },
     icon: {
         width: '50%',
-        top: 300
+        top: 350
     },
     circle: {
         width: 900,
