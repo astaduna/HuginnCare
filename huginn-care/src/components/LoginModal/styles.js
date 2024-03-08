@@ -33,12 +33,12 @@ export default StyleSheet.create({
     },
     button: {
         padding: 20,
-        top: 70,
+        top: 83,
         backgroundColor: greenBlue
     },
     disabledButton: {
         padding: 20,
-        top: 70,
+        top: 83,
         backgroundColor: 'gainsboro'
     },
     buttonText: {

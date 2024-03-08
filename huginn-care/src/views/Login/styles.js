@@ -18,11 +18,11 @@ export default StyleSheet.create({
         fontWeight: 'bold'
     },
     circle: {
-        width: 100,
-        height: 100,
+        width: 130,
+        height: 130,
         borderRadius: 750,
-        top: -25,
-        left: -30,
+        top: -55,
+        left: -20,
         backgroundColor: grayCircle,
         alignItems: 'center',
         justifyContent: 'center'

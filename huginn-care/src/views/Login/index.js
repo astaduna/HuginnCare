@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableHighlight, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, TouchableHighlight, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 import previous from '../../resources/left-arrow.png';
 import styles from './styles';
 import LoginModal from '../../components/LoginModal';
@@ -12,7 +12,7 @@ const Login = ({ navigation: { navigate } }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => { navigate('Main'); }}>
@@ -23,7 +23,7 @@ const Login = ({ navigation: { navigate } }) => {
                 </View>
             </TouchableOpacity>
             <LoginModal submit={submit}/>
-        </View>
+        </SafeAreaView>
     );
 };
 
