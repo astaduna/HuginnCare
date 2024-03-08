@@ -4,6 +4,7 @@ import report from '../../resources/file.png';
 import staffs from '../../resources/group.png';
 import next from '../../resources/right-arrow.png';
 import styles from './styles';
+import FloatingActionButton from '../../components/FloatingActionButton';
 
 const Home = ({ navigation: { navigate } }) => (
     <View style={styles.container}>
@@ -34,6 +35,7 @@ const Home = ({ navigation: { navigate } }) => (
                 </View>
             </View>
         </TouchableOpacity>
+        <FloatingActionButton />
     </View>
 );
 
