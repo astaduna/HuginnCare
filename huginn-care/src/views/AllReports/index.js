@@ -7,8 +7,14 @@ import styles from './styles';
 
 const AllReports = ({ navigation: { navigate } }) => (
     <View style={styles.container}>
-        <Text style={styles.title}>Yfirlit yfir eldri skýrslur</Text>
+        <Text style={styles.title}>Hér kemur listi yfir nýlegar skýrslur</Text>
+         <TouchableOpacity
+            style={styles.reportButton}
+            onPress={() => { navigate('AllReports'); }}>
+            <Text style={styles.oldReportTitle}>Skoða allar skýrslur</Text>
+        </TouchableOpacity>
     </View>
+    
 );
 
 export default AllReports;
