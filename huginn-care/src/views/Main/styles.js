@@ -3,6 +3,7 @@ import { grayCircle, greenBlue } from '../../styles/colors';
 
 export default StyleSheet.create({
     container: {
+        flex: 1,
         padding: 15,
         justifyContent: 'space-around',
         alignItems: 'center',
@@ -10,11 +11,11 @@ export default StyleSheet.create({
     },
     section: {
         width: '100%',
-        top: '-15%'
+        top: '-20%'
     },
     icon: {
         width: '50%',
-        top: 350
+        top: 300
     },
     circle: {
         width: 900,
@@ -23,7 +24,7 @@ export default StyleSheet.create({
         top: 600,
         left: -150,
         backgroundColor: grayCircle,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     title: {
         fontWeight: 'bold',
@@ -44,6 +45,8 @@ export default StyleSheet.create({
     button: {
         marginTop: 10,
         paddingTop: 20,
+        borderColor: 'gainsboro',
+        borderWidth: 1,
         borderRadius: 7,
         backgroundColor: greenBlue
     }

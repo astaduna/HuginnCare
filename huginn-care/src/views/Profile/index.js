@@ -10,8 +10,8 @@ import styles from './styles';
 const Profile = ({ navigation: { navigate } }) => (
     <View style={styles.container}>
         <TouchableOpacity
-            style={styles.button}
-            onPress={() => { navigate('Reports'); }}>
+        style={styles.button}
+        onPress={() => { navigate('Reports'); }}>
             <View style={styles.section}>
                 <View style={styles.greenIcon}>
                     <Image source={staffs} style={styles.icon} />
@@ -23,8 +23,8 @@ const Profile = ({ navigation: { navigate } }) => (
             </View>
         </TouchableOpacity>
         <TouchableOpacity
-            style={styles.button}
-            onPress={() => { navigate('Reports'); }}>
+        style={styles.button}
+        onPress={() => { navigate('Reports'); }}>
             <View style={styles.section}>
                 <View style={styles.greenIcon}>
                     <Image source={staffs} style={styles.icon} />
@@ -36,8 +36,8 @@ const Profile = ({ navigation: { navigate } }) => (
             </View>
         </TouchableOpacity>
         <TouchableOpacity
-            style={styles.button}
-            onPress={() => { navigate('Reports'); }}>
+        style={styles.button}
+        onPress={() => { navigate('Reports'); }}>
             <View style={styles.section}>
                 <View style={styles.yellowIcon}>
                     <Image source={setting} style={styles.icon} />
@@ -49,8 +49,8 @@ const Profile = ({ navigation: { navigate } }) => (
             </View>
         </TouchableOpacity>
         <TouchableOpacity
-            style={styles.button}
-            onPress={() => { navigate('Main'); }}>
+        style={styles.button}
+        onPress={() => { navigate('Reports'); }}>
             <View style={styles.section}>
                 <View style={styles.blueIcon}>
                     <Image source={exit} style={styles.icon} />
