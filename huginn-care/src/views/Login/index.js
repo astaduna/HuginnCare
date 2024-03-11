@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { Image, SafeAreaView, TouchableOpacity, View } from 'react-native';
-import LoginModal from '../../components/LoginModal';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, TouchableHighlight, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 import Spinner from '../../components/Spinner';
 import previous from '../../resources/left-arrow.png';
 import styles from './styles';
-
+import LoginModal from '../../components/LoginModal';
 
 const Login = ({ navigation: { navigate } }) => {
     const [isLoading, setLoading] = useState(false);

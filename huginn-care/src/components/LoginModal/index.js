@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { login } from '../../services/authService';
+import { View, Text, TextInput, TouchableHighlight, TouchableOpacity, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import styles from './styles';
 
 const LoginModal = ({
     submit
 }) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('bjorgvin@jokula.is');
+    const [password, setPassword] = useState('123456');
     const [errors, setErrors] = useState({});
     const isEmpty = (username.length === 0 || password.length === 0);
 
-    const handleLogin = async () => {
-        const { isLoggedIn, json } = await login(username, password);
-        if (isLoggedIn) {
-            submit(true); // Navigate to Home if login is successful
-        } else {
-            // Update errors state to display login error messages
-            setErrors({ login: 'Login failed. Please check your username and password and try again.' });
+    const isValid = (username, password) => {
+        const errors = {};
+
+        if (username !== 'bjorgvin@jokula.is') { errors.username = 'Rangt notendanafn. Vinsamlega reyndu aftur eða hafðu samband við...'; }
+        if (password !== '123456') { errors.password = 'Rangt lykilorð. Vinsamlega reyndu aftur eða hafðu samband við...'; }
+
+        if (Object.keys(errors).length > 0) {
+            setErrors(errors);
+            return false;
         }
+        return true;    
     };
 
     return (
@@ -44,12 +46,14 @@ const LoginModal = ({
                     value={password}
                     onChangeText={text => setPassword(text)}
                 />
-                {Boolean(errors.login) && 
-                    <Text style={styles.errorText}>{errors.login}</Text>}
+                {Boolean(errors.username) && 
+                    <Text style={styles.errorText}>{errors.username}</Text>}
+                {Boolean(errors.password) && 
+                    <Text style={styles.errorText}>{errors.password}</Text>}
             </View>
             <TouchableOpacity
                 style={isEmpty ? styles.disabledButton : styles.button}
-                onPress={handleLogin}
+                onPress={() => submit(isValid(username, password))}
                 disabled={isEmpty}>
                 <View style={styles.section}>
                     <Text style={styles.buttonText}>Innskráning</Text>
