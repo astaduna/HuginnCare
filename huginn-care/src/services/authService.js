@@ -13,8 +13,18 @@ export const login = async (username, password) => {
                 Authorization: `Basic ${base64Credentials}`
             }
         });
-        const json = await response.json();
-        return json;
+
+        if (response.ok) { // Check if status code is 200-299
+            const cookies = response.headers.get('Set-Cookie'); // Access response headers
+            // Optional: Check if session cookies are set
+            const isLoggedIn = cookies && cookies.includes('express:sess');
+            const json = await response.json();
+            return { json, isLoggedIn }; // Include isLoggedIn flag in the response
+        } else {
+            // Handle non-successful HTTP status codes
+            const errorText = await response.text();
+            throw new Error(errorText);
+        }
     } catch (err) {
         return err.toString();
     }
