@@ -55,5 +55,9 @@ export default StyleSheet.create({
         borderColor: 'gainsboro',
         borderWidth: 2,
         fontSize: 13
+    },
+    errorText: {
+        color: 'red',
+        margin: 7
     }
 });

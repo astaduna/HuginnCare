@@ -1,0 +1,19 @@
+import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import styles from './styles';
+
+const FloatingActionButton = () => {
+    const navigation = useNavigation();
+
+    return (
+        <TouchableOpacity
+            style={styles.fab}
+            onPress={() => navigation.navigate('NewReport')} // Adjust as needed for your navigation structure
+        >
+            <Text style={styles.fabIcon}>+</Text>
+        </TouchableOpacity>
+    );
+};
+
+export default FloatingActionButton;

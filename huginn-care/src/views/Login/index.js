@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableHighlight, TouchableOpacity, Image, SafeAreaView } from 'react-native';
+import Spinner from '../../components/Spinner';
 import previous from '../../resources/left-arrow.png';
 import styles from './styles';
 import LoginModal from '../../components/LoginModal';
 
 const Login = ({ navigation: { navigate } }) => {
-    const submit = (username, password) => {
-        if (username === 'Admin' && password === 'admin') {
-            navigate('Home');
+    const [isLoading, setLoading] = useState(false);
+    
+    const submit = (isValid) => {
+        setLoading(true);
+        if (isValid) {
+            setTimeout(() => {
+                navigate('Home');
+            }, 1000);
         }
     };
 
@@ -23,6 +29,7 @@ const Login = ({ navigation: { navigate } }) => {
                 </View>
             </TouchableOpacity>
             <LoginModal submit={submit}/>
+            { isLoading ? <Spinner /> : null }
         </SafeAreaView>
     );
 };
