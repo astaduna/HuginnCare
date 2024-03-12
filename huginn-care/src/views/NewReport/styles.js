@@ -5,57 +5,27 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         padding: 15,
-        justifyContent: 'start'
+        justifyContent: 'start',
     },
-    section: {
-        paddingTop: 10,
-        alignItems: 'center',
-        justifyContent: 'space-around'
+    formFrame: {
+        borderBlockColor: 'lightgrey',
+        borderWidth: 2,
+        borderRadius: 5,
+        padding: 20,
+        width: '95%',
+        margin: 10,
     },
     title: {
-        marginTop: 15,
+        margin: 10,
+        alignContent: 'center',
         textTransform: 'uppercase',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
-    paragraph: {
-        textAlign: 'center',
-        color: 'black'
-    },
-    button: {
-        marginTop: 10,
-        marginBottom: 5,
-        padding: 20,
-        borderColor: 'gainsboro',
+    input: {
+        margin: 10,
+        padding: 10,
         borderWidth: 1,
-        borderRadius: 10,
-        backgroundColor: 'white'
+        borderColor: 'lightgrey',
+        borderRadius: 2,
     },
-    navText: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    buttonText: {
-        padding: 10,
-        fontWeight: 'bold'
-    },
-    blueIcon: {
-        width: 50,
-        padding: 10,
-        borderRadius: 10,
-        backgroundColor: blueIcon
-    },
-    greenIcon: {
-        width: 50,
-        padding: 10,
-        borderRadius: 10,
-        backgroundColor: greenIcon
-    },
-    icon: {
-        width: 30,
-        height: 30
-    },
-    nextIcon: {
-        width: 15,
-        height: 15
-    }
 });
