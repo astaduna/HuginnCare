@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { login } from '../../services/authService';
+import { login } from '../../services/apiService';
 import styles from './styles';
 
-const LoginModal = ({
-    submit
-}) => {
+const LoginModal = ({ submit }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
-    const isEmpty = (username.length === 0 || password.length === 0);
+    const isEmpty = username.length === 0 || password.length === 0;
 
     const handleLogin = async () => {
         const { isLoggedIn, json } = await login(username, password);
         if (isLoggedIn) {
-            submit(true); // Navigate to Home if login is successful
+            submit(true);
         } else {
-            // Update errors state to display login error messages
             setErrors({ login: 'Login failed. Please check your username and password and try again.' });
         }
     };
