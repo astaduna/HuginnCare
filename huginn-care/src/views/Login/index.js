@@ -5,7 +5,6 @@ import Spinner from '../../components/Spinner';
 import previous from '../../resources/left-arrow.png';
 import styles from './styles';
 
-
 const Login = ({ navigation: { navigate } }) => {
     const [isLoading, setLoading] = useState(false);
     
