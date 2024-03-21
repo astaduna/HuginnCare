@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableHighlight, TouchableOpacity, Image, KeyboardAvoidingView, Platform } from 'react-native';
+import { KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { login } from '../../services/apiService';
 import styles from './styles';
 
-const LoginModal = ({
-    submit
-}) => {
+const LoginModal = ({ submit }) => {
     const [username, setUsername] = useState('bjorgvin@jokula.is');
     const [password, setPassword] = useState('123456');
     const [errors, setErrors] = useState({});
-    const isEmpty = (username.length === 0 || password.length === 0);
+    const isEmpty = username.length === 0 || password.length === 0;
 
     const isValid = (username, password) => {
         const errors = {};
@@ -21,6 +20,15 @@ const LoginModal = ({
             return false;
         }
         return true;    
+    };
+
+    const handleLogin = async () => {
+        const { isLoggedIn, json } = await login(username, password);
+        if (isLoggedIn) {
+            submit(true);
+        } else {
+            setErrors({ login: 'Login failed. Please check your username and password and try again.' });
+        }
     };
 
     return (
@@ -46,10 +54,8 @@ const LoginModal = ({
                     value={password}
                     onChangeText={text => setPassword(text)}
                 />
-                {Boolean(errors.username) && 
-                    <Text style={styles.errorText}>{errors.username}</Text>}
-                {Boolean(errors.password) && 
-                    <Text style={styles.errorText}>{errors.password}</Text>}
+                {Boolean(errors.login) && 
+                    <Text style={styles.errorText}>{errors.login}</Text>}
             </View>
             <TouchableOpacity
                 style={isEmpty ? styles.disabledButton : styles.button}
