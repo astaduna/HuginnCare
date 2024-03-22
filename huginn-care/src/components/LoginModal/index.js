@@ -4,30 +4,28 @@ import { login } from '../../services/apiService';
 import styles from './styles';
 
 const LoginModal = ({ submit }) => {
-    const [username, setUsername] = useState('bjorgvin@jokula.is');
-    const [password, setPassword] = useState('123456');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
     const isEmpty = username.length === 0 || password.length === 0;
 
-    const isValid = (username, password) => {
-        const errors = {};
-
-        if (username !== 'bjorgvin@jokula.is') { errors.username = 'Rangt notendanafn. Vinsamlega reyndu aftur eða hafðu samband við...'; }
-        if (password !== '123456') { errors.password = 'Rangt lykilorð. Vinsamlega reyndu aftur eða hafðu samband við...'; }
-
-        if (Object.keys(errors).length > 0) {
-            setErrors(errors);
-            return false;
-        }
-        return true;    
-    };
-
     const handleLogin = async () => {
-        const { isLoggedIn, json } = await login(username, password);
-        if (isLoggedIn) {
-            submit(true);
+        if (!isEmpty) {
+            try {
+                const { isLoggedIn, json } = await login(username, password);
+                if (isLoggedIn) {
+                    submit(true);
+                } else {
+                    // Handle cases where login credentials are not correct but the server responded without error
+                    setErrors({ login: 'Login failed. Please check your username and password and try again.' });
+                }
+            } catch (error) {
+                // Handle cases where there's an error in the login process (e.g., network error, server error)
+                setErrors({ login: error.toString() });
+            }
         } else {
-            setErrors({ login: 'Login failed. Please check your username and password and try again.' });
+            // Handle case where username or password fields are empty
+            setErrors({ login: 'Please enter both username and password.' });
         }
     };
 
@@ -36,30 +34,28 @@ const LoginModal = ({ submit }) => {
             style={{ flex: 1 }}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View style={styles.container}>
-                <Text style={styles.title}> Innskráning </Text>
+                <Text style={styles.title}>Innskráning</Text>
                 <TextInput
                     style={styles.textInput}
-                    autoFocus
-                    label="Notendanafn"
                     placeholder="Notendanafn"
                     value={username}
-                    onChangeText={text => setUsername(text)}
+                    onChangeText={setUsername}
                 />
                 <TextInput
                     style={styles.textInput}
                     secureTextEntry={true}
-                    autoFocus
-                    label="Lykilorð"
                     placeholder="Lykilorð"
                     value={password}
-                    onChangeText={text => setPassword(text)}
+                    onChangeText={setPassword}
                 />
-                {Boolean(errors.login) && 
-                    <Text style={styles.errorText}>{errors.login}</Text>}
+                {/* Display login errors if any */}
+                {errors.login && (
+                    <Text style={styles.errorText}>{errors.login}</Text>
+                )}
             </View>
             <TouchableOpacity
                 style={isEmpty ? styles.disabledButton : styles.button}
-                onPress={() => submit(isValid(username, password))}
+                onPress={handleLogin}
                 disabled={isEmpty}>
                 <View style={styles.section}>
                     <Text style={styles.buttonText}>Innskráning</Text>
