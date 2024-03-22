@@ -10,7 +10,7 @@ const Main = ({ navigation: { navigate } }) => {
         Animated.sequence([
             Animated.timing(position, {
                 toValue: -200,
-                duration: 3000,
+                duration: 2000,
                 useNativeDriver: true
             }),
             Animated.timing(opacity, {

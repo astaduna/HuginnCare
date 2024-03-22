@@ -11,6 +11,7 @@ import Reports from '../views/Reports';
 import AllReports from '../views/AllReports';
 import Profile from '../views/Profile';
 import NewReport from '../views/NewReport';
+import Settings from '../views/Settings';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,7 +25,7 @@ const Tabs = () => (
                 if (route.name === 'Home') {
                     iconSource = require('../resources/dashboard.png');
                 } else if (route.name === 'Reports') {
-                    iconSource = require('../resources/file.png');
+                    iconSource = require('../resources/report.png');
                 } else if (route.name === 'Profile') {
                     iconSource = require('../resources/user.png');
                 }
@@ -38,11 +39,12 @@ const Tabs = () => (
         }}
 
     >
-        <Tab.Screen name="Home" component={Home} options={{ title: 'Forsíða' }} />
-        <Tab.Screen name="Reports" component={Reports} options={{ title: 'Skýrslur' }} />
-        <Tab.Screen name="Profile" component={Profile} options={{ title: 'Notandi' }} />
-        <Tab.Screen name="AllReports" component={AllReports} options={{ title: 'Eldri Skýrslur', tabBarButton: () => null }} />
+        <Tab.Screen name='Home' component={Home} options={{ title: 'Forsíða' }} />
+        <Tab.Screen name='Reports' component={Reports} options={{ title: 'Skýrslur', headerTitleAlign: 'left' }} />
+        <Tab.Screen name='Profile' component={Profile} options={{ title: 'Notandi' }} />
+        <Tab.Screen name='AllReports' component={AllReports} options={{ title: 'Eldri Skýrslur', tabBarButton: () => null }} />
         <Tab.Screen name='NewReport' component={NewReport} options={{ title: 'Ný Skýrsla', tabBarButton: () => null }} />
+        <Tab.Screen name='Settings' component={Settings} options={{ title: 'Stillingar', tabBarButton: () => null }} />
     </Tab.Navigator>
 );
 
