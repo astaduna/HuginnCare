@@ -1,33 +1,39 @@
-import base64 from 'react-native-base64';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const API_URL = 'https://devapi.huginn.care';
 
 export const login = async (username, password) => {
     try {
-        // Create base64-encoded credentials
-        const base64Credentials = base64.encode(`${username}:${password}`);
-        // Send a POST request to the login endpoint with the base64-encoded credentials
+        console.log(`Attempting to login with username: ${username} and password: ${password}`);
+
+        // Prepare the data as application/x-www-form-urlencoded
+        const formData = `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+
+        // Send a POST request to the login endpoint with username and password in the body
         const response = await fetch(`${API_URL}/login`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
                 Accept: 'application/json',
-                Authorization: `Basic ${base64Credentials}`
-            }
+            },
+            body: formData
         });
 
         // Check if the response is successful
         if (response.ok) {
             // Access response headers to get session cookies
             const cookies = response.headers.get('Set-Cookie');
+
             // Check if session cookies are set
             const isLoggedIn = cookies && cookies.includes('express:sess');
-            // Save session cookies in session storage
+
+            // Save session cookies in AsyncStorage instead of sessionStorage
             if (isLoggedIn) {
-                sessionStorage.setItem('sessionCookies', cookies);
+                await AsyncStorage.setItem('sessionCookies', cookies);
             }
+
             // Parse the response body as JSON
             const json = await response.json();
+
             // Return response data and isLoggedIn flag
             return { json, isLoggedIn };
         } else {
@@ -36,7 +42,7 @@ export const login = async (username, password) => {
             throw new Error(errorText);
         }
     } catch (err) {
-        // Return the error message as a string
+        console.error('Login error:', err);
         return err.toString();
     }
 };
