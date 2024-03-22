@@ -1,29 +1,31 @@
 import { StyleSheet } from 'react-native';
-import { blueIcon, greenBlue, greenIcon } from '../../styles/colors';
+import { darkGray, greenBlue } from '../../styles/colors';
 
 export default StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 1
+    },
+    scrollContainer: {
         padding: 15
     },
     section: {
-        paddingTop: 10,
+        padding: 10,
         alignItems: 'center',
         justifyContent: 'space-around',
         paddingBottom: 10
     },
     title: {
-        marginTop: 15,
+        marginTop: 10,
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#797979'
+        color: darkGray
     },
     inputTitle: {
         marginTop: 15,
         marginLeft: 10,
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#797979'
+        color: darkGray
     },
     paragraph: {
         textAlign: 'center',
@@ -49,7 +51,10 @@ export default StyleSheet.create({
     button: {
         padding: 5,
         backgroundColor: greenBlue,
-        width: '40%'
+        width: '40%',
+        marginLeft: 'auto',
+        margin: 10,
+        marginTop: 30
     },
     buttonText: {
         fontWeight: 'bold',
