@@ -10,57 +10,48 @@ const Settings = ({ navigation: { navigate } }) => (
                 <Text style={styles.inputTitle}>Nafn</Text>
                 <TextInput
                     style={styles.textInput}
-                    autoFocus
                     label="Nafn"
                 />
                 <Text style={styles.inputTitle}>Símanúmer</Text>
                 <TextInput
                     style={styles.textInput}
-                    autoFocus
                     label="Símanúmer"
                 />
                 <Text style={styles.inputTitle}>Netfang</Text>
                 <TextInput
                     style={styles.textInput}
-                    autoFocus
                     label="Netfang"
                 />
                 <Text style={styles.inputTitle}>Lögheimili, lína 1</Text>
                 <TextInput
                     style={styles.textInput}
-                    autoFocus
                     label="Lögheimili 1"
                 />
                 <Text style={styles.inputTitle}>Lögheimili, lína 2</Text>
                 <TextInput
                     style={styles.textInput}
-                    autoFocus
                     label="Lögheimili 2"
                 />
                 <Text style={styles.inputTitle}>Póstnr.</Text>
                 <TextInput
                     style={styles.textInput}
-                    autoFocus
                     label="Post Nr"
                 />
                 <Text style={styles.inputTitle}>Bæjarfélag</Text>
                 <TextInput
                     style={styles.textInput}
-                    autoFocus
                     label="Bæjarfélag"
                 />
                 <Text style={styles.inputTitle}>Nýtt lykilorð</Text>
                 <TextInput
                     style={styles.textInput}
                     secureTextEntry={true}
-                    autoFocus
                     label="Lykilorð"
                 />
                 <Text style={styles.inputTitle}>Endurtekið lykilorð</Text>
                 <TextInput
                     style={styles.textInput}
                     secureTextEntry={true}
-                    autoFocus
                     label="Lykilorð2"
                 />
                 <TouchableOpacity

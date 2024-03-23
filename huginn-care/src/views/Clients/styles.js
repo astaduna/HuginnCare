@@ -68,7 +68,6 @@ export default StyleSheet.create({
         borderWidth: 2,
         borderColor: 'gainsboro',
         borderRadius: 4,
-        color: 'black',
         paddingRight: 30, // to ensure the text is never behind the icon
         marginTop: 10
     },
@@ -80,7 +79,6 @@ export default StyleSheet.create({
             borderWidth: 2,
             borderColor: 'gainsboro',
             borderRadius: 4,
-            color: 'black',
             paddingRight: 30, // to ensure the text is never behind the icon
             marginTop: 10
         },
@@ -91,7 +89,6 @@ export default StyleSheet.create({
             borderWidth: 2,
             borderColor: 'gainsboro',
             borderRadius: 8,
-            color: 'black',
             paddingRight: 30, // to ensure the text is never behind the icon
             marginTop: 10
         }
