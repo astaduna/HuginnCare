@@ -13,5 +13,20 @@
         "nafn": "Stjáni Grímsson",
         "kennitala": "2222229999",
         "deild": "Fakedeild 1"
+    },
+    {
+        "nafn": "Anna Banana",
+        "kennitala": "1111119999",
+        "deild": "Fakedeild 2"
+    },
+    {
+        "nafn": "Hannah Montana",
+        "kennitala": "1234569999",
+        "deild": "Fakedeild 2"
+    },
+    {
+        "nafn": "Havana Savannah",
+        "kennitala": "1234567890",
+        "deild": "Fakedeild 3"
     }
   ]

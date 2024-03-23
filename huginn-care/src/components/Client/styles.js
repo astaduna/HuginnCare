@@ -23,24 +23,26 @@ export default StyleSheet.create({
     },
     dropdown: {
         inputIOS: {
-            fontSize: 16,
+            fontSize: 14,
             paddingVertical: 8,
             paddingHorizontal: 10,
             borderWidth: 1,
             borderColor: 'gainsboro',
-            borderRadius: 5
+            borderRadius: 5,
+            width: 60
         },
         inputAndroid: {
-            fontSize: 16,
-            paddingHorizontal: 10,
+            fontSize: 14,
             paddingVertical: 8,
+            paddingHorizontal: 10,
             borderWidth: 1,
             borderColor: 'gainsboro',
-            borderRadius: 5
+            borderRadius: 5,
+            width: 60
         },
         iconContainer: {
             top: 10,
-            right: 12
+            right: 0
         }
     }
 });

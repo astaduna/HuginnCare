@@ -9,10 +9,13 @@ export default StyleSheet.create({
         padding: 15
     },
     section: {
-        padding: 10,
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        paddingBottom: 10
+        marginTop: 10,
+        marginBottom: 40,
+        padding: 20,
+        borderColor: 'gainsboro',
+        borderWidth: 1,
+        borderRadius: 10,
+        backgroundColor: 'white'
     },
     title: {
         marginTop: 10,
@@ -31,14 +34,11 @@ export default StyleSheet.create({
         textAlign: 'center',
         color: 'black'
     },
-    modal: {
-        marginTop: 10,
-        marginBottom: 5,
-        padding: 20,
-        borderColor: 'gainsboro',
-        borderWidth: 1,
-        borderRadius: 10,
-        backgroundColor: 'white'
+    buttonSection: {
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        paddingBottom: 10
     },
     textInput: {
         padding: 15,
@@ -54,7 +54,8 @@ export default StyleSheet.create({
         width: '40%',
         marginLeft: 'auto',
         margin: 10,
-        marginTop: 30
+        marginTop: 30,
+        borderRadius: 5
     },
     buttonText: {
         fontWeight: 'bold',

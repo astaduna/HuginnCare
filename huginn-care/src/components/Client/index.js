@@ -26,7 +26,7 @@ const Client = ({ nafn, kennitala, deild, color, onColorChange }) => {
                     onValueChange={(value) => onColorChange(value)}
                     style={styles.dropdown}
                     Icon={() => {
-                        return <FontAwesome name="caret-down" size={20} color="#000" />;
+                        return <FontAwesome name='chevron-down' size={12} color='gray' />;
                     }}
                 />
             </View>

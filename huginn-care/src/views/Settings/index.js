@@ -5,7 +5,7 @@ import styles from './styles';
 const Settings = ({ navigation: { navigate } }) => (
     <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollContainer}>
-            <View style={styles.modal}>
+            <View style={styles.section}>
                 <Text style={styles.title}>Mínar upplýsingar</Text>
                 <Text style={styles.inputTitle}>Nafn</Text>
                 <TextInput
@@ -56,7 +56,7 @@ const Settings = ({ navigation: { navigate } }) => (
                 />
                 <TouchableOpacity
                     style={styles.button}>
-                    <View style={styles.section}>
+                    <View style={styles.buttonSection}>
                         <Text style={styles.buttonText}>Vista</Text>
                     </View>
                 </TouchableOpacity>
