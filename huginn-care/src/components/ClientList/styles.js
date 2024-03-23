@@ -1,4 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native';
+import { darkGray } from '../../styles/colors';
 
 export default StyleSheet.create({
     container: {
@@ -28,6 +29,7 @@ export default StyleSheet.create({
     },
     columnHeader: {
         flex: 5,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: 'gray'
     }
 });

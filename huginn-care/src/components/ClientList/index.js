@@ -25,7 +25,7 @@ const ClientList = ({ clients }) => {
         <View style={styles.container}>
             <TextInput
                 style={styles.searchInput}
-                placeholder='Leita eftir að nafni eða kennitölu'
+                placeholder='Leita eftir nafni eða kennitölu'
                 value={searchFilter}
                 onChangeText={text => setSearchFilter(text)}
             />
