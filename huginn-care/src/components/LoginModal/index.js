@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { login } from '../../services/apiService';
+import { login } from '../../services/authenticateService';
 import styles from './styles';
 
 const LoginModal = ({ submit }) => {
