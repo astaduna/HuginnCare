@@ -4,8 +4,8 @@ import { login } from '../../services/authenticateService';
 import styles from './styles';
 
 const LoginModal = ({ submit }) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('fake1');
+    const [password, setPassword] = useState('12345678');
     const [errors, setErrors] = useState({});
     const isEmpty = username.length === 0 || password.length === 0;
 

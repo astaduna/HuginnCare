@@ -1,20 +1,26 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import report from '../../resources/file.png';
-import plus from '../../resources/plus.png';
-import next from '../../resources/right-arrow.png';
+import React, { useEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
+import { Text, View } from 'react-native';
+import { getAllReports } from '../../services/reportService';
+import ReportList from '../../components/ReportList';
 import styles from './styles';
 
-const AllReports = ({ navigation: { navigate } }) => (
-    <View style={styles.container}>
-        <Text style={styles.title}>Hér kemur listi yfir nýlegar skýrslur</Text>
-         <TouchableOpacity
-            style={styles.reportButton}
-            onPress={() => { navigate('AllReports'); }}>
-            <Text style={styles.oldReportTitle}>Skoða allar skýrslur</Text>
-        </TouchableOpacity>
-    </View>
+const AllReports = ({ navigation: { navigate } }) => {
+    const isFocused = useIsFocused();
+    const [reports, setReports] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            setReports(await getAllReports());
+        })();
+    }, [isFocused]);
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>Hér kemur listi yfir nýlegar skýrslur</Text>
+            <ReportList reports={reports} pageValue={10}/>
+        </View>
     
-);
+    );
+};
 
 export default AllReports;

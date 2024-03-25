@@ -1,11 +1,28 @@
+/* eslint-disable no-useless-catch */
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const API_URL = 'https://devapi.huginn.care';
 
+// Function to get all reports
 export const getAllReports = async () => {
     try {
-        const response = await fetch(`${API_URL}/reports/all`);
-        return response.data;
-    } catch (error) {
-        throw error.response.data;
+        const cookies = await AsyncStorage.getItem('sessionCookies');
+        const response = await fetch(`${API_URL}/reports/all`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                Cookie: cookies || ''
+            }
+        });
+
+        if (response.headers.map['content-type'] === 'application/json; charset=utf-8') {
+            const json = await response.json();
+            console.log(json);
+            return json.reports;
+        }
+
+        throw new Error('Failed to fetch data');
+    } catch (err) {
+        throw err;
     }
 };
 

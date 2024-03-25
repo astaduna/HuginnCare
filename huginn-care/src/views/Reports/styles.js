@@ -4,8 +4,14 @@ import { blueIcon, greenGradient, greenIcon, yellowIcon } from '../../styles/col
 export default StyleSheet.create({
     container: {
         flex: 1,
-        padding: 15,
         justifyContent: 'start'
+    },
+    scrollContainer: {
+        padding: 15
+    },
+    reports: {
+        backgroundColor: 'white',
+        padding: 10
     },
     section: {
         paddingTop: 10,
@@ -15,6 +21,10 @@ export default StyleSheet.create({
     title: {
         marginTop: 15,
         textTransform: 'uppercase',
+        fontWeight: 'bold'
+    },
+    subtitle: {
+        marginTop: 15,
         fontWeight: 'bold'
     },
     paragraph: {
