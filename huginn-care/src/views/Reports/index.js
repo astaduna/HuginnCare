@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, SafeAreaView, ScrollView } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import FloatingActionButton from '../../components/FloatingActionButton';
 import report from '../../resources/file.png';
 import plus from '../../resources/plus.png';
@@ -9,13 +10,14 @@ import ReportList from '../../components/ReportList';
 import { getAllReports } from '../../services/reportService';
 
 const Reports = ({ navigation: { navigate } }) => {
+    const isFocused = useIsFocused();
     const [reports, setReports] = useState([]);
 
     useEffect(() => {
         (async () => {
             setReports(await getAllReports());
         })();
-    }, []);
+    }, [isFocused]);
 
     return (
         <SafeAreaView style={styles.container}>
