@@ -9,6 +9,8 @@ import Login from '../views/Login';
 import Home from '../views/Home';
 import Reports from '../views/Reports';
 import AllReports from '../views/AllReports';
+import Drafts from '../views/Drafts';
+import ReportDetail from '../views/ReportDetail';
 import Profile from '../views/Profile';
 import NewReport from '../views/NewReport';
 import Settings from '../views/Settings';
@@ -44,6 +46,8 @@ const Tabs = () => (
         <Tab.Screen name='Reports' component={Reports} options={{ title: 'Skýrslur', headerTitleAlign: 'left' }} />
         <Tab.Screen name='Profile' component={Profile} options={{ title: 'Notandi' }} />
         <Tab.Screen name='AllReports' component={AllReports} options={{ title: 'Eldri Skýrslur', tabBarButton: () => null }} />
+        <Tab.Screen name='Drafts' component={Drafts} options={{ title: 'Öll Drög', tabBarButton: () => null }} />
+        <Tab.Screen name='ReportDetail' component={ReportDetail} options={{ title: 'Stök skýrsla', tabBarButton: () => null }} />
         <Tab.Screen name='NewReport' component={NewReport} options={{ title: 'Ný Skýrsla', tabBarButton: () => null }} />
         <Tab.Screen name='Settings' component={Settings} options={{ title: 'Stillingar', tabBarButton: () => null }} />
         <Tab.Screen name='Clients' component={Clients} options={{ title: 'Allir þjónustuþegar', tabBarButton: () => null }} />

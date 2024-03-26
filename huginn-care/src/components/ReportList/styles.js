@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { darkGray, greenBlue } from '../../styles/colors';
 
 export default StyleSheet.create({

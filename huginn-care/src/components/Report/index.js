@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { FontAwesome } from '@expo/vector-icons';
 import styles from './styles';
@@ -19,13 +20,17 @@ const Report = ({
     updatedAt, 
     user, userId 
 }) => {
+    const { navigate } = useNavigation();
+
     return (
-        <View key={clientId} style={styles.tableRow}>
-            <Text style={styles.tableCell}>{date}</Text>
-            <Text style={styles.tableCell}>{user.name}</Text>
-            <Text style={styles.tableCell}>{client.name}</Text>
-            <Text style={styles.tableCell}>{department.name}</Text>
-        </View>
+        <TouchableOpacity onPress={() => navigate('ReportDetail', { id })}>
+            <View key={clientId} style={styles.tableRow}>
+                <Text style={styles.tableCell}>{date}</Text>
+                <Text style={styles.tableCell}>{user.name}</Text>
+                <Text style={styles.tableCell}>{client.name}</Text>
+                <Text style={styles.tableCell}>{department.name}</Text>
+            </View>
+        </TouchableOpacity>
     );
 };
 

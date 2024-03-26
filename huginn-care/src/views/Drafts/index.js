@@ -1,29 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
-import { getAllReports } from '../../services/reportService';
+import { getDrafts } from '../../services/reportService';
 import ReportList from '../../components/ReportList';
 import styles from './styles';
 
-const AllReports = ({ navigation: { navigate } }) => {
+const Drafts = ({ navigation: { navigate } }) => {
     const isFocused = useIsFocused();
-    const [reports, setReports] = useState([]);
+    const [drafts, setDrafts] = useState([]);
 
     useEffect(() => {
         (async () => {
-            setReports(await getAllReports());
+            setDrafts(await getDrafts());
         })();
     }, [isFocused]);
-    
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
-                <Text style={styles.title}>Yfirlit yfir eldri skýrslur</Text>
-                <ReportList reports={reports} pageValue={10}/>
+                <Text style={styles.title}>Yfirlit yfir öll drög</Text>
+                <ReportList reports={drafts} pageValue={10}/>
             </ScrollView>
         </SafeAreaView>
     
     );
 };
 
-export default AllReports;
+export default Drafts;

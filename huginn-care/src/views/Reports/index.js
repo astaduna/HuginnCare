@@ -16,8 +16,11 @@ const Reports = ({ navigation: { navigate } }) => {
     useEffect(() => {
         (async () => {
             setReports(await getAllReports());
+            console.log('data', reports);
         })();
     }, [isFocused]);
+
+    console.log('data', reports);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -51,6 +54,19 @@ const Reports = ({ navigation: { navigate } }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.button}
+                    onPress={() => { navigate('Drafts'); }}>
+                    <View style={styles.section}>
+                        <View style={styles.redIcon}>
+                            <Image source={report} style={styles.icon} />
+                        </View>
+                        <View style={styles.navText}>
+                            <Text style={styles.buttonText}>Sjá öll drög</Text>
+                            <Image source={next} style={styles.nextIcon} />
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button}
                     onPress={() => { navigate('Reports'); }}>
                     <View style={styles.section}>
                         <View style={styles.yellowIcon}>
@@ -65,14 +81,14 @@ const Reports = ({ navigation: { navigate } }) => {
                 <View style={styles.reports}>
                     <Text style={styles.subtitle}>Sjá eldri skýrslur</Text>
                     <ReportList reports={reports} pageValue={4}/>
-                    <TouchableOpacity
-                        style={styles.reportButton}
-                        onPress={() => { navigate('AllReports'); }}>
-                        <Text style={styles.oldReportTitle}>Skoða allar skýrslur</Text>
-                    </TouchableOpacity>
                 </View>
-                <FloatingActionButton />
+                <TouchableOpacity
+                    style={styles.reportButton}
+                    onPress={() => { navigate('AllReports'); }}>
+                    <Text style={styles.oldReportTitle}>Skoða allar skýrslur</Text>
+                </TouchableOpacity>
             </ScrollView>
+            <FloatingActionButton />
         </SafeAreaView>
     );
 };
