@@ -25,7 +25,7 @@ const Tabs = () => (
             tabBarIcon: ({ focused, color, size }) => {
                 let iconSource;
 
-                if (route.name === 'Home') {
+                if (route.name === 'HomePage') {
                     iconSource = require('../resources/dashboard.png');
                 } else if (route.name === 'Reports') {
                     iconSource = require('../resources/report.png');
@@ -33,16 +33,12 @@ const Tabs = () => (
                     iconSource = require('../resources/user.png');
                 }
                 return <Image source={iconSource} style={{ width: 24, height: 24, tintColor: color }} />;
-            }
-
+            },
+            tabBarActiveTintColor: 'black',
+            tabBarInactiveTintColor: 'gray'
         })}
-        tabBarOptions={{
-            activeTintColor: 'black',
-            inactiveTintColor: 'gray'
-        }}
-
     >
-        <Tab.Screen name='Home' component={Home} options={{ title: 'Forsíða' }} />
+        <Tab.Screen name='HomePage' component={Home} options={{ title: 'Forsíða' }} />
         <Tab.Screen name='Reports' component={Reports} options={{ title: 'Skýrslur', headerTitleAlign: 'left' }} />
         <Tab.Screen name='Profile' component={Profile} options={{ title: 'Notandi' }} />
         <Tab.Screen name='AllReports' component={AllReports} options={{ title: 'Eldri Skýrslur', tabBarButton: () => null }} />

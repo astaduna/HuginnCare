@@ -4,16 +4,17 @@ import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { getAllReports } from '../../services/reportService';
 import ReportList from '../../components/ReportList';
 import styles from './styles';
+import reports from '../../resources/reports.json';
 
 const AllReports = ({ navigation: { navigate } }) => {
     const isFocused = useIsFocused();
-    const [reports, setReports] = useState([]);
+    // const [reports, setReports] = useState([]);
 
-    useEffect(() => {
-        (async () => {
-            setReports(await getAllReports());
-        })();
-    }, [isFocused]);
+    // useEffect(() => {
+    //     (async () => {
+    //         setReports(await getAllReports());
+    //     })();
+    // }, [isFocused]);
     
     return (
         <SafeAreaView style={styles.container}>
