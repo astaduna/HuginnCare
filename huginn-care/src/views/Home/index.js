@@ -3,12 +3,26 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 import report from '../../resources/file.png';
 import staffs from '../../resources/group.png';
 import next from '../../resources/right-arrow.png';
+import plus from '../../resources/plus.png';
 import styles from './styles';
 import FloatingActionButton from '../../components/FloatingActionButton';
 
 const Home = ({ navigation: { navigate } }) => (
     <View style={styles.container}>
         <Text style={styles.title}>Flýtileiðir</Text>
+        <TouchableOpacity
+            style={styles.button}
+            onPress={() => { navigate('NewReport'); }}>
+            <View style={styles.section}>
+                <View style={styles.blueIcon}>
+                    <Image source={report} style={styles.icon} />
+                </View>
+                <View style={styles.navText}>
+                    <Text style={styles.buttonText}>Skrá skýrslu</Text>
+                    <Image source={plus} style={styles.nextIcon} />
+                </View>
+            </View>
+        </TouchableOpacity>
         <TouchableOpacity
             style={styles.button}
             onPress={() => { navigate('Reports'); }}>

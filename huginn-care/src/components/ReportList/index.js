@@ -35,8 +35,6 @@ const ReportList = ({ reports, pageValue }) => {
         pageNumbers.push(i);
     }
 
-    console.log(reports);
-
     return (
         <View style={styles.container}>
             {reports.length === 0

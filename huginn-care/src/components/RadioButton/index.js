@@ -1,14 +1,21 @@
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native'; 
+import { TouchableOpacity, View, Text } from 'react-native';
 import styles from './styles';
 
-const RadioButton = ({ value, status, onPress, styles }) => (
-    <TouchableOpacity onPress={onPress}>
-        <View style={styles.radioButton}>
-            {status === 'checked' && <View style={styles.radioButtonInner} />}
-        </View>
-        <Text>{value}</Text>
-    </TouchableOpacity>
-);
+const RadioButton = ({ value, status, onPress }) => {
+    const radioButtonStyles = [
+        styles.radioButton,
+        status === value && styles.radioButtonChecked
+    ];
+      
+    return (
+    
+        <TouchableOpacity onPress={onPress} style={styles.container}>
+            <View style={[radioButtonStyles]}>
+                {status === value && <View style={styles.radioButtonInner} />}
+            </View>
+        </TouchableOpacity>
+    ); 
+};
 
 export default RadioButton;

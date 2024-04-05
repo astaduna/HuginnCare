@@ -1,89 +1,88 @@
-
 import { StyleSheet } from 'react-native';
-import { paleCornflowerBlue, stTropaz } from '../../styles/colors';
+import { blueIcon, greenBlue, greenIcon } from '../../styles/colors';
 
 export default StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 'start',
+        padding: 15
+    },
+    formFrame: {
+        marginTop: 10,
+        marginBottom: 5,
+        marginHorizontal: 15,
         padding: 20,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'start'
+        borderColor: 'gainsboro',
+        borderWidth: 1,
+        borderRadius: 10,
+        backgroundColor: 'white'
     },
-    detailsContainer: {
-        marginTop: 20
-    },
-    detailItem: {
-        marginBottom: 15
-    },
-    label: {
-        fontSize: 18,
-        color: paleCornflowerBlue
-    },
-    paragraph: {
-        paddingTop: 5,
-        fontSize: 22,
-        fontWeight: 'bold',
-        color: stTropaz
-    },
-    text: {
-        padding: 15,
+    title: {
+        marginTop: 15,
         fontSize: 20,
-        color: stTropaz
+        fontWeight: 'bold',
+        color: '#797979'
     },
-    button: {
+    inputTitle: {
+        marginTop: 15,
+        marginLeft: 10,
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#797979'
+    },
+    input: {
+        padding: 15,
+        margin: 7,
+        borderRadius: 5,
+        borderColor: 'gainsboro',
+        borderWidth: 2,
+        fontSize: 13
+    },
+    radioInput: {
+        padding: 15,
+        margin: 7,
+        borderRadius: 5,
+        borderColor: 'gainsboro',
+        borderWidth: 2,
+        fontSize: 13,
         flexDirection: 'row',
         alignItems: 'center'
     },
-    icon: {
-        fontSize: 20,
-        color: stTropaz
-    },
-    image: {
-        borderRadius: 75,
-        borderColor: paleCornflowerBlue,
-        borderWidth: 3,
-        width: 150,
-        height: 150
-    },
-    call: {
+    radioButtons: {
         flexDirection: 'row',
+        marginTop: 10,
+        marginBottom: 10,
+        justifyContent: 'space-around'
+    },
+    radioButtonInner: {
+        width: 12,
+        height: 12,
+        borderRadius: 6,
+        backgroundColor: '#007AFF'
+    },
+    greenBorder: {
+        borderColor: greenBlue // Green border color
+    },
+    lastFormFrame: {
+        marginBottom: 500
+    },
+    section: {
+        height: 30,
+        backgroundColor: '#fff',
         alignItems: 'center',
-        backgroundColor: 'green',
+        justifyContent: 'center',
+        
+        top: 0
+    },
+    jumpLinks: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 30,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
         padding: 5,
-        margin: 15,
-        borderRadius: 15,
-        width: 80
-    },
-    callPara: {
-        color: 'white',
-        padding: 5,
-        fontSize: 22,
-        fontWeight: 'bold'
-    },
-    callIcon: {
-        color: 'white',
-        fontSize: 20
-    },
-    formFrame: {
-        borderBlockColor: 'lightgrey',
-        borderWidth: 2,
-        borderRadius: 5,
-        padding: 20,
-        width: '95%',
-        margin: 10
-    },
-    title: {
-        margin: 10,
-        alignContent: 'center',
-        textTransform: 'uppercase',
-        fontWeight: 'bold'
-    },
-    input: {
-        margin: 10,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: 'lightgrey',
-        borderRadius: 2
+        backgroundColor: 'white',
+        zIndex: 100
     }
 });

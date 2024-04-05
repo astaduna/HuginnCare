@@ -6,8 +6,10 @@ import styles from './styles';
 import report from '../../resources/report.json';
 import { ScrollView } from 'react-native-gesture-handler';
 import moment from 'moment';
+import RadioButton from '../../components/RadioButton';
 
 const ReportDetail = ({ route }) => {
+    const [checked, setChecked] = useState('yes'); // State for radio button
     const { id } = route.params;
     const isFocused = useIsFocused();
     console.log(report);
@@ -19,6 +21,14 @@ const ReportDetail = ({ route }) => {
     //     })();
     // }, [isFocused]);
 
+    useEffect(() => {
+        if (report && report.medicine) {
+            setChecked('yes');
+        } else {
+            setChecked('no');
+        }
+    }, [report]);
+
     return (
         <SafeAreaView style={styles.container}>
             {report
@@ -26,32 +36,45 @@ const ReportDetail = ({ route }) => {
                     <View style={styles.formFrame}>
                         <Text style={styles.title}>Almennar upplýsingar</Text>
                         <View style={styles.detailItem}>
-                            <Text style={styles.label}>Dagsetning</Text>
+                            <Text style={styles.inputTitle}>Dagsetning</Text>
                             <Text style={styles.input}>{moment(new Date(report.date)).format('DD/MM/YYYY')}</Text>
                         </View>
                         <View style={styles.detailItem}>
-                            <Text style={styles.label}>Deild</Text>
+                            <Text style={styles.inputTitle}>Deild</Text>
                             <Text style={styles.input}>{report.department.name || ''}</Text>
                         </View>
                         <View style={styles.detailItem}>
-                            <Text style={styles.label}>Þjónustuþegi</Text>
+                            <Text style={styles.inputTitle}>Þjónustuþegi</Text>
                             <Text style={styles.input}>{report.client.name || ''}</Text>
                         </View>
                         <View style={styles.detailItem}>
-                            <Text style={styles.label}>Notandi</Text>
+                            <Text style={styles.inputTitle}>Notandi</Text>
                             <Text style={styles.input}>{report.user.name || ''}</Text>
                         </View>
                         <View style={styles.detailItem}>
-                            <Text style={styles.label}>Tegund vaktar</Text>
+                            <Text style={styles.inputTitle}>Tegund vaktar</Text>
                             <Text style={styles.input}>{report.shift || ''}</Text>
                         </View>
                         <View style={styles.detailItem}>
-                            <Text style={styles.label}>Aðrir starfsmenn á vakt</Text>
+                            <Text style={styles.inputTitle}>Aðrir starfsmenn á vakt</Text>
                             <Text style={styles.input}>{''}</Text>
                         </View>
-                        <View style={styles.detailItem}>
-                            <Text style={styles.label}>Lyf gefin?</Text>
-                            <Text style={styles.input}>{report.medicine ? 'Já, eða á ekki við' : 'Nei' || ''}</Text>
+                        <Text style={styles.inputTitle}>Lyf gefin?</Text>
+                        <View style={[styles.radioInput, checked === 'yes' && styles.greenBorder]}>
+                            <RadioButton
+                                value="yes"
+                                status={checked}
+                                onPress={() => setChecked('yes')}
+                            />
+                            <Text>Já, eða á ekki við</Text>
+                        </View>
+                        <View style={[styles.radioInput, checked === 'no' && styles.greenBorder]}>
+                            <RadioButton
+                                value="no"
+                                status={checked}
+                                onPress={() => setChecked('no')}
+                            />
+                            <Text>Nei</Text>
                         </View>
                     </View>
                     <View style={styles.formFrame}>

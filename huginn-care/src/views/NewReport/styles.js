@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { blueIcon, greenIcon } from '../../styles/colors';
+import { blueIcon, greenBlue, greenIcon } from '../../styles/colors';
 
 export default StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 15
+        padding: 15,
+        margin: 0
     },
     formFrame: {
         marginTop: 10,
@@ -36,6 +36,16 @@ export default StyleSheet.create({
         borderWidth: 2,
         fontSize: 13
     },
+    radioInput: {
+        padding: 15,
+        margin: 7,
+        borderRadius: 5,
+        borderColor: 'gainsboro',
+        borderWidth: 2,
+        fontSize: 13,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
     radioButtons: {
         flexDirection: 'row',
         marginTop: 10,
@@ -43,9 +53,35 @@ export default StyleSheet.create({
         justifyContent: 'space-around'
     },
     radioButtonInner: {
-      width: 12,
-      height: 12,
-      borderRadius: 6,
-      backgroundColor: '#007AFF',
+        width: 12,
+        height: 12,
+        borderRadius: 6,
+        backgroundColor: '#007AFF'
     },
+    greenBorder: {
+        borderColor: greenBlue // Green border color
+    },
+    lastFormFrame: {
+        marginBottom: 500
+    },
+    section: {
+        height: 30,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        
+        top: 0
+    },
+    jumpLinks: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 30,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 5,
+        backgroundColor: 'white',
+        zIndex: 100
+    }
 });
