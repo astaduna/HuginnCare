@@ -1,11 +1,24 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_URL } from './apiService';
 
 export const getAllUsers = async () => {
     try {
-        const response = await fetch(`${API_URL}/users/all`);
-        return response.data;
-    } catch (error) {
-        throw error.response.data;
+        const cookies = await AsyncStorage.getItem('sessionCookies');
+        const response = await fetch(`${API_URL}/users/all`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                Cookie: cookies || ''
+            }
+        });
+
+        if (response.headers.map['content-type'] === 'application/json; charset=utf-8') {
+            const json = await response.json();
+            return json.users;
+        }
+        return [];
+    } catch (err) {
+        return err.toString();
     }
 };
 

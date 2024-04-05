@@ -8,17 +8,20 @@ import next from '../../resources/right-arrow.png';
 import styles from './styles';
 import ReportList from '../../components/ReportList';
 import { getAllReports } from '../../services/reportService';
+import { getAllIncidents } from '../../services/incidentService';
 import reports from '../../resources/reports.json';
 
 const Reports = ({ navigation: { navigate } }) => {
     const isFocused = useIsFocused();
-    // const [reports, setReports] = useState([]);
+    const [reports, setReports] = useState([]);
+    const [incidents, setIncidents] = useState([]);
 
-    // useEffect(() => {
-    //     (async () => {
-    //         setReports(await getAllReports());
-    //     })();
-    // }, [isFocused]);
+    useEffect(() => {
+        (async () => {
+            setReports(await getAllReports());
+            setIncidents(await getAllIncidents());
+        })();
+    }, [isFocused]);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -79,7 +82,7 @@ const Reports = ({ navigation: { navigate } }) => {
                 <View style={styles.reports}>
                     <Text style={styles.subtitle}>Sjá eldri skýrslur</Text>
                     {reports.length > 0
-                        ? (<ReportList reports={reports} pageValue={4}/>)
+                        ? (<ReportList reports={reports} incidents={incidents} page={4}/>)
                         : null}
                 </View>
                 <TouchableOpacity

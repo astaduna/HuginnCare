@@ -1,22 +1,25 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_URL } from './apiService';
-
-// Function to create a new incident
-export const createIncident = async (incidentData) => {
-    try {
-        const response = await fetch(`${API_URL}/incidents/create`, incidentData);
-        return response.data;
-    } catch (error) {
-        throw error.response.data;
-    }
-};
 
 // Function to get all incidents
 export const getAllIncidents = async () => {
     try {
-        const response = await fetch(`${API_URL}/incidents/all`);
-        return response.data;
-    } catch (error) {
-        throw error.response.data;
+        const cookies = await AsyncStorage.getItem('sessionCookies');
+        const response = await fetch(`${API_URL}/incidents/all`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                Cookie: cookies || ''
+            }
+        });
+
+        if (response.headers.map['content-type'] === 'application/json; charset=utf-8') {
+            const json = await response.json();
+            return json.incidents;
+        }
+        return [];
+    } catch (err) {
+        return err.toString();
     }
 };
 
@@ -34,6 +37,16 @@ export const getAllCoercions = async () => {
 export const getIncidentById = async (id) => {
     try {
         const response = await fetch(`${API_URL}/incidents/one/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+
+// Function to create a new incident
+export const createIncident = async (incidentData) => {
+    try {
+        const response = await fetch(`${API_URL}/incidents/create`, incidentData);
         return response.data;
     } catch (error) {
         throw error.response.data;

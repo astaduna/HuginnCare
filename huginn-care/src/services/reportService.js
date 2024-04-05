@@ -17,8 +17,7 @@ export const getAllReports = async () => {
             const json = await response.json();
             return json.reports;
         }
-
-        throw new Error('Failed to fetch data');
+        return [];
     } catch (err) {
         return err.toString();
     }
@@ -81,7 +80,6 @@ export const getReportById = async (id) => {
 
         if (response.headers.map['content-type'] === 'application/json; charset=utf-8') {
             const json = await response.json();
-            console.log(id, 'ok', json);
             return json.report;
         }
 
