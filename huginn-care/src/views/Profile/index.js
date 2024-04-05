@@ -40,7 +40,7 @@ const Profile = ({ navigation: { navigate } }) => (
             style={styles.button}
             onPress={() => { navigate('Settings'); }}>
             <View style={styles.section}>
-                <View style={styles.redIcon}>
+                <View style={styles.yellowIcon}>
                     <Image source={setting} style={styles.icon} />
                 </View>
                 <View style={styles.navText}>
@@ -53,7 +53,7 @@ const Profile = ({ navigation: { navigate } }) => (
             style={styles.button}
             onPress={() => { navigate('Main'); }}>
             <View style={styles.section}>
-                <View style={styles.yellowIcon}>
+                <View style={styles.redIcon}>
                     <Image source={exit} style={styles.icon} />
                 </View>
                 <View style={styles.navText}>

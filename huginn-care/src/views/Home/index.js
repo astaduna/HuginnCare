@@ -27,7 +27,7 @@ const Home = ({ navigation: { navigate } }) => (
             style={styles.button}
             onPress={() => { navigate('Reports'); }}>
             <View style={styles.section}>
-                <View style={styles.blueIcon}>
+                <View style={styles.greenIcon}>
                     <Image source={report} style={styles.icon} />
                 </View>
                 <View style={styles.navText}>
@@ -40,7 +40,7 @@ const Home = ({ navigation: { navigate } }) => (
             style={styles.button}
             onPress={() => { navigate('Staffs'); }}>
             <View style={styles.section}>
-                <View style={styles.greenIcon}>
+                <View style={styles.yellowIcon}>
                     <Image source={staffs} style={styles.icon} />
                 </View>
                 <View style={styles.navText}>
