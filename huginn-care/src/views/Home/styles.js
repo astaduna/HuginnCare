@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { blueIcon, greenIcon } from '../../styles/colors';
+import { blueIcon, greenIcon, yellowIcon } from '../../styles/colors';
 
 export default StyleSheet.create({
     container: {
@@ -49,6 +49,12 @@ export default StyleSheet.create({
         padding: 10,
         borderRadius: 10,
         backgroundColor: greenIcon
+    },
+    yellowIcon: {
+        width: 50,
+        padding: 10,
+        borderRadius: 10,
+        backgroundColor: yellowIcon
     },
     icon: {
         width: 30,

@@ -4,7 +4,7 @@ import { blueIcon, greenBlue, greenIcon } from '../../styles/colors';
 export default StyleSheet.create({
     container: {
         padding: 15,
-        margin: 0
+        marginTop: 30
     },
     formFrame: {
         marginTop: 10,
@@ -77,11 +77,17 @@ export default StyleSheet.create({
         top: 0,
         left: 0,
         right: 0,
-        height: 30,
+        height: 50,
+        backgroundColor: '#f6f6f6f',
         flexDirection: 'row',
         justifyContent: 'space-around',
-        padding: 5,
-        backgroundColor: 'white',
-        zIndex: 100
+        padding: 10,
+        zIndex: 100,
+        borderBottomWidth: 1,
+        borderBottomColor: 'gainsboro'
+    },
+    activeLink: {
+        borderBottomWidth: 10,
+        borderBottomColor: 'red'
     }
 });

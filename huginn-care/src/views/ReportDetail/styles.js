@@ -2,9 +2,9 @@ import { StyleSheet } from 'react-native';
 import { blueIcon, greenBlue, greenIcon } from '../../styles/colors';
 
 export default StyleSheet.create({
-    container: {
+    detailsContainer: {
         flex: 'start',
-        padding: 15
+        marginTop: 20
     },
     formFrame: {
         marginTop: 10,
@@ -29,6 +29,12 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         color: '#797979'
     },
+    paragraph: {
+        marginTop: 15,
+        marginLeft: 10,
+        fontSize: 14,
+        color: '#797979'
+    },
     input: {
         padding: 15,
         margin: 7,
@@ -36,6 +42,15 @@ export default StyleSheet.create({
         borderColor: 'gainsboro',
         borderWidth: 2,
         fontSize: 13
+    },
+    textInput: {
+        padding: 15,
+        margin: 7,
+        borderRadius: 5,
+        borderColor: 'gainsboro',
+        borderWidth: 2,
+        fontSize: 13,
+        height: 100
     },
     radioInput: {
         padding: 15,
@@ -63,14 +78,13 @@ export default StyleSheet.create({
         borderColor: greenBlue // Green border color
     },
     lastFormFrame: {
-        marginBottom: 500
+        marginBottom: 100
     },
     section: {
         height: 30,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        
         top: 0
     },
     jumpLinks: {

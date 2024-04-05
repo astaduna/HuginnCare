@@ -6,28 +6,37 @@ import styles from './styles';
 
 const NewReport = ({ navigation: { navigate } }) => {
     const [checked, setChecked] = useState('yes'); // State for radio button
+    const [section1, setSection1] = useState();
+    const [section2, setSection2] = useState();
+    const [section3, setSection3] = useState();
     const scrollViewRef = useRef();
     
     // Function to handle scrolling to a specific section
     const scrollToSection = (section) => {
         if (scrollViewRef.current) {
             scrollViewRef.current.scrollTo({ y: section, animated: true });
+            setActiveSection(section);
         }
     };
+
+    const [activeSection, setActiveSection] = useState(null);
 
     return (
         <View>
             <View style={ styles.jumpLinks }>
-                <TouchableOpacity onPress={() => scrollToSection(0)}>
+                <TouchableOpacity onPress={() => scrollToSection(section1)} style={[activeSection === 0 && styles.activeLink]}>
                     <Text>Almennar upplýsingar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => scrollToSection(770)}>
+                <TouchableOpacity onPress={() => scrollToSection(section2)}>
                     <Text>Dagssamningar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => scrollToSection(section3)}>
+                    <Text>Dagbók</Text>
                 </TouchableOpacity>
             </View>
         
             <ScrollView ref={scrollViewRef} style={styles.container}>
-                <View style={styles.formFrame}>
+                <View onLayout={(event) => { setSection1(event.nativeEvent.layout.y); }} style={styles.formFrame}>
                     <Text style={styles.title}>Almennar upplýsingar</Text>
                     <Text style={styles.inputTitle}>Deild</Text>
                     <RNPickerSelect
@@ -114,8 +123,11 @@ const NewReport = ({ navigation: { navigate } }) => {
     
                 </View>
 
-                <View style={[styles.formFrame, styles.lastFormFrame]}>
+                <View onLayout={(event) => { setSection2(event.nativeEvent.layout.y); }} style={styles.formFrame}>
                     <Text style={styles.title}>Dagssamningar</Text>
+                </View>
+                <View onLayout={(event) => { setSection3(event.nativeEvent.layout.y); }} style={[styles.formFrame, styles.lastFormFrame]}>
+                    <Text style={styles.title}>Dagbók</Text>
                 </View>
             </ScrollView>
         </View>
