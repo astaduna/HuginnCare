@@ -1,20 +1,11 @@
 import { StyleSheet } from 'react-native';
-import { blueIcon, greenGradient, greenIcon, redIcon, yellowIcon } from '../../styles/colors';
+import { blueIcon, greenGradient, greenIcon, yellowIcon } from '../../styles/colors';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
+        padding: 15,
         justifyContent: 'start'
-    },
-    scrollContainer: {
-        padding: 15
-    },
-    reports: {
-        backgroundColor: 'white',
-        padding: 10,
-        borderColor: 'gainsboro',
-        borderWidth: 1,
-        borderRadius: 10
     },
     section: {
         paddingTop: 10,
@@ -25,11 +16,6 @@ export default StyleSheet.create({
         marginTop: 15,
         textTransform: 'uppercase',
         fontWeight: 'bold'
-    },
-    subtitle: {
-        marginTop: 15,
-        fontWeight: 'bold',
-        paddingLeft: 10
     },
     paragraph: {
         textAlign: 'center',
@@ -46,7 +32,7 @@ export default StyleSheet.create({
     },
     reportButton: {
         marginTop: 10,
-        marginBottom: 100,
+        marginBottom: 5,
         padding: 20,
         borderRadius: 10,
         backgroundColor: greenGradient
@@ -93,12 +79,6 @@ export default StyleSheet.create({
         padding: 10,
         borderRadius: 10,
         backgroundColor: yellowIcon
-    },
-    redIcon: {
-        width: 50,
-        padding: 10,
-        borderRadius: 10,
-        backgroundColor: redIcon
     },
     icon: {
         width: 30,

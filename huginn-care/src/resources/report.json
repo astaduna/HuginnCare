@@ -1,0 +1,86 @@
+{
+    "behanswers":[
+        
+    ],
+    "client":{
+        "address1":"Stjánagerði 123",
+        "address2":"",
+        "city":"Fakejavík",
+        "color":"#ffffff",
+        "contracts":[
+            "Array"
+        ],
+        "country":"ísland",
+        "createdAt":"2024-03-05T14:00:15.202Z",
+        "deletedAt":null,
+        "email":"fake@fake.is",
+        "emergencyEmail":"stjani@fake.is",
+        "emergencyName":"Stjána Mamma",
+        "emergencyPhone":"2222222",
+        "id":1,
+        "name":"Stjáni Grímsson",
+        "other":"",
+        "phone":"1234567",
+        "postal":"123",
+        "ssn":"222222-9999",
+        "updatedAt":"2024-03-05T14:02:28.657Z"
+    },
+    "clientId":1,
+    "clientReason":"",
+    "conanswers":[
+        
+    ],
+    "createdAt":"2024-03-26T10:45:11.123Z",
+    "date":"2024-03-26T10:44:00.000Z",
+    "deletedAt":null,
+    "department":{
+        "address1":"Fakeville 123",
+        "address2":"",
+        "city":"Fakejavík",
+        "country":"ísland",
+        "createdAt":"2024-03-05T13:57:49.261Z",
+        "deletedAt":null,
+        "email":"fake@fake.is",
+        "id":1,
+        "name":"Fakedeild 1",
+        "phone":"1234567",
+        "postal":"123",
+        "updatedAt":"2024-03-05T13:57:49.261Z"
+    },
+    "departmentId":1,
+    "draft":false,
+    "entry":"...",
+    "evaanswers":[
+        
+    ],
+    "id":11,
+    "important":false,
+    "medicine":true,
+    "medicineReason":"",
+    "onShift":"",
+    "shift":"",
+    "updatedAt":"2024-03-26T10:45:11.133Z",
+    "user":{
+        "address1":"Fakeville 123",
+        "address2":"",
+        "city":"Fakejavík",
+        "country":"ísland",
+        "createdAt":"2024-03-05T13:58:47.441Z",
+        "deletedAt":null,
+        "email":"fake@fake.is",
+        "emergencyName":" ",
+        "emergencyPhone":" ",
+        "id":2,
+        "lastLoggedIn":"2024-03-26T16:17:37.095Z",
+        "name":"Fake McFake Fakeson",
+        "other":"",
+        "password":"",
+        "phone":"1234567",
+        "postal":"123",
+        "ssn":"123456-7890",
+        "type":"user",
+        "updatedAt":"2024-03-26T16:17:37.095Z",
+        "username":"fake1"
+    },
+    "userId":2
+}

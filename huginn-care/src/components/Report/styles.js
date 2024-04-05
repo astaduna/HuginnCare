@@ -14,12 +14,17 @@ export default StyleSheet.create({
     },
     tableCell: {
         flex: 1,
-        padding: 10
+        padding: 10,
+        fontSize: 12
     },
     colorIndicator: {
         margin: 0,
         width: 10,
         height: '100%'
+    },
+    icon: {
+        position: 'relative',
+        top: 100
     },
     dropdown: {
         inputIOS: {

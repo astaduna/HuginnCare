@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const API_URL = 'https://devapi.huginn.care';
+import { API_URL } from './apiService';
+import axios from 'axios';
 
 export const login = async (username, password) => {
     try {
@@ -37,7 +37,6 @@ export const login = async (username, password) => {
         
         throw new Error('You have entered an invalid username or password');
     } catch (err) {
-        console.error('Login error:', err);
         return err.toString();
     }
 };

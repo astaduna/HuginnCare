@@ -9,6 +9,8 @@ import Login from '../views/Login';
 import Home from '../views/Home';
 import Reports from '../views/Reports';
 import AllReports from '../views/AllReports';
+import Drafts from '../views/Drafts';
+import ReportDetail from '../views/ReportDetail';
 import Profile from '../views/Profile';
 import NewReport from '../views/NewReport';
 import Settings from '../views/Settings';
@@ -23,7 +25,7 @@ const Tabs = () => (
             tabBarIcon: ({ focused, color, size }) => {
                 let iconSource;
 
-                if (route.name === 'Home') {
+                if (route.name === 'HomePage') {
                     iconSource = require('../resources/dashboard.png');
                 } else if (route.name === 'Reports') {
                     iconSource = require('../resources/report.png');
@@ -31,19 +33,17 @@ const Tabs = () => (
                     iconSource = require('../resources/user.png');
                 }
                 return <Image source={iconSource} style={{ width: 24, height: 24, tintColor: color }} />;
-            }
-
+            },
+            tabBarActiveTintColor: 'black',
+            tabBarInactiveTintColor: 'gray'
         })}
-        tabBarOptions={{
-            activeTintColor: 'black',
-            inactiveTintColor: 'gray'
-        }}
-
     >
-        <Tab.Screen name='Home' component={Home} options={{ title: 'Forsíða' }} />
+        <Tab.Screen name='HomePage' component={Home} options={{ title: 'Forsíða' }} />
         <Tab.Screen name='Reports' component={Reports} options={{ title: 'Skýrslur', headerTitleAlign: 'left' }} />
         <Tab.Screen name='Profile' component={Profile} options={{ title: 'Notandi' }} />
         <Tab.Screen name='AllReports' component={AllReports} options={{ title: 'Eldri Skýrslur', tabBarButton: () => null }} />
+        <Tab.Screen name='Drafts' component={Drafts} options={{ title: 'Öll Drög', tabBarButton: () => null }} />
+        <Tab.Screen name='ReportDetail' component={ReportDetail} options={{ title: 'Stök skýrsla', tabBarButton: () => null }} />
         <Tab.Screen name='NewReport' component={NewReport} options={{ title: 'Ný Skýrsla', tabBarButton: () => null }} />
         <Tab.Screen name='Settings' component={Settings} options={{ title: 'Stillingar', tabBarButton: () => null }} />
         <Tab.Screen name='Clients' component={Clients} options={{ title: 'Allir þjónustuþegar', tabBarButton: () => null }} />

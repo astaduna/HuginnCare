@@ -14,7 +14,7 @@ const Profile = ({ navigation: { navigate } }) => (
             style={styles.button}
             onPress={() => { navigate('Clients'); }}>
             <View style={styles.section}>
-                <View style={styles.greenIcon}>
+                <View style={styles.blueIcon}>
                     <Image source={staffs} style={styles.icon} />
                 </View>
                 <View style={styles.navText}>
@@ -40,7 +40,7 @@ const Profile = ({ navigation: { navigate } }) => (
             style={styles.button}
             onPress={() => { navigate('Settings'); }}>
             <View style={styles.section}>
-                <View style={styles.yellowIcon}>
+                <View style={styles.redIcon}>
                     <Image source={setting} style={styles.icon} />
                 </View>
                 <View style={styles.navText}>
@@ -53,7 +53,7 @@ const Profile = ({ navigation: { navigate } }) => (
             style={styles.button}
             onPress={() => { navigate('Main'); }}>
             <View style={styles.section}>
-                <View style={styles.blueIcon}>
+                <View style={styles.yellowIcon}>
                     <Image source={exit} style={styles.icon} />
                 </View>
                 <View style={styles.navText}>

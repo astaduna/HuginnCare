@@ -8,4 +8,5 @@ export const grayCircle = '#F1F2F6';
 export const greenIcon = '#D4F7F7';
 export const blueIcon = '#D6EBFF';
 export const yellowIcon = '#FFF2DB';
+export const redIcon = '#FFE0E3';
 export const darkGray = '#797979';

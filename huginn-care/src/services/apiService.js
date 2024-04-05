@@ -1,4 +1,4 @@
-const API_URL = 'https://devapi.huginn.care';
+export const API_URL = 'https://devapi.huginn.care';
 
 // Function to get all reports
 export const getAllReports = async () => {

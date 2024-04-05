@@ -1,8 +1,10 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { FontAwesome } from '@expo/vector-icons';
 import styles from './styles';
+import moment from 'moment';
 
 const Report = ({ 
     client, clientId, clientReason, 
@@ -19,13 +21,17 @@ const Report = ({
     updatedAt, 
     user, userId 
 }) => {
+    const { navigate } = useNavigation();
+
     return (
-        <View key={clientId} style={styles.tableRow}>
-            <Text style={styles.tableCell}>{date}</Text>
-            <Text style={styles.tableCell}>{user.name}</Text>
-            <Text style={styles.tableCell}>{client.name}</Text>
-            <Text style={styles.tableCell}>{department.name}</Text>
-        </View>
+        <TouchableOpacity onPress={() => navigate('ReportDetail', { id })}>
+            <View key={clientId} style={styles.tableRow}>
+                <Text style={[styles.tableCell, { flex: 1.2 }]}>{moment(new Date(date)).format('DD/MM/YYYY HH:MM')}</Text>
+                <Text style={[styles.tableCell, { flex: 1.1 }]}>Dagsskýrsla</Text>
+                <Text style={styles.tableCell}>{(user.name).split(' ').map(n => n.charAt(0)).join('.')}</Text>
+                <Text style={[styles.tableCell, { flex: 0.1, alignSelf: 'flex-end', fontWeight: 'bold' }]}>&gt;</Text>
+            </View>
+        </TouchableOpacity>
     );
 };
 

@@ -1,4 +1,4 @@
-const API_URL = 'https://devapi.huginn.care';
+import { API_URL } from './apiService';
 
 export const getAllClients = async () => {
     try {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, SafeAreaView, ScrollView } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import FloatingActionButton from '../../components/FloatingActionButton';
 import report from '../../resources/file.png';
 import plus from '../../resources/plus.png';
@@ -7,15 +8,17 @@ import next from '../../resources/right-arrow.png';
 import styles from './styles';
 import ReportList from '../../components/ReportList';
 import { getAllReports } from '../../services/reportService';
+import reports from '../../resources/reports.json';
 
 const Reports = ({ navigation: { navigate } }) => {
-    const [reports, setReports] = useState([]);
+    const isFocused = useIsFocused();
+    // const [reports, setReports] = useState([]);
 
-    useEffect(() => {
-        (async () => {
-            setReports(await getAllReports());
-        })();
-    }, []);
+    // useEffect(() => {
+    //     (async () => {
+    //         setReports(await getAllReports());
+    //     })();
+    // }, [isFocused]);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -49,6 +52,19 @@ const Reports = ({ navigation: { navigate } }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.button}
+                    onPress={() => { navigate('Drafts'); }}>
+                    <View style={styles.section}>
+                        <View style={styles.redIcon}>
+                            <Image source={report} style={styles.icon} />
+                        </View>
+                        <View style={styles.navText}>
+                            <Text style={styles.buttonText}>Sjá öll drög</Text>
+                            <Image source={next} style={styles.nextIcon} />
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button}
                     onPress={() => { navigate('Reports'); }}>
                     <View style={styles.section}>
                         <View style={styles.yellowIcon}>
@@ -62,15 +78,17 @@ const Reports = ({ navigation: { navigate } }) => {
                 </TouchableOpacity>
                 <View style={styles.reports}>
                     <Text style={styles.subtitle}>Sjá eldri skýrslur</Text>
-                    <ReportList reports={reports} pageValue={4}/>
-                    <TouchableOpacity
-                        style={styles.reportButton}
-                        onPress={() => { navigate('AllReports'); }}>
-                        <Text style={styles.oldReportTitle}>Skoða allar skýrslur</Text>
-                    </TouchableOpacity>
+                    {reports.length > 0
+                        ? (<ReportList reports={reports} pageValue={4}/>)
+                        : null}
                 </View>
-                <FloatingActionButton />
+                <TouchableOpacity
+                    style={styles.reportButton}
+                    onPress={() => { navigate('AllReports'); }}>
+                    <Text style={styles.oldReportTitle}>Skoða allar skýrslur</Text>
+                </TouchableOpacity>
             </ScrollView>
+            <FloatingActionButton />
         </SafeAreaView>
     );
 };
