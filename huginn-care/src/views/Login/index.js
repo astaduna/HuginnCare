@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Image, SafeAreaView, TouchableOpacity, View } from 'react-native';
 import LoginModal from '../../components/LoginModal';
 import Spinner from '../../components/Spinner';
@@ -8,14 +8,14 @@ import styles from './styles';
 const Login = ({ navigation: { navigate } }) => {
     const [isLoading, setLoading] = useState(false);
     
-    const submit = (isValid) => {
+    const submit = useCallback((isValid) => {
         setLoading(true);
         if (isValid) {
             setTimeout(() => {
                 navigate('Home');
             }, 1000);
         }
-    };
+    }, []);
 
     return (
         <SafeAreaView style={styles.container}>

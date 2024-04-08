@@ -15,6 +15,7 @@ export const getAllReports = async () => {
 
         if (response.headers.map['content-type'] === 'application/json; charset=utf-8') {
             const json = await response.json();
+            console.log("JSONREPORTS", json.reports)
             return json.reports;
         }
         return [];

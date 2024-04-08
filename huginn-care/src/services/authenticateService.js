@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_URL } from './apiService';
-import axios from 'axios';
 
 export const login = async (username, password) => {
     try {
@@ -37,6 +36,7 @@ export const login = async (username, password) => {
         
         throw new Error('You have entered an invalid username or password');
     } catch (err) {
+        console.error(err)
         return err.toString();
     }
 };

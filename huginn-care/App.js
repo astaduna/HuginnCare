@@ -1,8 +1,11 @@
 import React from 'react';
+import { RecoilRoot } from 'recoil';
 import AppContainer from './src/routes';
 
 export default function App() {
     return (
-        <AppContainer />
+        <RecoilRoot>
+            <AppContainer />
+        </RecoilRoot>
     );
 }

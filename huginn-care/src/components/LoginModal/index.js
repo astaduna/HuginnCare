@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useSetRecoilState } from 'recoil';
 import { login } from '../../services/authenticateService';
 import styles from './styles';
-
+import { userState } from "./user";
 const LoginModal = ({ submit }) => {
     const [username, setUsername] = useState('mollybrown');
     const [password, setPassword] = useState('NobodyWantsToSeeMeDownLikeIWantsToSeeMeUp');
+    const setUser = useSetRecoilState(userState);
     const [errors, setErrors] = useState({});
     const isEmpty = username.length === 0 || password.length === 0;
 
-    const handleLogin = async () => {
+    const handleLogin = useCallback( async () => {
         if (!isEmpty) {
             try {
                 const { isLoggedIn, json } = await login(username, password);
+                console.log("isLoggedIn: ", json);
+                setUser(json);
                 if (isLoggedIn) {
                     submit(true);
                 } else {
@@ -27,7 +31,7 @@ const LoginModal = ({ submit }) => {
             // Handle case where username or password fields are empty
             setErrors({ login: 'Please enter both username and password.' });
         }
-    };
+    },[username, password, isEmpty, setUser]);
 
     return (
         <KeyboardAvoidingView
