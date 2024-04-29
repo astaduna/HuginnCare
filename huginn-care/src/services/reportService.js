@@ -1,4 +1,3 @@
-import Keychain from 'react-native-keychain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_URL, STORAGE } from './apiService';
 
@@ -6,7 +5,6 @@ import { API_URL, STORAGE } from './apiService';
 export const getAllReports = async () => {
     try {
         const cookies = await AsyncStorage.getItem('sessionCookies');
-        console.log('get cookkkiee', cookies);
         const response = await fetch(`${API_URL}/reports/all`, {
             method: 'GET',
             headers: {
@@ -16,14 +14,13 @@ export const getAllReports = async () => {
             }
         });
 
-        console.log(response);
-
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
             const json = await response.json();
             return json.reports;
         }
-        return [];
+
+        throw new Error('Failed to fetch data');
     } catch (err) {
         return err.toString();
     }
@@ -43,9 +40,8 @@ export const getDrafts = async () => {
 
         if (response.headers.map['content-type'] === 'application/json; charset=utf-8') {
             const json = await response.json();
-            return json.reports;
+            return json;
         }
-
         throw new Error('Failed to fetch data');
     } catch (err) {
         return err.toString();
@@ -88,7 +84,6 @@ export const getReportById = async (id) => {
             const json = await response.json();
             return json.report;
         }
-
         throw new Error('Failed to fetch data');
     } catch (err) {
         return err.toString();

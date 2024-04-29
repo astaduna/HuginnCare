@@ -16,7 +16,7 @@ export const getAllDepartments = async () => {
             const json = await response.json();
             return json.departments;
         }
-        return [];
+        throw new Error('Failed to fetch data');
     } catch (err) {
         return err.toString();
     }

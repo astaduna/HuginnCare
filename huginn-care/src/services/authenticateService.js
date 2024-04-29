@@ -18,7 +18,6 @@ export const login = async (username, password) => {
 
         // Access response headers to get session cookies
         const cookies = response.headers.get('Set-Cookie');
-        console.log('cookkkiee', cookies);
 
         // Check if session cookies are set
         const isLoggedIn = cookies && cookies.includes('express:sess');

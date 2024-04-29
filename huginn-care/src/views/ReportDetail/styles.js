@@ -3,7 +3,6 @@ import { blueIcon, greenBlue, greenIcon } from '../../styles/colors';
 
 export default StyleSheet.create({
     detailsContainer: {
-        flex: 'start',
         marginTop: 20
     },
     formFrame: {

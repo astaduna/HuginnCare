@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import { Image, Linking, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Linking, SafeAreaView, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import { getReportById } from '../../services/reportService';
+import Spinner from '../../components/Spinner';
 import styles from './styles';
 import report from '../../resources/report.json';
-import { ScrollView } from 'react-native-gesture-handler';
 import moment from 'moment';
 import RadioButton from '../../components/RadioButton';
 
@@ -16,7 +16,7 @@ const ReportDetail = ({ route }) => {
     const [section3, setSection3] = useState();
     const { id } = route.params;
     const isFocused = useIsFocused();
-
+    const [isLoading, setIsLoading] = useState(true);
     const scrollViewRef = useRef();
     
     // Function to handle scrolling to a specific section
@@ -25,13 +25,14 @@ const ReportDetail = ({ route }) => {
             scrollViewRef.current.scrollTo({ y: section, animated: true });
         }
     };
-    // const [report, setReport] = useState(null);
+    const [report, setReport] = useState(null);
 
-    // useEffect(() => {
-    //     (async () => {
-    //         setReport(await getReportById(id));
-    //     })();
-    // }, [isFocused]);
+    useEffect(() => {
+        (async () => {
+            setReport(await getReportById(id));
+            setIsLoading(false);
+        })();
+    }, [isFocused]);
 
     useEffect(() => {
         if (report && report.medicine) {
@@ -43,8 +44,9 @@ const ReportDetail = ({ route }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {report
-                ? (<>
+            {isLoading
+                ? <Spinner /> 
+                : <>
                     <View style={styles.jumpLinks}>
                         <TouchableOpacity onPress={() => scrollToSection(section1)}>
                             <Text>Almennar upplýsingar</Text>
@@ -120,8 +122,9 @@ const ReportDetail = ({ route }) => {
                                 <Text style={styles.textInput}>{report.entry || ''}</Text>
                             </View>
                         </View>
-                    </ScrollView></>)
-                : null }
+                    </ScrollView>
+                </>
+            }
         </SafeAreaView>
     );
 };

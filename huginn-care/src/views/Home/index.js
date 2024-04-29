@@ -25,7 +25,7 @@ const Home = ({ navigation: { navigate } }) => (
         </TouchableOpacity>
         <TouchableOpacity
             style={styles.button}
-            onPress={() => { navigate('Reports'); }}>
+            onPress={() => { navigate('AllReports'); }}>
             <View style={styles.section}>
                 <View style={styles.greenIcon}>
                     <Image source={report} style={styles.icon} />

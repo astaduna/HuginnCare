@@ -16,7 +16,7 @@ export const getAllUsers = async () => {
             const json = await response.json();
             return json.users;
         }
-        return [];
+        throw new Error('Failed to fetch data');
     } catch (err) {
         return err.toString();
     }

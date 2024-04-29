@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Text, TouchableOpacity, View } from 'react-native';
-import { useRecoilValue } from "recoil";
-import { userState } from "../../components/LoginModal/user";
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../components/LoginModal/user';
 import logo from '../../resources/huginn-care-logo.png';
 import styles from './styles';
+
 const Main = ({ navigation: { navigate } }) => {
     const user = useRecoilValue(userState);
     const position = useRef(new Animated.Value(1)).current;
     const opacity = useRef(new Animated.Value(0)).current;
-    console.log("user:", user);
     useEffect(() => {
         Animated.sequence([
             Animated.timing(position, {
