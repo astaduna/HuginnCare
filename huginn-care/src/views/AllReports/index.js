@@ -43,7 +43,9 @@ const AllReports = ({ navigation: { navigate } }) => {
                 ? <Spinner /> 
                 : <ScrollView>
                     <Text style={styles.title}>Yfirlit yfir eldri skýrslur</Text>
-                    <ReportList reports={reports} incidents={incidents} page={10} departments={departments} users={users} clients={clients}/>
+                    <ReportList reports={reports} incidents={incidents} 
+                        page={10} isPaginated={true} isFiltered={true} 
+                        departments={departments} users={users} clients={clients}/>
                 </ScrollView>
             }
         </SafeAreaView>

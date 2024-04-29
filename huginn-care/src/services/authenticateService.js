@@ -38,7 +38,6 @@ export const login = async (username, password) => {
         
         throw new Error('You have entered an invalid username or password');
     } catch (err) {
-        console.error(err);
         return err.toString();
     }
 };

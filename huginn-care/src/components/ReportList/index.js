@@ -11,11 +11,12 @@ const ReportList = ({
     reports, 
     incidents,
     page, 
+    isPaginated = false,
+    isFiltered = false,
     departments = [],
     users = [],
     clients = []
 }) => {
-    console.log(reports[0]);
     const startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 1);
     const endDate = new Date();
@@ -35,6 +36,7 @@ const ReportList = ({
     const categoryOptions = [
         { label: 'Allar Tegundir', value: 'Allar Tegundir' },
         { label: 'Dagsskýrslur', value: 'Dagsskýrslur' },
+        { label: 'Atvikaskýrslur með líkamlegu inngripi', value: 'Atvikaskýrslur með líkamlegu inngripi' },
         { label: 'Atvikaskýrslur', value: 'Atvikaskýrslur' }
     ];
     
@@ -104,6 +106,8 @@ const ReportList = ({
         reportsTofilter = reports;
     } else if (categoryValue === 'Atvikaskýrslur') {
         reportsTofilter = incidents;
+    } else if (categoryValue === 'Atvikaskýrslur með líkamlegu inngripi') {
+        reportsTofilter = incidents.filter(incident => incident.coercion != null);
     } else {
         reportsTofilter = reports.concat(incidents);
     }
@@ -121,7 +125,8 @@ const ReportList = ({
         )
         .filter(report => {
             const reportDate = new Date(report.date);
-            return reportDate >= start && reportDate <= end;
+            if (isFiltered) return reportDate >= start && reportDate <= end;
+            return report;
         });
     
     const startIndex = (currentPage - 1) * parseInt(pageValue);
@@ -137,7 +142,7 @@ const ReportList = ({
 
     return (
         <View style={styles.container}>
-            {page !== 4
+            {isFiltered
                 ? (
                     <View>
                         <Text style={styles.inputTitle}>Raða eftir</Text>
@@ -223,7 +228,7 @@ const ReportList = ({
                             {paginatedReports.map(r => (
                                 <Report key={r.id} {...r} type={reports.includes(r) ? 'Dagsskýrsla' : 'Atvikaskýrsla'}/>
                             ))}
-                            {page !== 4
+                            {isPaginated
                                 ? (
                                     <View style={styles.pagination}>
                                         <TouchableOpacity

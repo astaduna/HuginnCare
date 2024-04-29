@@ -11,9 +11,6 @@ const Drafts = ({ navigation: { navigate } }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [reports, setReports] = useState([]);
     const [incidents, setIncidents] = useState([]);
-    const [departments, setDepartments] = useState([]);
-    const [users, setUsers] = useState([]);
-    const [clients, setClients] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -28,8 +25,10 @@ const Drafts = ({ navigation: { navigate } }) => {
             { isLoading
                 ? <Spinner /> 
                 : <ScrollView>
-                    <Text style={styles.title}>Yfirlit yfir öll drög</Text>
-                    <ReportList reports={reports} incidents={incidents} page={10}/>
+                    <Text style={styles.title}>Skýrslur</Text>
+                    <ReportList reports={reports} incidents={[]} page={10} isPaginated={true}/>
+                    <Text style={styles.title}>Atvik</Text>
+                    <ReportList reports={[]} incidents={incidents} page={10} isPaginated={true}/>
                 </ScrollView>
             }
         </SafeAreaView>
