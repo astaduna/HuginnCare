@@ -4,13 +4,20 @@ import { blueIcon, greenGradient, greenIcon, yellowIcon } from '../../styles/col
 export default StyleSheet.create({
     container: {
         flex: 1,
-        padding: 15,
-        justifyContent: 'start'
+        padding: 15
     },
     section: {
-        paddingTop: 10,
-        alignItems: 'center',
-        justifyContent: 'space-around'
+        paddingTop: 10
+    },
+    formFrame: {
+        marginTop: 10,
+        marginBottom: 5,
+        padding: 20,
+        margin: 15,
+        borderColor: 'gainsboro',
+        borderWidth: 1,
+        borderRadius: 10,
+        backgroundColor: 'white'
     },
     title: {
         marginTop: 15,

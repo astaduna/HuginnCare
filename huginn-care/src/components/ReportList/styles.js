@@ -15,8 +15,7 @@ export default StyleSheet.create({
     },
     paragraph: {
         margin: 10,
-        fontSize: 20,
-        color: 'gray'
+        fontSize: 16
     },
     table: {
         marginTop: 20
@@ -57,6 +56,13 @@ export default StyleSheet.create({
         fontSize: 17,
         color: 'white',
         textAlign: 'center'
+    },
+    calendarBorder: {
+        marginTop: 10,
+        borderWidth: 2,
+        borderRadius: 5,
+        borderColor: 'gainsboro',
+        paddingVertical: 6
     },
     textInput: {
         fontSize: 16,

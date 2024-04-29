@@ -41,7 +41,7 @@ const AllReports = ({ navigation: { navigate } }) => {
         <SafeAreaView style={styles.container}>
             { isLoading
                 ? <Spinner /> 
-                : <ScrollView>
+                : <ScrollView style={styles.formFrame}>
                     <Text style={styles.title}>Yfirlit yfir eldri skýrslur</Text>
                     <ReportList reports={reports} incidents={incidents} 
                         page={10} isPaginated={true} isFiltered={true} 

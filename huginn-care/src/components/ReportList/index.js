@@ -186,13 +186,15 @@ const ReportList = ({
                                 return <FontAwesome name='chevron-down' size={12} color='gray' />;
                             }}
                         />
-                        <Text style={styles.paginationText}>Tímabil</Text>
+                        <Text style={styles.inputTitle}>Tímabil</Text>
                         <TouchableOpacity
                             onPress={showDatePicker}
                         >
-                            <Text style={styles.paragraph}>
-                                {start ? start.toLocaleDateString('en-GB') : ''} - {end ? end.toLocaleDateString('en-GB') : ''}
-                            </Text>
+                            <View style={styles.calendarBorder}>
+                                <Text style={styles.paragraph}>
+                                    {start ? start.toLocaleDateString('en-GB') : ''} - {end ? end.toLocaleDateString('en-GB') : ''}
+                                </Text>
+                            </View>
                         </TouchableOpacity>
                         {isDatePickerVisible 
                             ? <CalendarPicker 
