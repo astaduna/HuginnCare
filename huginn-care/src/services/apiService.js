@@ -1,3 +1,4 @@
+
 export const API_URL = 'https://devapi.huginn.care';
 
 // Function to get all reports

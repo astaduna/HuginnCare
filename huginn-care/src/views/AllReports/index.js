@@ -5,7 +5,8 @@ import { getAllReports } from '../../services/reportService';
 import { getAllIncidents } from '../../services/incidentService';
 import ReportList from '../../components/ReportList';
 import styles from './styles';
-import reports from '../../resources/reports.json';
+import reportsJson from '../../resources/reports.json';
+import incidentsJson from '../../resources/incidents.json';
 
 const AllReports = ({ navigation: { navigate } }) => {
     const isFocused = useIsFocused();
@@ -17,13 +18,13 @@ const AllReports = ({ navigation: { navigate } }) => {
 
     useEffect(() => {
         (async () => {
-            const reportList = await getAllReports();
-            const incidentList = await getAllIncidents();
-            setReports(reportList);
-            setIncidents(incidentList);
-            setDepartments([...new Set(reportList.concat(incidentList).map(report => report.department.name))]);
-            setUsers([...new Set(reportList.concat(incidentList).map(report => report.user.name))]);
-            setClients([...new Set(reportList.concat(incidentList).map(report => report.client.name))]);
+            const reportsData = await getAllReports();
+            const incidentsData = await getAllIncidents();
+            setReports(reportsData.length > 0 ? reportsData : reportsJson);
+            setIncidents(incidentsData.length > 0 ? incidentsData : incidentsJson);
+            setDepartments([...new Set(reportsData.concat(incidentsData).map(report => report.department.name))]);
+            setUsers([...new Set(reportsData.concat(incidentsData).map(report => report.user.name))]);
+            setClients([...new Set(reportsData.concat(incidentsData).map(report => report.client.name))]);
         })();
     }, [isFocused]);
     

@@ -9,7 +9,8 @@ import styles from './styles';
 import ReportList from '../../components/ReportList';
 import { getAllReports } from '../../services/reportService';
 import { getAllIncidents } from '../../services/incidentService';
-import reports from '../../resources/reports.json';
+import reportsJson from '../../resources/reports.json';
+import incidentsJson from '../../resources/incidents.json';
 
 const Reports = ({ navigation: { navigate } }) => {
     const isFocused = useIsFocused();
@@ -18,8 +19,10 @@ const Reports = ({ navigation: { navigate } }) => {
 
     useEffect(() => {
         (async () => {
-            setReports(await getAllReports());
-            setIncidents(await getAllIncidents());
+            const reportsData = await getAllReports();
+            const incidentsData = await getAllIncidents();
+            setReports(reportsData.length > 0 ? reportsData : reportsJson);
+            setIncidents(incidentsData.length > 0 ? incidentsData : incidentsJson);
         })();
     }, [isFocused]);
 
@@ -81,7 +84,7 @@ const Reports = ({ navigation: { navigate } }) => {
                 </TouchableOpacity>
                 <View style={styles.reports}>
                     <Text style={styles.subtitle}>Sjá eldri skýrslur</Text>
-                    {reports.length > 0
+                    {reports.length > 0 || incidents.length > 0
                         ? (<ReportList reports={reports} incidents={incidents} page={4}/>)
                         : null}
                 </View>

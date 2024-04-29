@@ -81,6 +81,7 @@ const ReportList = ({
         .filter(report =>
             clientValue === 'Allir Þjónustuþegar' || clientValue === null || report.client.name === clientValue
         );
+    
 
     const startIndex = (currentPage - 1) * parseInt(pageValue);
     const endIndex = startIndex + parseInt(pageValue);

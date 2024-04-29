@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { API_URL } from './apiService';
+import { API_URL, PATH } from './apiService';
 
 export const login = async (username, password) => {
     try {
@@ -18,6 +18,7 @@ export const login = async (username, password) => {
 
         // Access response headers to get session cookies
         const cookies = response.headers.get('Set-Cookie');
+        console.log('cookkkiee', cookies);
 
         // Check if session cookies are set
         const isLoggedIn = cookies && cookies.includes('express:sess');
@@ -25,6 +26,8 @@ export const login = async (username, password) => {
         // Save session cookies in AsyncStorage instead of sessionStorage
         if (isLoggedIn) {
             await AsyncStorage.setItem('sessionCookies', cookies);
+            // writeFile(PATH, cookies, 'utf8').then(() => console.log('success')).catch(err => console.log('save err', err));
+            // Keychain.setGenericPassword('cookies', cookies);
         }
 
         if (response.headers.map['content-type'] === 'application/json; charset=utf-8') {
@@ -36,7 +39,7 @@ export const login = async (username, password) => {
         
         throw new Error('You have entered an invalid username or password');
     } catch (err) {
-        console.error(err)
+        console.error(err);
         return err.toString();
     }
 };
