@@ -111,3 +111,14 @@ export const getUserLogsById = async (id) => {
         throw error.response.data;
     }
 };
+
+const handleSave = async () => {
+    try {
+        const updatedUser = await editSelfProfile(user); // Using the updated service function
+        setUser(updatedUser); // Update the global state if the server update was successful
+        Alert.alert('Success', 'User data updated successfully.');
+    } catch (error) {
+        Alert.alert('Error', error.message || 'Failed to update user data.'); // Use the error message from the catch block
+        console.error(error);
+    }
+};
