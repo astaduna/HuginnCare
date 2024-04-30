@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import { View, Text, TextInput, ScrollView, TouchableOpacity, Image, SafeAreaView, Keyboard } from 'react-native';
 import Checkbox from 'expo-checkbox';
+import { FontAwesome } from '@expo/vector-icons';
 import RadioButton from '../../components/RadioButton';
 import styles from './styles';
 import { greenBlue } from '../../styles/colors';
@@ -131,7 +132,11 @@ const NewReport = ({ navigation: { navigate } }) => {
                     <RNPickerSelect
                         style={{
                             inputIOS: [styles.input, reportType !== '' ? styles.greenBorder : styles.input],
-                            inputAndroid: [styles.input, reportType !== '' ? styles.greenBorder : styles.input]
+                            inputAndroid: [styles.input, reportType !== '' ? styles.greenBorder : styles.input],
+                            iconContainer: {
+                                top: 25,
+                                right: 20
+                            }
                         }}
                         placeholder={{ 
                             label: 'Veldu tegund skýrslu', 
@@ -142,6 +147,9 @@ const NewReport = ({ navigation: { navigate } }) => {
                             { label: 'Dagsskýrsla', value: 'day' },
                             { label: 'Atvikaskýrsla', value: 'incident' }
                         ]}
+                        Icon={() => {
+                            return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                        }}
                     />
                 </View>
                 { reportType === 'day'
@@ -153,7 +161,11 @@ const NewReport = ({ navigation: { navigate } }) => {
                         <RNPickerSelect
                             style={{
                                 inputIOS: [styles.input, department !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, department !== '' ? styles.greenBorder : styles.input]
+                                inputAndroid: [styles.input, department !== '' ? styles.greenBorder : styles.input],
+                                iconContainer: {
+                                    top: 25,
+                                    right: 20
+                                }
                             }}
                             placeholder={{ 
                                 label: 'Veldu deild', 
@@ -165,12 +177,19 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 { label: 'Deild 2', value: 'deild2' },
                                 { label: 'Deild 3', value: 'deild3' }
                             ]}
+                            Icon={() => {
+                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                            }}
                         />
                         <Text style={styles.inputTitle}>þjónustuþegi</Text>
                         <RNPickerSelect
                             style={{
                                 inputIOS: [styles.input, client !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, client !== '' ? styles.greenBorder : styles.input]
+                                inputAndroid: [styles.input, client !== '' ? styles.greenBorder : styles.input],
+                                iconContainer: {
+                                    top: 25,
+                                    right: 20
+                                }
                             }}
                             placeholder={{ 
                                 label: 'Veldu þjónustuþega', 
@@ -182,12 +201,19 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 { label: 'Þjónustuþegi 2', value: 'þjónustuþegi2' },
                                 { label: 'Þjónustuþegi 3', value: 'þjónustuþegi3' }
                             ]}
+                            Icon={() => {
+                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                            }}
                         />
                         <Text style={styles.inputTitle}>Tegund vaktar</Text>
                         <RNPickerSelect
                             style={{
                                 inputIOS: [styles.input, shiftType !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, shiftType !== '' ? styles.greenBorder : styles.input]
+                                inputAndroid: [styles.input, shiftType !== '' ? styles.greenBorder : styles.input],
+                                iconContainer: {
+                                    top: 25,
+                                    right: 20
+                                }
                             }}
                             placeholder={{ 
                                 label: 'Veldu tegund vaktar', 
@@ -199,6 +225,9 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 { label: 'Vakt 2', value: 'vakt2' },
                                 { label: 'Vakt 3', value: 'vakt3' }
                             ]}
+                            Icon={() => {
+                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                            }}
                         />
                         <Text style={styles.inputTitle}>Starfsmenn á vakt</Text>
                         <TextInput
@@ -286,7 +315,11 @@ const NewReport = ({ navigation: { navigate } }) => {
                         <RNPickerSelect
                             style={{
                                 inputIOS: [styles.input, department !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, department !== '' ? styles.greenBorder : styles.input]
+                                inputAndroid: [styles.input, department !== '' ? styles.greenBorder : styles.input],
+                                iconContainer: {
+                                    top: 25,
+                                    right: 20
+                                }
                             }}
                             placeholder={{ 
                                 label: 'Veldu deild', 
@@ -298,12 +331,19 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 { label: 'Deild 2', value: 'deild2' },
                                 { label: 'Deild 3', value: 'deild3' }
                             ]}
+                            Icon={() => {
+                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                            }}
                         />
                         <Text style={styles.inputTitle}>þjónustuþegi</Text>
                         <RNPickerSelect
                             style={{
                                 inputIOS: [styles.input, client !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, client !== '' ? styles.greenBorder : styles.input]
+                                inputAndroid: [styles.input, client !== '' ? styles.greenBorder : styles.input],
+                                iconContainer: {
+                                    top: 25,
+                                    right: 20
+                                }
                             }}
                             placeholder={{ 
                                 label: 'Veldu þjónustuþega', 
@@ -315,12 +355,19 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 { label: 'Þjónustuþegi 2', value: 'þjónustuþegi2' },
                                 { label: 'Þjónustuþegi 3', value: 'þjónustuþegi3' }
                             ]}
+                            Icon={() => {
+                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                            }}
                         />
                         <Text style={styles.inputTitle}>Tegund vaktar</Text>
                         <RNPickerSelect
                             style={{
                                 inputIOS: [styles.input, shiftType !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, shiftType !== '' ? styles.greenBorder : styles.input]
+                                inputAndroid: [styles.input, shiftType !== '' ? styles.greenBorder : styles.input],
+                                iconContainer: {
+                                    top: 25,
+                                    right: 20
+                                }
                             }}
                             placeholder={{ 
                                 label: 'Veldu tegund vaktar', 
@@ -332,6 +379,9 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 { label: 'Vakt 2', value: 'vakt2' },
                                 { label: 'Vakt 3', value: 'vakt3' }
                             ]}
+                            Icon={() => {
+                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                            }}
                         />
                     </View>
 
@@ -351,7 +401,11 @@ const NewReport = ({ navigation: { navigate } }) => {
                         <RNPickerSelect
                             style={{
                                 inputIOS: [styles.input, incidentType !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, incidentType !== '' ? styles.greenBorder : styles.input]
+                                inputAndroid: [styles.input, incidentType !== '' ? styles.greenBorder : styles.input],
+                                iconContainer: {
+                                    top: 25,
+                                    right: 20
+                                }
                             }}
                             placeholder={{ 
                                 label: 'Veldu tegund', 
@@ -365,12 +419,19 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 { label: 'Ógnandi hegðun', value: 'Ógnandi hegðun' },
                                 { label: 'Annað', value: 'Annað' }
                             ]}
+                            Icon={() => {
+                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                            }}
                         />
                         <Text style={styles.inputTitle}>Aðdragandi atviks</Text>
                         <RNPickerSelect
                             style={{
                                 inputIOS: [styles.input, before !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, before !== '' ? styles.greenBorder : styles.input]
+                                inputAndroid: [styles.input, before !== '' ? styles.greenBorder : styles.input],
+                                iconContainer: {
+                                    top: 25,
+                                    right: 20
+                                }
                             }}
                             placeholder={{ 
                                 label: 'Veldu aðdraganda', 
@@ -383,6 +444,9 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 { label: 'Áreiti frá öðrum', value: 'Ógnandi hegðun' },
                                 { label: 'Annað', value: 'Annað' }
                             ]}
+                            Icon={() => {
+                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                            }}
                         />
                         <Text style={styles.inputTitle}>Hvernig fór atvikið fram</Text>
                         <TextInput
