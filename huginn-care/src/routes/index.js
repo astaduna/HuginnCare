@@ -15,6 +15,7 @@ import Profile from '../views/Profile';
 import NewReport from '../views/NewReport';
 import Settings from '../views/Settings';
 import Clients from '../views/Clients';
+import Staffs from '../views/Staffs';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -47,6 +48,7 @@ const Tabs = () => (
         <Tab.Screen name='NewReport' component={NewReport} options={{ title: 'Ný Skýrsla', tabBarButton: () => null }} />
         <Tab.Screen name='Settings' component={Settings} options={{ title: 'Stillingar', tabBarButton: () => null }} />
         <Tab.Screen name='Clients' component={Clients} options={{ title: 'Allir þjónustuþegar', tabBarButton: () => null }} />
+        <Tab.Screen name='Staffs' component={Staffs} options={{ title: 'Allir starfsmenn', tabBarButton: () => null }} />
     </Tab.Navigator>
 );
 

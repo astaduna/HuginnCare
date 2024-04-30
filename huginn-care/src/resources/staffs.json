@@ -1,0 +1,44 @@
+[
+    {
+      "nafn": "Daníel Daníelsson",
+      "kennitala": "4444449999",
+      "deild": "Fakedeild 1",
+      "simanumer": "1234567",
+      "starfsheiti": "alm. notandi"
+    },
+    {
+        "nafn": "Lísa Stjánadóttir",
+        "kennitala": "3333339999",
+        "deild": "Fakedeild 1",
+        "simanumer": "1234567",
+        "starfsheiti": "alm. notandi"
+    },
+    {
+        "nafn": "Stjáni Grímsson",
+        "kennitala": "2222229999",
+        "deild": "Fakedeild 1",
+        "simanumer": "1234567",
+        "starfsheiti": "alm. notandi"
+    },
+    {
+        "nafn": "Anna Banana",
+        "kennitala": "1111119999",
+        "deild": "Fakedeild 2",
+        "simanumer": "1234567",
+        "starfsheiti": "alm. notandi"
+    },
+    {
+        "nafn": "Hannah Montana",
+        "kennitala": "1234569999",
+        "deild": "Fakedeild 2",
+        "simanumer": "1234567",
+        "starfsheiti": "alm. notandi"
+    },
+    {
+        "nafn": "Havana Savannah",
+        "kennitala": "1234567890",
+        "deild": "Fakedeild 3",
+        "simanumer": "1234567",
+        "starfsheiti": "alm. notandi"
+    }
+  ]

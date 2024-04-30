@@ -25,7 +25,7 @@ const Profile = ({ navigation: { navigate } }) => (
         </TouchableOpacity>
         <TouchableOpacity
             style={styles.button}
-            onPress={() => { navigate('Reports'); }}>
+            onPress={() => { navigate('Staffs'); }}>
             <View style={styles.section}>
                 <View style={styles.greenIcon}>
                     <Image source={staffs} style={styles.icon} />

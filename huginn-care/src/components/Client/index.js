@@ -17,7 +17,7 @@ const Client = ({ nafn, kennitala, deild, color, onColorChange }) => {
             <View style={[styles.colorIndicator, { backgroundColor: color || '#ffffff' }]}></View>
             <Text style={styles.tableCell}>{nafn}</Text>
             <Text style={styles.tableCell}>{kennitala}</Text>
-            <Text style={styles.tableCell}><Text style={styles.departments}>{deild}</Text></Text>
+            <Text style={styles.tableCell}>{deild}</Text>
             <View style={styles.tableCell}>
                 <RNPickerSelect
                     placeholder={{ label: '...', value: null }}
@@ -26,11 +26,11 @@ const Client = ({ nafn, kennitala, deild, color, onColorChange }) => {
                     onValueChange={(value) => onColorChange(value)}
                     style={styles.dropdown}
                     Icon={() => {
-                        return <FontAwesome name='chevron-down' size={12} color='gray' />;
+                        return <FontAwesome name='chevron-down' size={10} color='gray' />;
                     }}
                 />
             </View>
-            <View style={[styles.tableCell, { flex: 0.5 }]}>
+            <View style={[styles.tableCell, { flex: 0.35 }]}>
                 <View>
                     <Text onPress={() => {}}>👁️</Text>
                     <Text onPress={() => {}}>📂</Text>
