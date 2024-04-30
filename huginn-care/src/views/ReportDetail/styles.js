@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
-import { blueIcon, greenBlue, greenIcon } from '../../styles/colors';
+import { greenBlue } from '../../styles/colors';
 
 export default StyleSheet.create({
     detailsContainer: {
         marginTop: 20
     },
     formFrame: {
-        marginTop: 10,
+        marginTop: 20,
         marginBottom: 5,
         marginHorizontal: 15,
         padding: 20,
@@ -17,9 +17,14 @@ export default StyleSheet.create({
     },
     title: {
         marginTop: 15,
+        marginBottom: 15,
         fontSize: 20,
         fontWeight: 'bold',
         color: '#797979'
+    },
+    titleWrapper: {
+        borderBottomWidth: 2,
+        borderBottomColor: 'gainsboro'
     },
     inputTitle: {
         marginTop: 15,
@@ -77,7 +82,7 @@ export default StyleSheet.create({
         borderColor: greenBlue // Green border color
     },
     lastFormFrame: {
-        marginBottom: 100
+        marginBottom: 435
     },
     section: {
         height: 30,
@@ -91,11 +96,26 @@ export default StyleSheet.create({
         top: 0,
         left: 0,
         right: 0,
-        height: 30,
+        height: 35,
         flexDirection: 'row',
         justifyContent: 'space-around',
         padding: 5,
         backgroundColor: 'white',
-        zIndex: 100
+        zIndex: 1,
+        borderBottomWidth: 1,
+        borderBottomColor: 'gainsboro'
+    },
+    jumpLinkText: {
+        color: 'gray',
+        fontSize: 16
+    },
+    selectedJumpLinkButton: {
+        borderBottomWidth: 3,
+        marginBottom: -5,
+        borderBottomColor: greenBlue
+    },
+    selectedJumpLinkText: {
+        fontWeight: 'bold',
+        color: 'black'
     }
 });

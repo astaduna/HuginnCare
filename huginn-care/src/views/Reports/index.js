@@ -23,15 +23,17 @@ const Reports = ({ navigation: { navigate } }) => {
         (async () => {
             const reportsData = await getAllReports();
             const incidentsData = await getAllIncidents();
-            setReports(reportsData.length > 0 ? reportsData : reportsJson);
-            setIncidents(incidentsData.length > 0 ? incidentsData : incidentsJson);
+            // setReports(reportsData.length > 0 ? reportsData : reportsJson);
+            // setIncidents(incidentsData.length > 0 ? incidentsData : incidentsJson);
+            setReports(reportsJson);
+            setIncidents(incidentsJson);
             setIsLoading(false);
         })();
     }, [isFocused]);
 
     return (
         <SafeAreaView style={styles.container}>
-            { isLoading
+            { reports.length <= 0 // isLoading
                 ? <Spinner /> 
                 : <ScrollView style={styles.scrollContainer}>
                     <Text style={styles.title}>Yfirlit</Text>
