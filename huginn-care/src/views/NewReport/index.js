@@ -1,11 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import { View, Text, TextInput, ScrollView, TouchableOpacity, Image, SafeAreaView, Keyboard } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import { FontAwesome } from '@expo/vector-icons';
 import RadioButton from '../../components/RadioButton';
 import styles from './styles';
+import { getAllClients } from '../../services/clientService';
+import { getAllDepartments } from '../../services/departmentService';
+import { getAllUsers } from '../../services/userService';
 import { greenBlue } from '../../styles/colors';
+import { beforeOptions, categoryOptionsA, clientOptionsA, departmentOptionsA, pageOptions, shiftOptions, typeOptions, userOptions } from '../../components/Options';
 
 const NewReport = ({ navigation: { navigate } }) => {
     const [reportType, setReportType] = useState('');
@@ -38,6 +43,23 @@ const NewReport = ({ navigation: { navigate } }) => {
     before === '' || whatHappened === '' || response === '' || alternative === '' || other === '');
     const isEmpty = reportType === '' || isDayReportEmpty || isIncidentEmpty;
 
+    const isFocused = useIsFocused();
+    const [isLoading, setIsLoading] = useState(true);
+    const [departments, setDepartments] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [clients, setClients] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            const usersData = await getAllUsers();
+            const clientsData = await getAllClients();
+            setDepartments(await getAllDepartments() || []);
+            setUsers(usersData.filter(user => user.user_department_pivot.departmentId === department));
+            setClients(clientsData.filter(client => client.client_department_pivot.departmentId === department));
+            setIsLoading(false);
+        })();
+    }, [isFocused, department]);
+
     const scrollToSection = (section) => {
         if (scrollViewRef.current) {
             scrollViewRef.current.scrollTo({ y: section, animated: true });
@@ -63,7 +85,7 @@ const NewReport = ({ navigation: { navigate } }) => {
     };
 
     const createReport = () => {
-        console.log('ok');
+        console.log(department, client, shiftType);
     };
 
     useEffect(() => {
@@ -143,10 +165,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                             value: '' 
                         }}
                         onValueChange={(value) => setReportType(value)}
-                        items={[
-                            { label: 'Dagsskýrsla', value: 'day' },
-                            { label: 'Atvikaskýrsla', value: 'incident' }
-                        ]}
+                        items={categoryOptionsA}
                         Icon={() => {
                             return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
                         }}
@@ -172,11 +191,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 value: ''
                             }}
                             onValueChange={(value) => setDepartment(value)}
-                            items={[
-                                { label: 'Deild 1', value: 'deild1' },
-                                { label: 'Deild 2', value: 'deild2' },
-                                { label: 'Deild 3', value: 'deild3' }
-                            ]}
+                            items={departmentOptionsA(departments)}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
                             }}
@@ -196,11 +211,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 value: '' 
                             }}
                             onValueChange={(value) => setClient(value)}
-                            items={[
-                                { label: 'Þjónustuþegi 1', value: 'þjónustuþegi1' },
-                                { label: 'Þjónustuþegi 2', value: 'þjónustuþegi2' },
-                                { label: 'Þjónustuþegi 3', value: 'þjónustuþegi3' }
-                            ]}
+                            items={clientOptionsA(clients)}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
                             }}
@@ -216,15 +227,11 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 }
                             }}
                             placeholder={{ 
-                                label: 'Veldu tegund vaktar', 
+                                label: 'Veldu vakt', 
                                 value: '' 
                             }}
                             onValueChange={(value) => setShiftType(value)}
-                            items={[
-                                { label: 'Vakt 1', value: 'vakt1' },
-                                { label: 'Vakt 2', value: 'vakt2' },
-                                { label: 'Vakt 3', value: 'vakt3' }
-                            ]}
+                            items={shiftOptions}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
                             }}
@@ -326,11 +333,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 value: ''
                             }}
                             onValueChange={(value) => setDepartment(value)}
-                            items={[
-                                { label: 'Deild 1', value: 'deild1' },
-                                { label: 'Deild 2', value: 'deild2' },
-                                { label: 'Deild 3', value: 'deild3' }
-                            ]}
+                            items={departmentOptionsA(departments)}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
                             }}
@@ -350,11 +353,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 value: '' 
                             }}
                             onValueChange={(value) => setClient(value)}
-                            items={[
-                                { label: 'Þjónustuþegi 1', value: 'þjónustuþegi1' },
-                                { label: 'Þjónustuþegi 2', value: 'þjónustuþegi2' },
-                                { label: 'Þjónustuþegi 3', value: 'þjónustuþegi3' }
-                            ]}
+                            items={clientOptionsA(clients)}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
                             }}
@@ -374,11 +373,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 value: '' 
                             }}
                             onValueChange={(value) => setShiftType(value)}
-                            items={[
-                                { label: 'Vakt 1', value: 'vakt1' },
-                                { label: 'Vakt 2', value: 'vakt2' },
-                                { label: 'Vakt 3', value: 'vakt3' }
-                            ]}
+                            items={shiftOptions}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
                             }}
@@ -412,13 +407,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 value: '' 
                             }}
                             onValueChange={(value) => setIncidentType(value)}
-                            items={[
-                                { label: 'Slys', value: 'Slys' },
-                                { label: 'Árás', value: 'Árás' },
-                                { label: 'Kynferðisleg áreitni', value: 'Kynferðisleg áreitni' },
-                                { label: 'Ógnandi hegðun', value: 'Ógnandi hegðun' },
-                                { label: 'Annað', value: 'Annað' }
-                            ]}
+                            items={typeOptions}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
                             }}
@@ -438,12 +427,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 value: '' 
                             }}
                             onValueChange={(value) => setBefore(value)}
-                            items={[
-                                { label: 'Þjónustuþega sett mörk', value: 'Árás' },
-                                { label: 'Sleppa úr aðstæðum eða verkefnum', value: 'Kynferðisleg áreitni' },
-                                { label: 'Áreiti frá öðrum', value: 'Ógnandi hegðun' },
-                                { label: 'Annað', value: 'Annað' }
-                            ]}
+                            items={beforeOptions}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
                             }}

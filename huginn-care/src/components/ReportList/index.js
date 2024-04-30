@@ -4,19 +4,24 @@ import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import CalendarPicker from 'react-native-calendar-picker';
+import { getAllClients } from '../../services/clientService';
+import { getAllDepartments } from '../../services/departmentService';
+import { getAllUsers } from '../../services/userService';
 import Report from '../Report';
 import { greenBlue } from '../../styles/colors';
+import { categoryOptionsB, clientOptionsB, departmentOptionsB, pageOptions, userOptionsB } from '../Options';
 
 const ReportList = ({ 
     reports, 
     incidents,
     page, 
     isPaginated = false,
-    isFiltered = false,
-    departments = [],
-    users = [],
-    clients = []
+    isFiltered = false
 }) => {
+    const [departments, setDepartments] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [clients, setClients] = useState([]);
+
     const startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 1);
     const endDate = new Date();
@@ -26,56 +31,27 @@ const ReportList = ({
     const [start, setStart] = useState(startDate);
     const [end, setEnd] = useState(endDate);
 
-    const pageOptions = [
-        { label: '10', value: '10' },
-        { label: '25', value: '25' },
-        { label: '50', value: '50' },
-        { label: '100', value: '100' }
-    ];
-
-    const categoryOptions = [
-        { label: 'Allar Tegundir', value: 'Allar Tegundir' },
-        { label: 'Dagsskýrslur', value: 'Dagsskýrslur' },
-        { label: 'Atvikaskýrslur með líkamlegu inngripi', value: 'Atvikaskýrslur með líkamlegu inngripi' },
-        { label: 'Atvikaskýrslur', value: 'Atvikaskýrslur' }
-    ];
-    
-    const departmentOptions = [{ 
-        label: 'Allar Deildir', 
-        value: 'Allar Deildir' 
-    },
-    ...departments.map(department => ({
-        label: department,
-        value: department
-    })).sort((a, b) => a.label.localeCompare(b.label))];
-
-    const userOptions = [{ 
-        label: 'Allir Notendur', 
-        value: 'Allir Notendur' 
-    },
-    ...users.map(user => ({
-        label: user,
-        value: user
-    })).sort((a, b) => a.label.localeCompare(b.label))];
-
-    const clientOptions = [{ 
-        label: 'Allir Þjónustuþegar', 
-        value: 'Allir Þjónustuþegar' 
-    },
-    ...clients.map(client => ({
-        label: client,
-        value: client
-    })).sort((a, b) => a.label.localeCompare(b.label))];
-
     const [pageValue, setPageValue] = useState(page === 4 ? 4 : pageOptions[0].value);
-    const [categoryValue, setCategoryValue] = useState(categoryOptions[0].value);
-    const [departmentValue, setDepartmentValue] = useState(departmentOptions[0].value);
-    const [userValue, setUserValue] = useState(userOptions[0].value);
-    const [clientValue, setClientValue] = useState(clientOptions[0].value);
+    const [categoryValue, setCategoryValue] = useState(categoryOptionsB[0].value);
+    const [departmentValue, setDepartmentValue] = useState(departmentOptionsB(departments)[0].value);
+    const [userValue, setUserValue] = useState(userOptionsB(users)[0].value);
+    const [clientValue, setClientValue] = useState(clientOptionsB(clients)[0].value);
 
     useEffect(() => {
         setCurrentPage(1);
     }, []);
+
+    useEffect(() => {
+        (async () => {
+            if (isFiltered) {
+                const usersData = await getAllUsers();
+                const clientsData = await getAllClients();
+                setDepartments(await getAllDepartments() || []);
+                setUsers(usersData.filter(user => user.user_department_pivot.departmentId === departmentValue));
+                setClients(clientsData.filter(client => client.client_department_pivot.departmentId === departmentValue));
+            }
+        })();
+    }, [departmentValue]);
 
     const handleNextPage = () => {
         setCurrentPage(prevPage => prevPage + 1);
@@ -102,11 +78,11 @@ const ReportList = ({
     };
 
     let reportsTofilter;
-    if (categoryValue === 'Dagsskýrslur') {
+    if (categoryValue === 'day') {
         reportsTofilter = reports;
-    } else if (categoryValue === 'Atvikaskýrslur') {
+    } else if (categoryValue === 'incident') {
         reportsTofilter = incidents;
-    } else if (categoryValue === 'Atvikaskýrslur með líkamlegu inngripi') {
+    } else if (categoryValue === 'coercion') {
         reportsTofilter = incidents.filter(incident => incident.coercion != null);
     } else {
         reportsTofilter = reports.concat(incidents);
@@ -115,13 +91,13 @@ const ReportList = ({
     const filteredReports = reportsTofilter
         .sort((a, b) => new Date(a.date) - new Date(b.date))
         .filter(report =>
-            departmentValue === 'Allar Deildir' || departmentValue === null || report.department.name === departmentValue
+            departmentValue === '' || departmentValue === null || report.department.id === departmentValue
         )
         .filter(report =>
-            userValue === 'Allir Notendur' || userValue === null || report.user.name === userValue
+            userValue === '' || userValue === null || report.user.id === userValue
         )
         .filter(report =>
-            clientValue === 'Allir Þjónustuþegar' || clientValue === null || report.client.name === clientValue
+            clientValue === '' || clientValue === null || report.client.id === clientValue
         )
         .filter(report => {
             const reportDate = new Date(report.date);
@@ -148,8 +124,11 @@ const ReportList = ({
                         <Text style={styles.inputTitle}>Raða eftir</Text>
                         <RNPickerSelect
                             style={styles.dropdown}
-                            placeholder={{ label: '...', value: null }}
-                            items={departmentOptions}
+                            placeholder={{ 
+                                label: 'Veldu deild', 
+                                value: null
+                            }}
+                            items={departmentOptionsB(departments)}
                             onValueChange={(value) => setDepartmentValue(value)}
                             value={departmentValue}
                             Icon={() => {
@@ -158,8 +137,11 @@ const ReportList = ({
                         />
                         <RNPickerSelect
                             style={styles.dropdown}
-                            placeholder={{ label: '...', value: null }}
-                            items={userOptions}
+                            placeholder={{ 
+                                label: 'Veldu notanda', 
+                                value: null 
+                            }}
+                            items={userOptionsB(users)}
                             onValueChange={(value) => setUserValue(value)}
                             value={userValue}
                             Icon={() => {
@@ -168,8 +150,11 @@ const ReportList = ({
                         />
                         <RNPickerSelect
                             style={styles.dropdown}
-                            placeholder={{ label: '...', value: null }}
-                            items={clientOptions}
+                            placeholder={{ 
+                                label: 'Veldu þjónustuþega', 
+                                value: null 
+                            }}
+                            items={clientOptionsB(clients)}
                             onValueChange={(value) => setClientValue(value)}
                             value={clientValue}
                             Icon={() => {
@@ -178,8 +163,11 @@ const ReportList = ({
                         />
                         <RNPickerSelect
                             style={styles.dropdown}
-                            placeholder={{ label: '...', value: null }}
-                            items={categoryOptions}
+                            placeholder={{ 
+                                label: 'Veldu tegund skýrslu', 
+                                value: null 
+                            }}
+                            items={categoryOptionsB}
                             onValueChange={(value) => setCategoryValue(value)}
                             value={categoryValue}
                             Icon={() => {
