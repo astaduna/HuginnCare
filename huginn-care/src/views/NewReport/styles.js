@@ -2,6 +2,9 @@ import { StyleSheet } from 'react-native';
 import { greenBlue } from '../../styles/colors';
 
 export default StyleSheet.create({
+    container: {
+        height: '100%'
+    },
     detailsContainer: {
         marginTop: 30
     },
@@ -47,7 +50,7 @@ export default StyleSheet.create({
         borderWidth: 2,
         fontSize: 13
     },
-    diaryInput: {
+    textInput: {
         margin: 7,
         padding: 15,
         borderRadius: 5,
@@ -117,6 +120,10 @@ export default StyleSheet.create({
     selectedJumpLinkText: {
         fontWeight: 'bold',
         color: 'black'
+    },
+    checkBox: {
+        margin: 10,
+        color: 'gainsboro'
     },
     button: {
         position: 'absolute',
