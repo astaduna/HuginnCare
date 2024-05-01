@@ -40,6 +40,13 @@ export const departmentOptionsB = (departments) => [{
 },
 ...departmentOptionsA(departments)];
 
+export const orderOptions = [
+    { label: 'Nafn A-Ö', value: 'Nafn A-Ö' },
+    { label: 'Nafn Ö-A', value: 'Nafn Ö-A' },
+    { label: 'Deild A-Ö', value: 'Deild A-Ö' },
+    { label: 'Deild Ö-A', value: 'Deild Ö-A' }
+];
+
 export const pageOptions = [
     { label: '10', value: '10' },
     { label: '25', value: '25' },

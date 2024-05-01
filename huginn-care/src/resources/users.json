@@ -1,0 +1,35 @@
+[
+    {
+       "address1":"Fakeville 123",
+       "address2":"",
+       "city":"Fakejavík",
+       "country":"ísland",
+       "createdAt":"2024-03-05T13:58:47.441Z",
+       "deletedAt":null,
+       "departments":[
+          [
+             "Object"
+          ]
+       ],
+       "email":"fake@fake.is",
+       "emergencyName":" ",
+       "emergencyPhone":" ",
+       "id":2,
+       "lastLoggedIn":"2024-04-30T13:40:33.283Z",
+       "name":"Fake McFake Fakeson",
+       "other":"",
+       "password":"",
+       "phone":"1234567",
+       "postal":"123",
+       "ssn":"123456-7890",
+       "type":"user",
+       "updatedAt":"2024-04-30T13:40:33.283Z",
+       "user_department_pivot":{
+          "createdAt":"2024-03-05T13:58:47.517Z",
+          "departmentId":1,
+          "updatedAt":"2024-03-05T13:58:47.517Z",
+          "userId":2
+       },
+       "username":"fake1"
+    }
+ ]

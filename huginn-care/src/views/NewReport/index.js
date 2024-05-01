@@ -11,6 +11,9 @@ import { getAllDepartments } from '../../services/departmentService';
 import { getAllUsers } from '../../services/userService';
 import { greenBlue } from '../../styles/colors';
 import { beforeOptions, categoryOptionsA, clientOptionsA, departmentOptionsA, pageOptions, shiftOptions, typeOptions, userOptions } from '../../components/Options';
+import departmentsJson from '../../resources/departments.json';
+import clientsJson from '../../resources/clients.json';
+import usersJson from '../../resources/users.json';
 
 const NewReport = ({ navigation: { navigate } }) => {
     const [reportType, setReportType] = useState('');
@@ -51,11 +54,14 @@ const NewReport = ({ navigation: { navigate } }) => {
 
     useEffect(() => {
         (async () => {
-            const usersData = await getAllUsers();
-            const clientsData = await getAllClients();
-            setDepartments(await getAllDepartments() || []);
-            setUsers(usersData.filter(user => user.user_department_pivot.departmentId === department));
-            setClients(clientsData.filter(client => client.client_department_pivot.departmentId === department));
+            // const usersData = await getAllUsers();
+            // const clientsData = await getAllClients();
+            // setDepartments(await getAllDepartments() || []);
+            // setUsers(usersData.filter(user => user.user_department_pivot.departmentId === department));
+            // setClients(clientsData.filter(client => client.client_department_pivot.departmentId === department));
+            setDepartments(departmentsJson);
+            setUsers(usersJson.filter(user => user.user_department_pivot.departmentId === department));
+            setClients(clientsJson.filter(client => client.client_department_pivot.departmentId === department));
             setIsLoading(false);
         })();
     }, [isFocused, department]);

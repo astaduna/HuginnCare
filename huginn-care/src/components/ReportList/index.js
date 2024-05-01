@@ -10,6 +10,9 @@ import { getAllUsers } from '../../services/userService';
 import Report from '../Report';
 import { greenBlue } from '../../styles/colors';
 import { categoryOptionsB, clientOptionsB, departmentOptionsB, pageOptions, userOptionsB } from '../Options';
+import departmentsJson from '../../resources/departments.json';
+import clientsJson from '../../resources/clients.json';
+import usersJson from '../../resources/users.json';
 
 const ReportList = ({ 
     reports, 
@@ -44,15 +47,18 @@ const ReportList = ({
     useEffect(() => {
         (async () => {
             if (isFiltered) {
-                const usersData = await getAllUsers();
-                const clientsData = await getAllClients();
-                setDepartments(await getAllDepartments() || []);
-                setUsers(usersData.filter(user => user.user_department_pivot.departmentId === departmentValue));
-                setClients(clientsData.filter(client => client.client_department_pivot.departmentId === departmentValue));
+                // const usersData = await getAllUsers();
+                // const clientsData = await getAllClients();
+                // setDepartments(await getAllDepartments() || []);
+                // setUsers(usersData.filter(user => user.user_department_pivot.departmentId === departmentValue));
+                // setClients(clientsData.filter(client => client.client_department_pivot.departmentId === departmentValue));
+                setDepartments(departmentsJson);
+                setUsers(usersJson.filter(user => user.user_department_pivot.departmentId === departmentValue));
+                setClients(clientsJson.filter(client => client.client_department_pivot.departmentId === departmentValue));
             }
         })();
     }, [departmentValue]);
-
+    
     const handleNextPage = () => {
         setCurrentPage(prevPage => prevPage + 1);
     };

@@ -1,0 +1,35 @@
+[
+    {
+       "address1":"Fakeville 123",
+       "address2":"",
+       "city":"Fakejavík",
+       "country":"ísland",
+       "email":"fake@fake.is",
+       "id":1,
+       "name":"Fakedeild 1",
+       "phone":"1234567",
+       "postal":"123"
+    },
+    {
+       "address1":"Fakegerði 123",
+       "address2":"",
+       "city":"Fakeureyri",
+       "country":"ísland",
+       "email":"fake2@fake2.is",
+       "id":2,
+       "name":"Fakedeild 2",
+       "phone":"2345679",
+       "postal":"234"
+    },
+    {
+       "address1":"Fakestræti 123",
+       "address2":"",
+       "city":"Fakefjörður",
+       "country":"ísland",
+       "email":"fake3@fake3.is",
+       "id":3,
+       "name":"Fakedeild 3",
+       "phone":"3456789",
+       "postal":"345"
+    }
+ ]

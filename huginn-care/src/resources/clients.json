@@ -1,32 +1,308 @@
 [
     {
-      "nafn": "Daníel Daníelsson",
-      "kennitala": "4444449999",
-      "deild": "Fakedeild 1"
+       "address1":"Daníelstræti 123",
+       "address2":"",
+       "city":"Fakeureyri",
+       "client_department_pivot":{
+          "clientId":3,
+          "createdAt":"2024-03-05T14:04:13.115Z",
+          "departmentId":1,
+          "updatedAt":"2024-03-05T14:04:13.115Z"
+       },
+       "color":"#99ff99",
+       "contracts":[
+          
+       ],
+       "country":"ísland",
+       "createdAt":"2024-03-05T14:04:13.044Z",
+       "deletedAt":null,
+       "departments":[
+          [
+             "Object"
+          ]
+       ],
+       "email":"daniel@fake.is",
+       "emergencyEmail":"daniel_mamma@fake.is",
+       "emergencyName":"Daníel Mamma",
+       "emergencyPhone":"6543212",
+       "id":3,
+       "name":"Daníel Daníelsson",
+       "other":"",
+       "phone":"5678555",
+       "postal":"456",
+       "ssn":"444444-9999",
+       "updatedAt":"2024-03-22T22:55:46.791Z"
     },
     {
-        "nafn": "Lísa Stjánadóttir",
-        "kennitala": "3333339999",
-        "deild": "Fakedeild 1"
+       "address1":"Fakegrund 342",
+       "address2":"",
+       "city":"Fakejavík",
+       "client_department_pivot":{
+          "clientId":5,
+          "createdAt":"2024-03-11T10:42:42.517Z",
+          "departmentId":2,
+          "updatedAt":"2024-03-11T10:42:42.517Z"
+       },
+       "color":"#ffffff",
+       "contracts":[
+          
+       ],
+       "country":"ísland",
+       "createdAt":"2024-03-11T10:42:42.446Z",
+       "deletedAt":null,
+       "departments":[
+          [
+             "Object"
+          ]
+       ],
+       "email":"",
+       "emergencyEmail":"gunnur@fake.is",
+       "emergencyName":"Gunnur Gunnarsdóttir",
+       "emergencyPhone":"1234567",
+       "id":5,
+       "name":"Gunnar Gunnarsson",
+       "other":"",
+       "phone":"1234567",
+       "postal":"123",
+       "ssn":"987654-9999",
+       "updatedAt":"2024-03-11T10:42:42.446Z"
     },
     {
-        "nafn": "Stjáni Grímsson",
-        "kennitala": "2222229999",
-        "deild": "Fakedeild 1"
+       "address1":"Fakemýri 123",
+       "address2":"",
+       "city":"Fakevogur",
+       "client_department_pivot":{
+          "clientId":6,
+          "createdAt":"2024-03-11T10:43:59.199Z",
+          "departmentId":2,
+          "updatedAt":"2024-03-11T10:43:59.199Z"
+       },
+       "color":"#ffffff",
+       "contracts":[
+          
+       ],
+       "country":"ísland",
+       "createdAt":"2024-03-11T10:43:59.127Z",
+       "deletedAt":null,
+       "departments":[
+          [
+             "Object"
+          ]
+       ],
+       "email":"",
+       "emergencyEmail":"hannes@fake.is",
+       "emergencyName":"Hannes Línasson",
+       "emergencyPhone":"1234567",
+       "id":6,
+       "name":"Hannes Hannesson",
+       "other":"",
+       "phone":"",
+       "postal":"123",
+       "ssn":"324236-9999",
+       "updatedAt":"2024-03-11T10:43:59.127Z"
     },
     {
-        "nafn": "Anna Banana",
-        "kennitala": "1111119999",
-        "deild": "Fakedeild 2"
+       "address1":"Fakemúlar 453",
+       "address2":"",
+       "city":"Fakejavík",
+       "client_department_pivot":{
+          "clientId":8,
+          "createdAt":"2024-03-11T10:47:43.480Z",
+          "departmentId":3,
+          "updatedAt":"2024-03-11T10:47:43.480Z"
+       },
+       "color":"#ffffff",
+       "contracts":[
+          
+       ],
+       "country":"ísland",
+       "createdAt":"2024-03-11T10:47:13.501Z",
+       "deletedAt":null,
+       "departments":[
+          [
+             "Object"
+          ]
+       ],
+       "email":"",
+       "emergencyEmail":"gudmundur@fake.is",
+       "emergencyName":"Guðmundur Marínsson",
+       "emergencyPhone":"7832476",
+       "id":8,
+       "name":"Kristín Guðmundsdóttir",
+       "other":"",
+       "phone":"",
+       "postal":"738",
+       "ssn":"328643-9999",
+       "updatedAt":"2024-03-11T10:47:13.501Z"
     },
     {
-        "nafn": "Hannah Montana",
-        "kennitala": "1234569999",
-        "deild": "Fakedeild 2"
+       "address1":"Lísagerði 987",
+       "address2":"",
+       "city":"Fakevík",
+       "client_department_pivot":{
+          "clientId":2,
+          "createdAt":"2024-03-05T14:02:13.369Z",
+          "departmentId":1,
+          "updatedAt":"2024-03-05T14:02:13.369Z"
+       },
+       "color":"#ffffff",
+       "contracts":[
+          
+       ],
+       "country":"ísland",
+       "createdAt":"2024-03-05T14:02:13.292Z",
+       "deletedAt":null,
+       "departments":[
+          [
+             "Object"
+          ]
+       ],
+       "email":"lisa@fake.is",
+       "emergencyEmail":"lisa_mamma@fake.is",
+       "emergencyName":"Lísu Pabbi",
+       "emergencyPhone":"4444449",
+       "id":2,
+       "name":"Lísa Stjánadóttir",
+       "other":"",
+       "phone":"5678900",
+       "postal":"234",
+       "ssn":"333333-9999",
+       "updatedAt":"2024-03-26T10:35:57.931Z"
     },
     {
-        "nafn": "Havana Savannah",
-        "kennitala": "1234567890",
-        "deild": "Fakedeild 3"
+       "address1":"Fakestræti 234",
+       "address2":"",
+       "city":"Fakestaðir",
+       "client_department_pivot":{
+          "clientId":4,
+          "createdAt":"2024-03-11T10:41:00.245Z",
+          "departmentId":2,
+          "updatedAt":"2024-03-11T10:41:00.245Z"
+       },
+       "color":"#ffffff",
+       "contracts":[
+          
+       ],
+       "country":"ísland",
+       "createdAt":"2024-03-11T10:41:00.171Z",
+       "deletedAt":null,
+       "departments":[
+          [
+             "Object"
+          ]
+       ],
+       "email":"",
+       "emergencyEmail":"friðrik@fake.is",
+       "emergencyName":"Friðrik Friðriksson",
+       "emergencyPhone":"1234567",
+       "id":4,
+       "name":"María Friðriksdóttir",
+       "other":"",
+       "phone":"1234567",
+       "postal":"432",
+       "ssn":"678901-9999",
+       "updatedAt":"2024-03-11T10:41:00.171Z"
+    },
+    {
+       "address1":"Fakevogur 343",
+       "address2":"",
+       "city":"Fakebær",
+       "client_department_pivot":{
+          "clientId":9,
+          "createdAt":"2024-03-11T10:50:53.893Z",
+          "departmentId":3,
+          "updatedAt":"2024-03-11T10:50:53.893Z"
+       },
+       "color":"#ffffff",
+       "contracts":[
+          
+       ],
+       "country":"ísland",
+       "createdAt":"2024-03-11T10:50:53.800Z",
+       "deletedAt":null,
+       "departments":[
+          [
+             "Object"
+          ]
+       ],
+       "email":"",
+       "emergencyEmail":"birna@fake.is",
+       "emergencyName":"Birna Brynjarsdóttir",
+       "emergencyPhone":"1278387",
+       "id":9,
+       "name":"Nikulás Hafsteinsson",
+       "other":"",
+       "phone":"",
+       "postal":"542",
+       "ssn":"782347-8123",
+       "updatedAt":"2024-03-11T10:50:53.800Z"
+    },
+    {
+       "address1":"Fakevegur 122",
+       "address2":"",
+       "city":"Fakebær",
+       "client_department_pivot":{
+          "clientId":7,
+          "createdAt":"2024-03-11T10:45:24.997Z",
+          "departmentId":3,
+          "updatedAt":"2024-03-11T10:45:24.997Z"
+       },
+       "color":"#ffffff",
+       "contracts":[
+          
+       ],
+       "country":"ísland",
+       "createdAt":"2024-03-11T10:45:24.926Z",
+       "deletedAt":null,
+       "departments":[
+          [
+             "Object"
+          ]
+       ],
+       "email":"",
+       "emergencyEmail":"ragn@fake.is",
+       "emergencyName":"Ragna Ragnarsdóttir",
+       "emergencyPhone":"2173721",
+       "id":7,
+       "name":"Ragnheiður Ragnarsdóttir",
+       "other":"",
+       "phone":"",
+       "postal":"123",
+       "ssn":"123123-9999",
+       "updatedAt":"2024-03-11T10:45:24.926Z"
+    },
+    {
+       "address1":"Stjánagerði 123",
+       "address2":"",
+       "city":"Fakejavík",
+       "client_department_pivot":{
+          "clientId":1,
+          "createdAt":"2024-03-05T14:00:15.314Z",
+          "departmentId":1,
+          "updatedAt":"2024-03-05T14:00:15.314Z"
+       },
+       "color":"#ffffff",
+       "contracts":[
+          
+       ],
+       "country":"ísland",
+       "createdAt":"2024-03-05T14:00:15.202Z",
+       "deletedAt":null,
+       "departments":[
+          [
+             "Object"
+          ]
+       ],
+       "email":"fake@fake.is",
+       "emergencyEmail":"stjani@fake.is",
+       "emergencyName":"Stjána Mamma",
+       "emergencyPhone":"2222222",
+       "id":1,
+       "name":"Stjáni Grímsson",
+       "other":"",
+       "phone":"1234567",
+       "postal":"123",
+       "ssn":"222222-9999",
+       "updatedAt":"2024-03-05T14:02:28.657Z"
     }
-  ]
+ ]

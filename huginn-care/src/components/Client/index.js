@@ -4,7 +4,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { FontAwesome } from '@expo/vector-icons';
 import styles from './styles';
 
-const Client = ({ nafn, kennitala, deild, color, onColorChange }) => {
+const Client = ({ name, ssn, departments, color, onColorChange }) => {
     const colorOptions = [
         { label: 'Hvítur', value: '#ffffff' },
         { label: 'Grænn', value: '#99ff99' },
@@ -13,11 +13,11 @@ const Client = ({ nafn, kennitala, deild, color, onColorChange }) => {
     ];
 
     return (
-        <View key={nafn} style={styles.tableRow}>
+        <View key={name} style={styles.tableRow}>
             <View style={[styles.colorIndicator, { backgroundColor: color || '#ffffff' }]}></View>
-            <Text style={styles.tableCell}>{nafn}</Text>
-            <Text style={styles.tableCell}>{kennitala}</Text>
-            <Text style={styles.tableCell}>{deild}</Text>
+            <Text style={styles.tableCell}>{name}</Text>
+            <Text style={styles.tableCell}>{ssn}</Text>
+            <Text style={styles.tableCell}>{departments.name}</Text>
             <View style={styles.tableCell}>
                 <RNPickerSelect
                     placeholder={{ label: '...', value: null }}

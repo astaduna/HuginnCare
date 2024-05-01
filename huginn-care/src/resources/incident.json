@@ -1,0 +1,36 @@
+{
+    "alternative":"qqq",
+    "before":"Áreiti frá öðrum",
+    "client":{
+       "id":6,
+       "name":"Hannes Hannesson",
+       "ssn":"324236-9999"
+    },
+    "coercion":{
+       "alternative":"qqq",
+       "before":"Áreiti frá öðrum",
+       "damages":"",
+       "date":"2024-04-29T20:16:45.945Z",
+       "description":"aaa",
+       "id":1,
+       "important":false,
+       "whatHappened":"qqq"
+    },
+    "damages":"",
+    "date":"2024-04-29T20:16:45.945Z",
+    "department":{
+       "id":2,
+       "name":"Fakedeild 2"
+    },
+    "id":4,
+    "important":false,
+    "location":"qqq",
+    "other":"",
+    "response":"qqq",
+    "type":"Ógnandi hegðun",
+    "user":{
+       "id":1,
+       "name":"Molly Brown"
+    },
+    "whatHappened":"qqq"
+ }

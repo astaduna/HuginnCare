@@ -3,42 +3,31 @@ import styles from './styles';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
+import { getAllDepartments } from '../../services/departmentService';
 import Client from '../Client';
+import { departmentOptionsB, orderOptions, pageOptions, userOptionsB } from '../Options';
+import departmentsJson from '../../resources/departments.json';
 
 const ClientList = ({ clients }) => {
+    const [departments, setDepartments] = useState([]);
     const [searchFilter, setSearchFilter] = useState('');
     const [clientColors, setClientColors] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
 
-    const pageOptions = [
-        { label: '5', value: '5' },
-        { label: '10', value: '10' },
-        { label: '25', value: '25' },
-        { label: '50', value: '50' },
-        { label: '100', value: '100' }
-    ];
-
-    const orderOptions = [
-        { label: 'Nafn A-Ö', value: 'Nafn A-Ö' },
-        { label: 'Nafn Ö-A', value: 'Nafn Ö-A' },
-        { label: 'Deild A-Ö', value: 'Deild A-Ö' },
-        { label: 'Deild Ö-A', value: 'Deild Ö-A' }
-    ];
-
-    const departmentOptions = [
-        { label: 'Allar Deildir', value: 'Allar Deildir' },
-        { label: 'Fakedeild 1', value: 'Fakedeild 1' },
-        { label: 'Fakedeild 2', value: 'Fakedeild 2' },
-        { label: 'Fakedeild 3', value: 'Fakedeild 3' }
-    ];
-
     const [pageValue, setPageValue] = useState(pageOptions[0].value);
     const [orderValue, setOrderValue] = useState(orderOptions[0].value);
-    const [departmentValue, setDepartmentValue] = useState(departmentOptions[0].value);
+    const [departmentValue, setDepartmentValue] = useState(departmentOptionsB(departments)[0].value);
 
     useEffect(() => {
         setCurrentPage(1);
     }, [searchFilter, orderValue, departmentValue, pageValue]);
+
+    useEffect(() => {
+        (async () => {
+            setDepartments(await getAllDepartments() || []);
+            setDepartments(departmentsJson);
+        })();
+    }, [departmentValue]);
 
     const handleNextPage = () => {
         setCurrentPage(prevPage => prevPage + 1);
@@ -54,23 +43,24 @@ const ClientList = ({ clients }) => {
 
     const filteredClients = clients
         .sort((a, b) => {
+            console.log(a)
             if (orderValue === 'Nafn A-Ö') {
-                return a.nafn.localeCompare(b.nafn);
+                return a.name.localeCompare(b.name);
             } else if (orderValue === 'Nafn Ö-A') {
-                return b.nafn.localeCompare(a.nafn);
+                return b.name.localeCompare(a.name);
             } else if (orderValue === 'Deild A-Ö') {
-                return a.deild.localeCompare(b.deild);
+                return a.departments.name.localeCompare(b.departments.name);
             } else if (orderValue === 'Deild Ö-A') {
-                return b.deild.localeCompare(a.deild);
+                return b.departments.name.localeCompare(a.departments.name);
             }
-            return a.nafn.localeCompare(b.nafn);
+            return a.name.localeCompare(b.name);
         })
         .filter(client =>
-            client.nafn.toLowerCase().includes(searchFilter.toLowerCase()) ||
-            client.kennitala.includes(searchFilter)
+            client.name.toLowerCase().includes(searchFilter.toLowerCase()) ||
+            client.ssn.includes(searchFilter)
         )
         .filter(client =>
-            departmentValue === 'Allar Deildir' || departmentValue === null || client.deild === departmentValue
+            departmentValue === '' || departmentValue === null || client.client_department_pivot.departmentId === departmentValue
         );
 
     const startIndex = (currentPage - 1) * parseInt(pageValue);
@@ -121,7 +111,7 @@ const ClientList = ({ clients }) => {
                 <RNPickerSelect
                     style={styles.dropdown}
                     placeholder={{ label: '...', value: null }}
-                    items={departmentOptions}
+                    items={departmentOptionsB(departments)}
                     onValueChange={(value) => setDepartmentValue(value)}
                     value={departmentValue}
                     Icon={() => {
@@ -153,10 +143,10 @@ const ClientList = ({ clients }) => {
                             </View>
                             {paginatedClients.map(c => (
                                 <Client
-                                    key={c.nafn}
+                                    key={c.id}
                                     {...c}
-                                    color={clientColors[c.nafn]}
-                                    onColorChange={color => handleColorChange(c.nafn, color)}
+                                    color={clientColors[c.name]}
+                                    onColorChange={color => handleColorChange(c.name, color)}
                                 />
                             ))}
                             <View style={styles.pagination}>

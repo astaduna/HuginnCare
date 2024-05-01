@@ -1,1 +1,119 @@
-[{"alternative": "bla", "before": "Þjónustuþega sett mörk", "client": {"id": 2, "name": "Lísa Stjánadóttir", "ssn": "333333-9999"}, "coercion": null, "damages": "", "date": "2024-03-26T17:14:54.234Z", "department": {"id": 1, "name": "Fakedeild 1"}, "id": 2, "important": false, "location": "bla", "other": "bla", "response": "bla", "type": "Slys", "user": {"id": 2, "name": "Fake McFake Fakeson"}, "whatHappened": "bla"}, {"alternative": "...", "before": "Þjónustuþega sett mörk", "client": {"id": 1, "name": "Stjáni Grímsson", "ssn": "222222-9999"}, "coercion": null, "damages": "", "date": "2024-03-26T10:39:45.110Z", "department": {"id": 1, "name": "Fakedeild 1"}, "id": 1, "important": false, "location": "...", "other": "", "response": "...", "type": "Árás", "user": {"id": 2, "name": "Fake McFake Fakeson"}, "whatHappened": "..."}]
+[
+    {
+       "alternative":"qqq",
+       "before":"Áreiti frá öðrum",
+       "client":{
+          "id":6,
+          "name":"Hannes Hannesson",
+          "ssn":"324236-9999"
+       },
+       "coercion":{
+          "alternative":"qqq",
+          "before":"Áreiti frá öðrum",
+          "damages":"",
+          "date":"2024-04-29T20:16:45.945Z",
+          "description":"aaa",
+          "id":1,
+          "important":false,
+          "whatHappened":"qqq"
+       },
+       "damages":"",
+       "date":"2024-04-29T20:16:45.945Z",
+       "department":{
+          "id":2,
+          "name":"Fakedeild 2"
+       },
+       "id":4,
+       "important":false,
+       "location":"qqq",
+       "other":"",
+       "response":"qqq",
+       "type":"Ógnandi hegðun",
+       "user":{
+          "id":1,
+          "name":"Molly Brown"
+       },
+       "whatHappened":"qqq"
+    },
+    {
+       "alternative":"gsgd",
+       "before":"Sleppa úr aðstæðum eða verkefnum",
+       "client":{
+          "id":8,
+          "name":"Kristín Guðmundsdóttir",
+          "ssn":"328643-9999"
+       },
+       "coercion":null,
+       "damages":"",
+       "date":"2024-04-29T20:10:25.111Z",
+       "department":{
+          "id":3,
+          "name":"Fakedeild 3"
+       },
+       "id":3,
+       "important":false,
+       "location":"abc",
+       "other":"gsgsgf",
+       "response":"afaf",
+       "type":"Slys",
+       "user":{
+          "id":1,
+          "name":"Molly Brown"
+       },
+       "whatHappened":"dafa"
+    },
+    {
+       "alternative":"bla",
+       "before":"Þjónustuþega sett mörk",
+       "client":{
+          "id":2,
+          "name":"Lísa Stjánadóttir",
+          "ssn":"333333-9999"
+       },
+       "coercion":null,
+       "damages":"",
+       "date":"2024-03-26T17:14:54.234Z",
+       "department":{
+          "id":1,
+          "name":"Fakedeild 1"
+       },
+       "id":2,
+       "important":false,
+       "location":"bla",
+       "other":"bla",
+       "response":"bla",
+       "type":"Slys",
+       "user":{
+          "id":2,
+          "name":"Fake McFake Fakeson"
+       },
+       "whatHappened":"bla"
+    },
+    {
+       "alternative":"...",
+       "before":"Þjónustuþega sett mörk",
+       "client":{
+          "id":1,
+          "name":"Stjáni Grímsson",
+          "ssn":"222222-9999"
+       },
+       "coercion":null,
+       "damages":"",
+       "date":"2024-03-26T10:39:45.110Z",
+       "department":{
+          "id":1,
+          "name":"Fakedeild 1"
+       },
+       "id":1,
+       "important":false,
+       "location":"...",
+       "other":"",
+       "response":"...",
+       "type":"Árás",
+       "user":{
+          "id":2,
+          "name":"Fake McFake Fakeson"
+       },
+       "whatHappened":"..."
+    }
+ ]
