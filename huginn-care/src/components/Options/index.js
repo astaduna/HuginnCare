@@ -79,3 +79,10 @@ export const userOptionsB = (users) => [{
     value: '' 
 },
 ...userOptionsA(users)];
+
+export const colorOptions = [
+    { label: 'Hvítur', value: '#ffffff' },
+    { label: 'Grænn', value: '#99ff99' },
+    { label: 'Gulur', value: '#ffff66' },
+    { label: 'Rauður', value: '#ff3300' }
+];

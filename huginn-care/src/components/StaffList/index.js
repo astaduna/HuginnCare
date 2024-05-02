@@ -4,25 +4,12 @@ import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import Staff from '../Staff';
+import departmentsJson from '../../resources/departments.json';
+import { pageOptions, orderOptions, departmentOptionsB } from '../Options';
 
 const StaffList = ({ staffs }) => {
     const [searchFilter, setSearchFilter] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-
-    const pageOptions = [
-        { label: '5', value: '5' },
-        { label: '10', value: '10' },
-        { label: '25', value: '25' },
-        { label: '50', value: '50' },
-        { label: '100', value: '100' }
-    ];
-
-    const orderOptions = [
-        { label: 'Nafn A-Ö', value: 'Nafn A-Ö' },
-        { label: 'Nafn Ö-A', value: 'Nafn Ö-A' },
-        { label: 'Deild A-Ö', value: 'Deild A-Ö' },
-        { label: 'Deild Ö-A', value: 'Deild Ö-A' }
-    ];
 
     const departmentOptions = [
         { label: 'Allar Deildir', value: 'Allar Deildir' },
@@ -54,18 +41,18 @@ const StaffList = ({ staffs }) => {
     const filteredStaffs = staffs
         .sort((a, b) => {
             if (orderValue === 'Nafn A-Ö') {
-                return a.nafn.localeCompare(b.nafn);
+                return a.name.localeCompare(b.name);
             } else if (orderValue === 'Nafn Ö-A') {
-                return b.nafn.localeCompare(a.nafn);
+                return b.name.localeCompare(a.name);
             } else if (orderValue === 'Deild A-Ö') {
                 return a.deild.localeCompare(b.deild);
             } else if (orderValue === 'Deild Ö-A') {
                 return b.deild.localeCompare(a.deild);
             }
-            return a.nafn.localeCompare(b.nafn);
+            return a.name.localeCompare(b.name);
         })
         .filter(client =>
-            client.nafn.toLowerCase().includes(searchFilter.toLowerCase())
+            client.name.toLowerCase().includes(searchFilter.toLowerCase())
         )
         .filter(client =>
             departmentValue === 'Allar Deildir' || departmentValue === null || client.deild === departmentValue
@@ -143,8 +130,9 @@ const StaffList = ({ staffs }) => {
                             </View>
                             {paginatedStaffs.map(s => (
                                 <Staff
-                                    key={s.nafn}
+                                    key={s.name}
                                     {...s}
+                                    departments={departmentsJson.find(department => department.id === s.user_department_pivot.departmentId)}
                                 />
                             ))}
                             <View style={styles.pagination}>

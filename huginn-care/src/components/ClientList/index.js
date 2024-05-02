@@ -24,7 +24,7 @@ const ClientList = ({ clients }) => {
 
     useEffect(() => {
         (async () => {
-            setDepartments(await getAllDepartments() || []);
+            // setDepartments(await getAllDepartments() || []);
             setDepartments(departmentsJson);
         })();
     }, [departmentValue]);
@@ -43,7 +43,6 @@ const ClientList = ({ clients }) => {
 
     const filteredClients = clients
         .sort((a, b) => {
-            console.log(a)
             if (orderValue === 'Nafn A-Ö') {
                 return a.name.localeCompare(b.name);
             } else if (orderValue === 'Nafn Ö-A') {
@@ -145,7 +144,8 @@ const ClientList = ({ clients }) => {
                                 <Client
                                     key={c.id}
                                     {...c}
-                                    color={clientColors[c.name]}
+                                    departments={departmentsJson.find(department => department.id === c.client_department_pivot.departmentId)}
+                                    color={clientColors[c.name] || c.color}
                                     onColorChange={color => handleColorChange(c.name, color)}
                                 />
                             ))}

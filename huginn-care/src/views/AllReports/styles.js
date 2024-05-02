@@ -3,15 +3,14 @@ import { blueIcon, greenGradient, greenIcon, yellowIcon } from '../../styles/col
 
 export default StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 15
+        flex: 1
     },
     section: {
-        paddingTop: 10
+        padding: 15
     },
     formFrame: {
         marginTop: 10,
-        marginBottom: 5,
+        marginBottom: 40,
         padding: 20,
         margin: 15,
         borderColor: 'gainsboro',

@@ -4,13 +4,13 @@ import RNPickerSelect from 'react-native-picker-select';
 import { FontAwesome } from '@expo/vector-icons';
 import styles from './styles';
 
-const Staff = ({ nafn, deild, simanumer, starfsheiti }) => {
+const Staff = ({ name, departments, phone, type }) => {
     return (
-        <View key={nafn} style={styles.tableRow}>
-            <Text style={styles.tableCell}>{nafn}</Text>
-            <Text style={styles.tableCell}><Text style={styles.departments}>{deild}</Text></Text>
-            <Text style={styles.tableCell}>{simanumer}</Text>
-            <Text style={styles.tableCell}>{starfsheiti}</Text>
+        <View key={name} style={styles.tableRow}>
+            <Text style={styles.tableCell}>{name}</Text>
+            <Text style={styles.tableCell}><Text style={styles.departments}>{departments.name}</Text></Text>
+            <Text style={styles.tableCell}>{phone}</Text>
+            <Text style={styles.tableCell}>{type === 'user' ? 'alm. notandi' : ''}</Text>
             <View style={[styles.tableCell, { flex: 0.3 }]}>
                 <View>
                     <Text onPress={() => {}}>👁️</Text>

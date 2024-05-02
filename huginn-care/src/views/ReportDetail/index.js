@@ -19,7 +19,6 @@ const ReportDetail = ({ route }) => {
     const [isLoading, setIsLoading] = useState(true);
     const scrollViewRef = useRef();
     const [selectedSection, setSelectedSection] = useState('');
-    const [scrollPosition, setScrollPosition] = useState(0);
     
     const scrollToSection = (section) => {
         if (scrollViewRef.current) {
@@ -42,7 +41,6 @@ const ReportDetail = ({ route }) => {
 
     const handleScroll = (event) => {
         const currentPosition = event.nativeEvent.contentOffset.y;
-        setScrollPosition(currentPosition);
 
         if (currentPosition < section2 - 30) {
             setSelectedSection(section1);
@@ -103,7 +101,7 @@ const ReportDetail = ({ route }) => {
                             </View>
                             <View style={styles.detailItem}>
                                 <Text style={styles.inputTitle}>Tegund vaktar</Text>
-                                <Text style={[styles.input, report.shift ? styles.greenBorder : styles.input]}>{report.shift === 'day' ? 'Dagvakt' : 'Næturvakt'}</Text>
+                                <Text style={[styles.input, report.shift ? styles.greenBorder : styles.input]}>{report.shift === 'day' ? 'Dagvakt' : report.shift === 'evening' ? 'Kvöldvakt' : report.shift === 'evening' ? 'Kvöldvakt' : 'Næturvakt'}</Text>
                             </View>
                             <View style={styles.detailItem}>
                                 <Text style={styles.inputTitle}>Aðrir starfsmenn á vakt</Text>

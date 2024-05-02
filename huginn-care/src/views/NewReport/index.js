@@ -22,6 +22,7 @@ const NewReport = ({ navigation: { navigate } }) => {
     const [shiftType, setShiftType] = useState('');
     const [staffOnShift, setStaffOnShift] = useState('');
     const [medicineChecked, setMedicineChecked] = useState('');
+    const [medicineReason, setMedicineReason] = useState('');
     const [walkChecked, setWalkChecked] = useState('');
     const [diary, setDiary] = useState('');
     const [location, setLocation] = useState('');
@@ -31,6 +32,7 @@ const NewReport = ({ navigation: { navigate } }) => {
     const [response, setResponse] = useState('');
     const [alternative, setAlternative] = useState('');
     const [damages, setDamages] = useState('');
+    const [damagesInfo, setDamagesInfo] = useState('');
     const [other, setOther] = useState('');
     const [important, setImportant] = useState(false);
     const [physical, setPhysical] = useState('');
@@ -40,10 +42,9 @@ const NewReport = ({ navigation: { navigate } }) => {
     const [section3, setSection3] = useState();
     const scrollViewRef = useRef();
     const [selectedSection, setSelectedSection] = useState('');
-    const [scrollPosition, setScrollPosition] = useState(0);
-    const isDayReportEmpty = reportType === 'day' && (department === '' || client === '' || shiftType === '' || medicineChecked === '' || walkChecked === '');
+    const isDayReportEmpty = reportType === 'day' && (department === '' || shiftType === '' || (medicineChecked === '' || (medicineChecked === 'no' && medicineReason === '')) || walkChecked === '');
     const isIncidentEmpty = reportType === 'incident' && (department === '' || client === '' || shiftType === '' || location === '' || incidentType === '' ||
-    before === '' || whatHappened === '' || response === '' || alternative === '' || other === '');
+    before === '' || whatHappened === '' || response === '' || (damages === 'yes' && damagesInfo === '') || alternative === '' || other === '' || (physical === 'yes' && physicalInfo === ''));
     const isEmpty = reportType === '' || isDayReportEmpty || isIncidentEmpty;
 
     const isFocused = useIsFocused();
@@ -61,7 +62,7 @@ const NewReport = ({ navigation: { navigate } }) => {
             // setClients(clientsData.filter(client => client.client_department_pivot.departmentId === department));
             setDepartments(departmentsJson);
             setUsers(usersJson.filter(user => user.user_department_pivot.departmentId === department));
-            setClients(clientsJson.filter(client => client.client_department_pivot.departmentId === department));
+            setClients(clientsJson);
             setIsLoading(false);
         })();
     }, [isFocused, department]);
@@ -79,7 +80,6 @@ const NewReport = ({ navigation: { navigate } }) => {
 
     const handleScroll = (event) => {
         const currentPosition = event.nativeEvent.contentOffset.y;
-        setScrollPosition(currentPosition);
 
         if (currentPosition < section2 - 30) {
             setSelectedSection(section1);
@@ -267,6 +267,20 @@ const NewReport = ({ navigation: { navigate } }) => {
                             />
                             <Text>Nei</Text>
                         </View>
+                        { medicineChecked === 'no' 
+                            ? <>
+                                <Text style={styles.inputTitle}>Ástæða</Text>
+                                <TextInput
+                                    style={[styles.textInput, medicineReason ? styles.greenBorder : styles.textInput]}
+                                    keyboardType="default"
+                                    multiline={true}
+                                    onPress={() => Keyboard.dismiss()}
+                                    value={medicineReason}
+                                    onChangeText={setMedicineReason}
+                                />
+                            </>
+                            : <></>
+                        }
                         <View style={[styles.radioInput, medicineChecked === 'notRelevant' && styles.greenBorder]}>
                             <RadioButton
                                 value="notRelevant"
@@ -485,13 +499,13 @@ const NewReport = ({ navigation: { navigate } }) => {
                         { damages === 'yes'
                             ? <>
                                 <Text style={styles.inputTitle}>Lýsing á meiðslum eða skemdum</Text><TextInput
-                                    style={[styles.textInput, damages ? styles.greenBorder : styles.textInput]}
+                                    style={[styles.textInput, damagesInfo ? styles.greenBorder : styles.textInput]}
                                     placeholder=""
                                     keyboardType="default"
                                     multiline={true}
                                     onPress={() => Keyboard.dismiss()}
-                                    value={damages}
-                                    onChangeText={setDamages} /></>
+                                    value={damagesInfo}
+                                    onChangeText={setDamagesInfo} /></>
                             : <></> }
                         <Text style={styles.inputTitle}>Aðrar athugasemdir</Text>
                         <TextInput

@@ -21,10 +21,10 @@ const Reports = ({ navigation: { navigate } }) => {
 
     useEffect(() => {
         (async () => {
-            setReports(await getAllReports());
-            setIncidents(await getAllIncidents());
-            // setReports(reportsJson);
-            // setIncidents(incidentsJson);
+            // setReports(await getAllReports());
+            // setIncidents(await getAllIncidents());
+            setReports(reportsJson);
+            setIncidents(incidentsJson);
             setIsLoading(false);
         })();
     }, [isFocused]);

@@ -17,10 +17,10 @@ const AllReports = ({ navigation: { navigate } }) => {
 
     useEffect(() => {
         (async () => {
-            const reportsData = await getAllReports();
-            const incidentsData = await getAllIncidents();
-            setReports(reportsData.length > 0 ? reportsData : reportsJson);
-            setIncidents(incidentsData.length > 0 ? incidentsData : incidentsJson);
+            // setReports(await getAllReports());
+            // setIncidents(await getAllIncidents());
+            setReports(reportsJson);
+            setIncidents(incidentsJson);
             setIsLoading(false);
         })();
     }, [isFocused]);
@@ -29,10 +29,12 @@ const AllReports = ({ navigation: { navigate } }) => {
         <SafeAreaView style={styles.container}>
             { isLoading
                 ? <Spinner /> 
-                : <ScrollView style={styles.formFrame}>
-                    <Text style={styles.title}>Yfirlit yfir eldri skýrslur</Text>
-                    <ReportList reports={reports} incidents={incidents} 
-                        page={10} isPaginated={true} isFiltered={true} />
+                : <ScrollView style={styles.section}>
+                    <View style={styles.formFrame}>
+                        <Text style={styles.title}>Yfirlit yfir eldri skýrslur</Text>
+                        <ReportList reports={reports} incidents={incidents} 
+                            page={10} isPaginated={true} isFiltered={true} />
+                    </View>
                 </ScrollView>
             }
         </SafeAreaView>

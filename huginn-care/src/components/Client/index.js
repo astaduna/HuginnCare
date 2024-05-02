@@ -3,15 +3,9 @@ import { Text, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { FontAwesome } from '@expo/vector-icons';
 import styles from './styles';
+import { colorOptions } from '../Options';
 
 const Client = ({ name, ssn, departments, color, onColorChange }) => {
-    const colorOptions = [
-        { label: 'Hvítur', value: '#ffffff' },
-        { label: 'Grænn', value: '#99ff99' },
-        { label: 'Gulur', value: '#ffff66' },
-        { label: 'Rauður', value: '#ff3300' }
-    ];
-
     return (
         <View key={name} style={styles.tableRow}>
             <View style={[styles.colorIndicator, { backgroundColor: color || '#ffffff' }]}></View>

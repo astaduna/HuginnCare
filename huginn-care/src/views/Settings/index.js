@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { userState } from "../../components/LoginModal/user";
+import { userState } from '../../components/LoginModal/user';
 import { editSelfProfile } from '../../services/userService';
 import styles from './styles';
 
