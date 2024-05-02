@@ -158,6 +158,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                         <Text style={styles.title}>Skýrslu tegund</Text>
                     </View>
                     <RNPickerSelect
+                        useNativeAndroidPickerStyle={false}
                         style={{
                             inputIOS: [styles.input, reportType !== '' ? styles.greenBorder : styles.input],
                             inputAndroid: [styles.input, reportType !== '' ? styles.greenBorder : styles.input],
@@ -184,6 +185,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                         </View>
                         <Text style={styles.inputTitle}>Deild</Text>
                         <RNPickerSelect
+                            useNativeAndroidPickerStyle={false}
                             style={{
                                 inputIOS: [styles.input, department !== '' ? styles.greenBorder : styles.input],
                                 inputAndroid: [styles.input, department !== '' ? styles.greenBorder : styles.input],
@@ -204,6 +206,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                         />
                         <Text style={styles.inputTitle}>þjónustuþegi</Text>
                         <RNPickerSelect
+                            useNativeAndroidPickerStyle={false}
                             style={{
                                 inputIOS: [styles.input, client !== '' ? styles.greenBorder : styles.input],
                                 inputAndroid: [styles.input, client !== '' ? styles.greenBorder : styles.input],
@@ -224,6 +227,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                         />
                         <Text style={styles.inputTitle}>Tegund vaktar</Text>
                         <RNPickerSelect
+                            useNativeAndroidPickerStyle={false}
                             style={{
                                 inputIOS: [styles.input, shiftType !== '' ? styles.greenBorder : styles.input],
                                 inputAndroid: [styles.input, shiftType !== '' ? styles.greenBorder : styles.input],
@@ -340,6 +344,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                         </View>
                         <Text style={styles.inputTitle}>Deild</Text>
                         <RNPickerSelect
+                            useNativeAndroidPickerStyle={false}
                             style={{
                                 inputIOS: [styles.input, department !== '' ? styles.greenBorder : styles.input],
                                 inputAndroid: [styles.input, department !== '' ? styles.greenBorder : styles.input],
@@ -360,6 +365,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                         />
                         <Text style={styles.inputTitle}>þjónustuþegi</Text>
                         <RNPickerSelect
+                            useNativeAndroidPickerStyle={false}
                             style={{
                                 inputIOS: [styles.input, client !== '' ? styles.greenBorder : styles.input],
                                 inputAndroid: [styles.input, client !== '' ? styles.greenBorder : styles.input],
@@ -380,6 +386,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                         />
                         <Text style={styles.inputTitle}>Tegund vaktar</Text>
                         <RNPickerSelect
+                            useNativeAndroidPickerStyle={false}
                             style={{
                                 inputIOS: [styles.input, shiftType !== '' ? styles.greenBorder : styles.input],
                                 inputAndroid: [styles.input, shiftType !== '' ? styles.greenBorder : styles.input],
@@ -414,6 +421,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                         />
                         <Text style={styles.inputTitle}>Atvik sem um ræðir</Text>
                         <RNPickerSelect
+                            useNativeAndroidPickerStyle={false}
                             style={{
                                 inputIOS: [styles.input, incidentType !== '' ? styles.greenBorder : styles.input],
                                 inputAndroid: [styles.input, incidentType !== '' ? styles.greenBorder : styles.input],
@@ -434,6 +442,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                         />
                         <Text style={styles.inputTitle}>Aðdragandi atviks</Text>
                         <RNPickerSelect
+                            useNativeAndroidPickerStyle={false}
                             style={{
                                 inputIOS: [styles.input, before !== '' ? styles.greenBorder : styles.input],
                                 inputAndroid: [styles.input, before !== '' ? styles.greenBorder : styles.input],

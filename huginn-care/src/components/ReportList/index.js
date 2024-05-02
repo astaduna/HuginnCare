@@ -129,6 +129,7 @@ const ReportList = ({
                     <View>
                         <Text style={styles.inputTitle}>Raða eftir</Text>
                         <RNPickerSelect
+                            useNativeAndroidPickerStyle={false}
                             style={styles.dropdown}
                             placeholder={{ 
                                 label: 'Veldu deild', 
@@ -142,6 +143,7 @@ const ReportList = ({
                             }}
                         />
                         <RNPickerSelect
+                            useNativeAndroidPickerStyle={false}
                             style={styles.dropdown}
                             placeholder={{ 
                                 label: 'Veldu notanda', 
@@ -155,6 +157,7 @@ const ReportList = ({
                             }}
                         />
                         <RNPickerSelect
+                            useNativeAndroidPickerStyle={false}
                             style={styles.dropdown}
                             placeholder={{ 
                                 label: 'Veldu þjónustuþega', 
@@ -168,6 +171,7 @@ const ReportList = ({
                             }}
                         />
                         <RNPickerSelect
+                            useNativeAndroidPickerStyle={false}
                             style={styles.dropdown}
                             placeholder={{ 
                                 label: 'Veldu tegund skýrslu', 
@@ -197,13 +201,15 @@ const ReportList = ({
                                 todayBackgroundColor="#60d4d6"
                                 selectedDayColor={greenBlue}
                                 selectedDayTextColor="white"
-                                onDateChange={handleDate} />
+                                onDateChange={handleDate}
+                                width={350} />
                             : null
                         }
                         <Text style={styles.inputTitle}>Fjöldi á síðu</Text>
                         <RNPickerSelect
+                            useNativeAndroidPickerStyle={false}
                             style={styles.dropdown}
-                            placeholder={{ label: '...', value: '2' }}
+                            placeholder={{ label: 'Veldu fjölda', value: '' }}
                             items={pageOptions}
                             onValueChange={(value) => setPageValue(value)}
                             value={pageValue}

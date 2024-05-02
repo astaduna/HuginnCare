@@ -6,7 +6,7 @@ export default StyleSheet.create({
         flex: 1
     },
     section: {
-        padding: 15
+        padding: 5
     },
     formFrame: {
         marginTop: 10,

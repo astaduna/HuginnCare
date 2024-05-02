@@ -43,6 +43,7 @@ const ClientList = ({ clients }) => {
 
     const filteredClients = clients
         .sort((a, b) => {
+            console.log(a.departments)
             if (orderValue === 'Nafn A-Ö') {
                 return a.name.localeCompare(b.name);
             } else if (orderValue === 'Nafn Ö-A') {
@@ -85,6 +86,7 @@ const ClientList = ({ clients }) => {
             <View>
                 <Text style={styles.inputTitle}>Fjöldi á síðu</Text>
                 <RNPickerSelect
+                    useNativeAndroidPickerStyle={false}
                     style={styles.dropdown}
                     placeholder={{ label: '...', value: '2' }}
                     items={pageOptions}
@@ -98,6 +100,7 @@ const ClientList = ({ clients }) => {
             <View>
                 <Text style={styles.inputTitle}>Raða eftir</Text>
                 <RNPickerSelect
+                    useNativeAndroidPickerStyle={false}
                     style={styles.dropdown}
                     placeholder={{ label: '...', value: null }}
                     items={orderOptions}
@@ -108,6 +111,7 @@ const ClientList = ({ clients }) => {
                     }}
                 />
                 <RNPickerSelect
+                    useNativeAndroidPickerStyle={false}
                     style={styles.dropdown}
                     placeholder={{ label: '...', value: null }}
                     items={departmentOptionsB(departments)}

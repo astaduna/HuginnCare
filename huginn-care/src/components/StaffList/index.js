@@ -74,6 +74,7 @@ const StaffList = ({ staffs }) => {
             <View>
                 <Text style={styles.inputTitle}>Fjöldi á síðu</Text>
                 <RNPickerSelect
+                    useNativeAndroidPickerStyle={false}
                     style={styles.dropdown}
                     placeholder={{ label: '...', value: '2' }}
                     items={pageOptions}
@@ -87,6 +88,7 @@ const StaffList = ({ staffs }) => {
             <View>
                 <Text style={styles.inputTitle}>Raða eftir</Text>
                 <RNPickerSelect
+                    useNativeAndroidPickerStyle={false}
                     style={styles.dropdown}
                     placeholder={{ label: '...', value: null }}
                     items={orderOptions}
@@ -97,6 +99,7 @@ const StaffList = ({ staffs }) => {
                     }}
                 />
                 <RNPickerSelect
+                    useNativeAndroidPickerStyle={false}
                     style={styles.dropdown}
                     placeholder={{ label: '...', value: null }}
                     items={departmentOptions}

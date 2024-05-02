@@ -43,6 +43,9 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         color: darkGray
     },
+    calendar: {
+        width: '70%'
+    },
     select: {
         padding: 15,
         margin: 7,
