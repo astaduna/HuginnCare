@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, SafeAreaView } from 'react-native';
+import { getAllClients } from '../../services/clientService';
 import styles from './styles';
-import clients from '../../resources/clients.json';
+import clientsJson from '../../resources/clients.json';
 import ClientList from '../../components/ClientList';
 
 const Clients = ({ navigation: { navigate } }) => {
+    const [clients, setClients] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            setClients(await getAllClients() || []);
+            // console.log(clients)
+            // setClients(clientsJson);
+        })();
+    }, []);
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scrollContainer}>

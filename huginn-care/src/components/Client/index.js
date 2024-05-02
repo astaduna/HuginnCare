@@ -11,10 +11,10 @@ const Client = ({ name, ssn, departments, color, onColorChange }) => {
             <View style={[styles.colorIndicator, { backgroundColor: color || '#ffffff' }]}></View>
             <Text style={styles.tableCell}>{name}</Text>
             <Text style={styles.tableCell}>{ssn}</Text>
-            <Text style={styles.tableCell}>{departments.name}</Text>
+            <Text style={styles.tableCell}>{departments.map(department => department.name).join(', ')}</Text>
             <View style={styles.tableCell}>
                 <RNPickerSelect
-                    placeholder={{ label: '...', value: null }}
+                    placeholder={{ label: 'Veldu lit', value: null }}
                     items={colorOptions}
                     value={color || '#ffffff'}
                     onValueChange={(value) => onColorChange(value)}

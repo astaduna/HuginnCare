@@ -3,28 +3,30 @@ import styles from './styles';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
+import { getAllDepartments } from '../../services/departmentService';
 import Staff from '../Staff';
 import departmentsJson from '../../resources/departments.json';
 import { pageOptions, orderOptions, departmentOptionsB } from '../Options';
 
 const StaffList = ({ staffs }) => {
+    const [departments, setDepartments] = useState([]);
     const [searchFilter, setSearchFilter] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
-    const departmentOptions = [
-        { label: 'Allar Deildir', value: 'Allar Deildir' },
-        { label: 'Fakedeild 1', value: 'Fakedeild 1' },
-        { label: 'Fakedeild 2', value: 'Fakedeild 2' },
-        { label: 'Fakedeild 3', value: 'Fakedeild 3' }
-    ];
-
     const [pageValue, setPageValue] = useState(pageOptions[0].value);
     const [orderValue, setOrderValue] = useState(orderOptions[0].value);
-    const [departmentValue, setDepartmentValue] = useState(departmentOptions[0].value);
+    const [departmentValue, setDepartmentValue] = useState(departmentOptionsB(departments)[0].value);
 
     useEffect(() => {
         setCurrentPage(1);
     }, [searchFilter, orderValue, departmentValue, pageValue]);
+
+    useEffect(() => {
+        (async () => {
+            // setDepartments(await getAllDepartments() || []);
+            setDepartments(departmentsJson);
+        })();
+    }, []);
 
     const handleNextPage = () => {
         setCurrentPage(prevPage => prevPage + 1);
@@ -45,17 +47,17 @@ const StaffList = ({ staffs }) => {
             } else if (orderValue === 'Nafn Ö-A') {
                 return b.name.localeCompare(a.name);
             } else if (orderValue === 'Deild A-Ö') {
-                return a.deild.localeCompare(b.deild);
+                return a.departments[0].name.localeCompare(b.departments[0].name);
             } else if (orderValue === 'Deild Ö-A') {
-                return b.deild.localeCompare(a.deild);
+                return b.departments[0].name.localeCompare(a.departments[0].name);
             }
             return a.name.localeCompare(b.name);
         })
-        .filter(client =>
-            client.name.toLowerCase().includes(searchFilter.toLowerCase())
+        .filter(staff =>
+            staff.name.toLowerCase().includes(searchFilter.toLowerCase())
         )
-        .filter(client =>
-            departmentValue === 'Allar Deildir' || departmentValue === null || client.deild === departmentValue
+        .filter(staff =>
+            departmentValue === '' || departmentValue === null || staff.departments.map(department => department.id).includes(departmentValue)
         );
 
     const startIndex = (currentPage - 1) * parseInt(pageValue);
@@ -76,7 +78,10 @@ const StaffList = ({ staffs }) => {
                 <RNPickerSelect
                     useNativeAndroidPickerStyle={false}
                     style={styles.dropdown}
-                    placeholder={{ label: '...', value: '2' }}
+                    placeholder={{ 
+                        label: 'Veldu fjölda', 
+                        value: '' 
+                    }}
                     items={pageOptions}
                     onValueChange={(value) => setPageValue(value)}
                     value={pageValue}
@@ -90,7 +95,10 @@ const StaffList = ({ staffs }) => {
                 <RNPickerSelect
                     useNativeAndroidPickerStyle={false}
                     style={styles.dropdown}
-                    placeholder={{ label: '...', value: null }}
+                    placeholder={{ 
+                        label: 'Veldu röð', 
+                        value: '' 
+                    }}
                     items={orderOptions}
                     onValueChange={(value) => setOrderValue(value)}
                     value={orderValue}
@@ -101,8 +109,11 @@ const StaffList = ({ staffs }) => {
                 <RNPickerSelect
                     useNativeAndroidPickerStyle={false}
                     style={styles.dropdown}
-                    placeholder={{ label: '...', value: null }}
-                    items={departmentOptions}
+                    placeholder={{ 
+                        label: 'Veldu deild', 
+                        value: '' 
+                    }}
+                    items={departmentOptionsB(departments)}
                     onValueChange={(value) => setDepartmentValue(value)}
                     value={departmentValue}
                     Icon={() => {
@@ -133,9 +144,9 @@ const StaffList = ({ staffs }) => {
                             </View>
                             {paginatedStaffs.map(s => (
                                 <Staff
-                                    key={s.name}
+                                    key={s.id}
                                     {...s}
-                                    departments={departmentsJson.find(department => department.id === s.user_department_pivot.departmentId)}
+                                    departments={s.departments}
                                 />
                             ))}
                             <View style={styles.pagination}>

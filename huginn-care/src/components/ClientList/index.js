@@ -27,7 +27,7 @@ const ClientList = ({ clients }) => {
             // setDepartments(await getAllDepartments() || []);
             setDepartments(departmentsJson);
         })();
-    }, [departmentValue]);
+    }, []);
 
     const handleNextPage = () => {
         setCurrentPage(prevPage => prevPage + 1);
@@ -43,15 +43,14 @@ const ClientList = ({ clients }) => {
 
     const filteredClients = clients
         .sort((a, b) => {
-            console.log(a.departments)
             if (orderValue === 'Nafn A-Ö') {
                 return a.name.localeCompare(b.name);
             } else if (orderValue === 'Nafn Ö-A') {
                 return b.name.localeCompare(a.name);
             } else if (orderValue === 'Deild A-Ö') {
-                return a.departments.name.localeCompare(b.departments.name);
+                return a.departments[0].name.localeCompare(b.departments[0].name);
             } else if (orderValue === 'Deild Ö-A') {
-                return b.departments.name.localeCompare(a.departments.name);
+                return b.departments[0].name.localeCompare(a.departments[0].name);
             }
             return a.name.localeCompare(b.name);
         })
@@ -60,7 +59,7 @@ const ClientList = ({ clients }) => {
             client.ssn.includes(searchFilter)
         )
         .filter(client =>
-            departmentValue === '' || departmentValue === null || client.client_department_pivot.departmentId === departmentValue
+            departmentValue === '' || departmentValue === null || client.departments.map(department => department.id).includes(departmentValue)
         );
 
     const startIndex = (currentPage - 1) * parseInt(pageValue);
@@ -88,7 +87,10 @@ const ClientList = ({ clients }) => {
                 <RNPickerSelect
                     useNativeAndroidPickerStyle={false}
                     style={styles.dropdown}
-                    placeholder={{ label: '...', value: '2' }}
+                    placeholder={{ 
+                        label: 'Veldu fjölda', 
+                        value: '' 
+                    }}
                     items={pageOptions}
                     onValueChange={(value) => setPageValue(value)}
                     value={pageValue}
@@ -102,7 +104,10 @@ const ClientList = ({ clients }) => {
                 <RNPickerSelect
                     useNativeAndroidPickerStyle={false}
                     style={styles.dropdown}
-                    placeholder={{ label: '...', value: null }}
+                    placeholder={{ 
+                        label: 'Veldu röð', 
+                        value: '' 
+                    }}
                     items={orderOptions}
                     onValueChange={(value) => setOrderValue(value)}
                     value={orderValue}
@@ -113,7 +118,10 @@ const ClientList = ({ clients }) => {
                 <RNPickerSelect
                     useNativeAndroidPickerStyle={false}
                     style={styles.dropdown}
-                    placeholder={{ label: '...', value: null }}
+                    placeholder={{ 
+                        label: 'Veldu deild', 
+                        value: null 
+                    }}
                     items={departmentOptionsB(departments)}
                     onValueChange={(value) => setDepartmentValue(value)}
                     value={departmentValue}
@@ -148,7 +156,7 @@ const ClientList = ({ clients }) => {
                                 <Client
                                     key={c.id}
                                     {...c}
-                                    departments={departmentsJson.find(department => department.id === c.client_department_pivot.departmentId)}
+                                    departments={c.departments}
                                     color={clientColors[c.name] || c.color}
                                     onColorChange={color => handleColorChange(c.name, color)}
                                 />

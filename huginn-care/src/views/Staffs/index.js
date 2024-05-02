@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, SafeAreaView } from 'react-native';
 import styles from './styles';
 import { getAllUsers } from '../../services/userService';
-import staffsJson from '../../resources/users.json';
+import usersJson from '../../resources/users.json';
 import StaffList from '../../components/StaffList';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -12,8 +12,8 @@ const Staffs = ({ navigation: { navigate } }) => {
 
     useEffect(() => {
         (async () => {
-            // setStaffs(await getAllUsers());
-            setStaffs(staffsJson);
+            setStaffs(await getAllUsers());
+            // setStaffs(usersJson);
         })();
     }, [isFocused]);
 
