@@ -6,6 +6,8 @@ import Checkbox from 'expo-checkbox';
 import { FontAwesome } from '@expo/vector-icons';
 import RadioButton from '../../components/RadioButton';
 import styles from './styles';
+import { createIncident } from '../../services/incidentService';
+import { createReport } from '../../services/reportService';
 import { getAllClients } from '../../services/clientService';
 import { getAllDepartments } from '../../services/departmentService';
 import { getAllUsers } from '../../services/userService';
@@ -16,15 +18,15 @@ import clientsJson from '../../resources/clients.json';
 import usersJson from '../../resources/users.json';
 
 const NewReport = ({ navigation: { navigate } }) => {
+    const date = new Date();
     const [reportType, setReportType] = useState('');
     const [department, setDepartment] = useState('');
     const [client, setClient] = useState('');
     const [shiftType, setShiftType] = useState('');
     const [staffOnShift, setStaffOnShift] = useState('');
     const [medicineChecked, setMedicineChecked] = useState('');
-    const [medicineReason, setMedicineReason] = useState('');
     const [walkChecked, setWalkChecked] = useState('');
-    const [diary, setDiary] = useState('');
+    const [entry, setEntry] = useState('');
     const [location, setLocation] = useState('');
     const [incidentType, setIncidentType] = useState('');
     const [before, setBefore] = useState('');
@@ -35,16 +37,16 @@ const NewReport = ({ navigation: { navigate } }) => {
     const [damagesInfo, setDamagesInfo] = useState('');
     const [other, setOther] = useState('');
     const [important, setImportant] = useState(false);
-    const [physical, setPhysical] = useState('');
-    const [physicalInfo, setPhysicalInfo] = useState('');
+    const [coercion, setCoercion] = useState('');
+    const [coercionInfo, setCoercionInfo] = useState('');
     const [section1, setSection1] = useState();
     const [section2, setSection2] = useState();
     const [section3, setSection3] = useState();
     const scrollViewRef = useRef();
     const [selectedSection, setSelectedSection] = useState('');
-    const isDayReportEmpty = reportType === 'day' && (department === '' || shiftType === '' || (medicineChecked === '' || (medicineChecked === 'no' && medicineReason === '')) || walkChecked === '');
+    const isDayReportEmpty = reportType === 'day' && (department === '' || shiftType === '' || medicineChecked === '' || walkChecked === '');
     const isIncidentEmpty = reportType === 'incident' && (department === '' || client === '' || shiftType === '' || location === '' || incidentType === '' ||
-    before === '' || whatHappened === '' || response === '' || (damages === 'yes' && damagesInfo === '') || alternative === '' || other === '' || (physical === 'yes' && physicalInfo === ''));
+    before === '' || whatHappened === '' || response === '' || (damages === 'yes' && damagesInfo === '') || alternative === '' || other === '' || (coercion === 'yes' && coercionInfo === ''));
     const isEmpty = reportType === '' || isDayReportEmpty || isIncidentEmpty;
 
     const isFocused = useIsFocused();
@@ -91,7 +93,53 @@ const NewReport = ({ navigation: { navigate } }) => {
     };
 
     const createReport = () => {
-        console.log(department, client, shiftType);
+        const report = {
+            date: '2024-02-23T13:15',
+            departmentID: '2',
+            clientID: '2',
+            shift: 'night',
+            onShift: 'Bjarni',
+            draft: 'false'
+        };
+        if (reportType === 'day') {
+            const day = {
+                ...report,
+                medicine: 'false',
+                medicineReason: 'gleimdist',
+                clientReason: 'sofnaði yfir sjónvarpinu sem hann fékk að horfa á fyrir að hafa gengið frá eftir mat.',
+                entry: 'Átti almennt góðan dag, en er búinn að vera syfjulegur í allan dag. Missti aðeins stjórn á skapinu sínu fyrir kvöldkaffið, en var líka bara orðinn þreittur og svangur.'
+            };
+            // console.log(date, department, client, shiftType, staffOnShift, medicineChecked, walkChecked, entry);
+        } if (reportType === 'incident') {
+            const incident = {
+                ...report,
+                alternative: 'qqq',
+                before: 'Áreiti frá öðrum',
+                coercion: {
+                    alternative: 'qqq',
+                    before: 'Áreiti frá öðrum',
+                    damages: '',
+                    date: '2024-04-29T20:16:45.945Z',
+                    description: 'aaa',
+                    id: 1,
+                    important: false,
+                    whatHappened: 'qqq'
+                },
+                damages: '',
+                date: '2024-04-29T20:16:45.945Z',
+                important: false,
+                location: 'qqq',
+                other: '',
+                response: 'qqq',
+                type: 'Ógnandi hegðun',
+                user: {
+                    id: 1,
+                    name: 'Molly Brown'
+                },
+                whatHappened: 'qqq'
+            };
+            // console.log(date, department, client, shiftType, location, incidentType, before, whatHappened, response, alternative, (damages, damagesInfo), other, (coercion, coercionInfo));
+        }
     };
 
     useEffect(() => {
@@ -103,7 +151,7 @@ const NewReport = ({ navigation: { navigate } }) => {
             setStaffOnShift('');
             setMedicineChecked('');
             setWalkChecked('');
-            setDiary('');
+            setEntry('');
             setLocation('');
             setBefore('');
             setIncidentType('');
@@ -154,9 +202,9 @@ const NewReport = ({ navigation: { navigate } }) => {
             
             <ScrollView ref={scrollViewRef} style={styles.detailsContainer} onScroll={handleScroll} scrollEventThrottle={16}>
                 <View style={styles.formFrame}>
-                    <View style={styles.titleWrapper}>
-                        <Text style={styles.title}>Skýrslu tegund</Text>
-                    </View>
+                    <Text style={styles.input}>{ date.toLocaleDateString('en-GB') }</Text>
+                </View>
+                <View style={styles.formFrame}>
                     <RNPickerSelect
                         useNativeAndroidPickerStyle={false}
                         style={{
@@ -180,6 +228,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                 </View>
                 { reportType === 'day'
                     ? <><View onLayout={(event) => { setSection1(event.nativeEvent.layout.y); }} style={styles.formFrame}>
+                        
                         <View style={styles.titleWrapper}>
                             <Text style={styles.title}>Almennar upplýsingar</Text>
                         </View>
@@ -271,20 +320,6 @@ const NewReport = ({ navigation: { navigate } }) => {
                             />
                             <Text>Nei</Text>
                         </View>
-                        { medicineChecked === 'no' 
-                            ? <>
-                                <Text style={styles.inputTitle}>Ástæða</Text>
-                                <TextInput
-                                    style={[styles.textInput, medicineReason ? styles.greenBorder : styles.textInput]}
-                                    keyboardType="default"
-                                    multiline={true}
-                                    onPress={() => Keyboard.dismiss()}
-                                    value={medicineReason}
-                                    onChangeText={setMedicineReason}
-                                />
-                            </>
-                            : <></>
-                        }
                         <View style={[styles.radioInput, medicineChecked === 'notRelevant' && styles.greenBorder]}>
                             <RadioButton
                                 value="notRelevant"
@@ -325,12 +360,13 @@ const NewReport = ({ navigation: { navigate } }) => {
                             <Text style={styles.paragraph}>ATH: Samkvæmt gildandi lögum um persónuvernd þá getur þjónustuþegi fengið afrit af öllum upplýsingum sem skrifaðar eru um hann.
                                     Starfsmenn skulu því vanda orðaval sitt. Ef þeir eru í vafa ber að hafa samband við deildarstjóra.</Text>
                             <TextInput
-                                style={[styles.textInput, diary ? styles.greenBorder : styles.textInput]}
+                                style={[styles.textInput, entry ? styles.greenBorder : styles.textInput]}
                                 keyboardType="default"
                                 multiline={true}
                                 onPress={() => Keyboard.dismiss()}
-                                value={diary}
-                                onChangeText={setDiary}
+                                value={entry}
+                                onChangeText={setEntry}
+                                textAlignVertical='top'
                             />
                         </View>
                     </View>
@@ -469,6 +505,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                             onPress={() => Keyboard.dismiss()}
                             value={whatHappened}
                             onChangeText={setWhatHappened}
+                            textAlignVertical='top'
                         />
                         <Text style={styles.inputTitle}>Hvernig var brugðist við atvikinu</Text>
                         <TextInput
@@ -478,6 +515,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                             onPress={() => Keyboard.dismiss()}
                             value={response}
                             onChangeText={setResponse}
+                            textAlignVertical='top'
                         />
                         <Text style={styles.inputTitle}>Hvað væri hægt að gera öðruvísi</Text>
                         <TextInput
@@ -487,6 +525,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                             onPress={() => Keyboard.dismiss()}
                             value={alternative}
                             onChangeText={setAlternative}
+                            textAlignVertical='top'
                         />
                         <Text style={styles.inputTitle}>Meiddist einhver eða skemmdist eitthvað</Text>
                         <View style={[styles.radioInput, damages === 'yes' && styles.greenBorder]}>
@@ -524,6 +563,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                             onPress={() => Keyboard.dismiss()}
                             value={other}
                             onChangeText={setOther}
+                            textAlignVertical='top'
                         />
                         <Text style={styles.inputTitle}>Áríðandi upplýsingar</Text>
                         <><Checkbox
@@ -538,32 +578,32 @@ const NewReport = ({ navigation: { navigate } }) => {
                             <Text style={styles.title}>Líkamlegt inngrip</Text>
                         </View>
                         <Text style={styles.inputTitle}>Þurfti líkamlegt inngrip?</Text>
-                        <View style={[styles.radioInput, physical === 'yes' && styles.greenBorder]}>
+                        <View style={[styles.radioInput, coercion === 'yes' && styles.greenBorder]}>
                             <RadioButton
                                 value="yes"
-                                status={physical}
-                                onPress={() => setPhysical('yes')}
+                                status={coercion}
+                                onPress={() => setCoercion('yes')}
                             />
                             <Text>Já</Text>
                         </View>
-                        <View style={[styles.radioInput, physical === '' && styles.greenBorder]}>
+                        <View style={[styles.radioInput, coercion === '' && styles.greenBorder]}>
                             <RadioButton
                                 value=""
-                                status={physical}
-                                onPress={() => setPhysical('')}
+                                status={coercion}
+                                onPress={() => setCoercion('')}
                             />
                             <Text>Nei</Text>
                         </View>
-                        { physical === 'yes'
+                        { coercion === 'yes'
                             ? <>
                                 <Text style={styles.inputTitle}>Lýsing á eðli inngrips</Text><TextInput
-                                    style={[styles.textInput, physicalInfo ? styles.greenBorder : styles.textInput]}
+                                    style={[styles.textInput, coercionInfo ? styles.greenBorder : styles.textInput]}
                                     placeholder=""
                                     keyboardType="default"
                                     multiline={true}
                                     onPress={() => Keyboard.dismiss()}
-                                    value={physicalInfo}
-                                    onChangeText={setPhysicalInfo} /></>
+                                    value={coercionInfo}
+                                    onChangeText={setCoercionInfo} /></>
                             : <></> }
                     </View>
                     </>
