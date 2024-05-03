@@ -20,10 +20,10 @@ import usersJson from '../../resources/users.json';
 const NewReport = ({ navigation: { navigate } }) => {
     const date = new Date();
     const [reportType, setReportType] = useState('');
-    const [department, setDepartment] = useState('');
-    const [client, setClient] = useState('');
-    const [shiftType, setShiftType] = useState('');
-    const [staffOnShift, setStaffOnShift] = useState('');
+    const [departmentID, setDepartmentID] = useState('');
+    const [clientID, setClientID] = useState('');
+    const [shift, setShift] = useState('');
+    const [onShift, setOnShift] = useState('');
     const [medicineChecked, setMedicineChecked] = useState('');
     const [walkChecked, setWalkChecked] = useState('');
     const [entry, setEntry] = useState('');
@@ -44,30 +44,25 @@ const NewReport = ({ navigation: { navigate } }) => {
     const [section3, setSection3] = useState();
     const scrollViewRef = useRef();
     const [selectedSection, setSelectedSection] = useState('');
-    const isDayReportEmpty = reportType === 'day' && (department === '' || shiftType === '' || medicineChecked === '' || walkChecked === '');
-    const isIncidentEmpty = reportType === 'incident' && (department === '' || client === '' || shiftType === '' || location === '' || incidentType === '' ||
+    const isDeptOrClientEmpty = departmentID === '' || clientID === '';
+    const isDayReportEmpty = reportType === 'day' && (isDeptOrClientEmpty || shift === '' || medicineChecked === '' || walkChecked === '');
+    const isIncidentEmpty = reportType === 'incident' && (isDeptOrClientEmpty || shift === '' || location === '' || incidentType === '' ||
     before === '' || whatHappened === '' || response === '' || (damages === 'yes' && damagesInfo === '') || alternative === '' || other === '' || (coercion === 'yes' && coercionInfo === ''));
     const isEmpty = reportType === '' || isDayReportEmpty || isIncidentEmpty;
 
     const isFocused = useIsFocused();
-    const [isLoading, setIsLoading] = useState(true);
     const [departments, setDepartments] = useState([]);
-    const [users, setUsers] = useState([]);
     const [clients, setClients] = useState([]);
 
     useEffect(() => {
         (async () => {
-            // const usersData = await getAllUsers();
             // const clientsData = await getAllClients();
             // setDepartments(await getAllDepartments() || []);
-            // setUsers(usersData.filter(user => user.user_department_pivot.departmentId === department));
-            // setClients(clientsData.filter(client => client.client_department_pivot.departmentId === department));
+            // setClients(clientsData.filter(clientID => clientID.client_department_pivot.departmentId === departmentID));
             setDepartments(departmentsJson);
-            setUsers(usersJson.filter(user => user.user_department_pivot.departmentId === department));
             setClients(clientsJson);
-            setIsLoading(false);
         })();
-    }, [isFocused, department]);
+    }, [isFocused, departmentID]);
 
     const scrollToSection = (section) => {
         if (scrollViewRef.current) {
@@ -92,24 +87,23 @@ const NewReport = ({ navigation: { navigate } }) => {
         }
     };
 
-    const createReport = () => {
+    const createNewReport = async (isDraft) => {
         const report = {
-            date: '2024-02-23T13:15',
-            departmentID: '2',
-            clientID: '2',
-            shift: 'night',
-            onShift: 'Bjarni',
-            draft: 'false'
+            date,
+            departmentID,
+            clientID,
+            shift,
+            onShift,
+            draft: isDraft ? 'true' : 'false'
         };
         if (reportType === 'day') {
             const day = {
                 ...report,
-                medicine: 'false',
-                medicineReason: 'gleimdist',
-                clientReason: 'sofnaði yfir sjónvarpinu sem hann fékk að horfa á fyrir að hafa gengið frá eftir mat.',
-                entry: 'Átti almennt góðan dag, en er búinn að vera syfjulegur í allan dag. Missti aðeins stjórn á skapinu sínu fyrir kvöldkaffið, en var líka bara orðinn þreittur og svangur.'
+                medicine: medicineChecked ? 'true' : 'false',
+                clientReason: walkChecked ? '' : '',
+                entry
             };
-            // console.log(date, department, client, shiftType, staffOnShift, medicineChecked, walkChecked, entry);
+            const isCreated = await createReport(day);
         } if (reportType === 'incident') {
             const incident = {
                 ...report,
@@ -138,17 +132,17 @@ const NewReport = ({ navigation: { navigate } }) => {
                 },
                 whatHappened: 'qqq'
             };
-            // console.log(date, department, client, shiftType, location, incidentType, before, whatHappened, response, alternative, (damages, damagesInfo), other, (coercion, coercionInfo));
+            // console.log(date, departmentID, clientID, shift, location, incidentType, before, whatHappened, response, alternative, (damages, damagesInfo), other, (coercion, coercionInfo));
         }
     };
 
     useEffect(() => {
         // Reset state variables based on reportType change
         if (reportType === '' || reportType === 'day' || reportType === 'incident') {
-            setDepartment('');
-            setClient('');
-            setShiftType('');
-            setStaffOnShift('');
+            setDepartmentID('');
+            setClientID('');
+            setShift('');
+            setOnShift('');
             setMedicineChecked('');
             setWalkChecked('');
             setEntry('');
@@ -236,8 +230,8 @@ const NewReport = ({ navigation: { navigate } }) => {
                         <RNPickerSelect
                             useNativeAndroidPickerStyle={false}
                             style={{
-                                inputIOS: [styles.input, department !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, department !== '' ? styles.greenBorder : styles.input],
+                                inputIOS: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
+                                inputAndroid: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
                                 iconContainer: {
                                     top: 25,
                                     right: 20
@@ -247,7 +241,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 label: 'Veldu deild', 
                                 value: ''
                             }}
-                            onValueChange={(value) => setDepartment(value)}
+                            onValueChange={(value) => setDepartmentID(value)}
                             items={departmentOptionsA(departments)}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
@@ -257,8 +251,8 @@ const NewReport = ({ navigation: { navigate } }) => {
                         <RNPickerSelect
                             useNativeAndroidPickerStyle={false}
                             style={{
-                                inputIOS: [styles.input, client !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, client !== '' ? styles.greenBorder : styles.input],
+                                inputIOS: [styles.input, clientID !== '' ? styles.greenBorder : styles.input],
+                                inputAndroid: [styles.input, clientID !== '' ? styles.greenBorder : styles.input],
                                 iconContainer: {
                                     top: 25,
                                     right: 20
@@ -268,7 +262,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 label: 'Veldu þjónustuþega', 
                                 value: '' 
                             }}
-                            onValueChange={(value) => setClient(value)}
+                            onValueChange={(value) => setClientID(value)}
                             items={clientOptionsA(clients)}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
@@ -278,8 +272,8 @@ const NewReport = ({ navigation: { navigate } }) => {
                         <RNPickerSelect
                             useNativeAndroidPickerStyle={false}
                             style={{
-                                inputIOS: [styles.input, shiftType !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, shiftType !== '' ? styles.greenBorder : styles.input],
+                                inputIOS: [styles.input, shift !== '' ? styles.greenBorder : styles.input],
+                                inputAndroid: [styles.input, shift !== '' ? styles.greenBorder : styles.input],
                                 iconContainer: {
                                     top: 25,
                                     right: 20
@@ -289,7 +283,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 label: 'Veldu vakt', 
                                 value: '' 
                             }}
-                            onValueChange={(value) => setShiftType(value)}
+                            onValueChange={(value) => setShift(value)}
                             items={shiftOptions}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
@@ -297,11 +291,11 @@ const NewReport = ({ navigation: { navigate } }) => {
                         />
                         <Text style={styles.inputTitle}>Starfsmenn á vakt</Text>
                         <TextInput
-                            style={[styles.input, staffOnShift ? styles.greenBorder : styles.input]}
+                            style={[styles.input, onShift ? styles.greenBorder : styles.input]}
                             placeholder="Skrifaðu inn nöfn starfsmanna"
                             keyboardType="default"
-                            value={staffOnShift}
-                            onChangeText={setStaffOnShift}
+                            value={onShift}
+                            onChangeText={setOnShift}
                         />
                         <Text style={styles.inputTitle}>Voru lyf gefin?</Text>
                         <View style={[styles.radioInput, medicineChecked === 'yes' && styles.greenBorder]}>
@@ -382,8 +376,8 @@ const NewReport = ({ navigation: { navigate } }) => {
                         <RNPickerSelect
                             useNativeAndroidPickerStyle={false}
                             style={{
-                                inputIOS: [styles.input, department !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, department !== '' ? styles.greenBorder : styles.input],
+                                inputIOS: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
+                                inputAndroid: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
                                 iconContainer: {
                                     top: 25,
                                     right: 20
@@ -393,7 +387,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 label: 'Veldu deild', 
                                 value: ''
                             }}
-                            onValueChange={(value) => setDepartment(value)}
+                            onValueChange={(value) => setDepartmentID(value)}
                             items={departmentOptionsA(departments)}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
@@ -403,8 +397,8 @@ const NewReport = ({ navigation: { navigate } }) => {
                         <RNPickerSelect
                             useNativeAndroidPickerStyle={false}
                             style={{
-                                inputIOS: [styles.input, client !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, client !== '' ? styles.greenBorder : styles.input],
+                                inputIOS: [styles.input, clientID !== '' ? styles.greenBorder : styles.input],
+                                inputAndroid: [styles.input, clientID !== '' ? styles.greenBorder : styles.input],
                                 iconContainer: {
                                     top: 25,
                                     right: 20
@@ -414,7 +408,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 label: 'Veldu þjónustuþega', 
                                 value: '' 
                             }}
-                            onValueChange={(value) => setClient(value)}
+                            onValueChange={(value) => setClientID(value)}
                             items={clientOptionsA(clients)}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
@@ -424,8 +418,8 @@ const NewReport = ({ navigation: { navigate } }) => {
                         <RNPickerSelect
                             useNativeAndroidPickerStyle={false}
                             style={{
-                                inputIOS: [styles.input, shiftType !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, shiftType !== '' ? styles.greenBorder : styles.input],
+                                inputIOS: [styles.input, shift !== '' ? styles.greenBorder : styles.input],
+                                inputAndroid: [styles.input, shift !== '' ? styles.greenBorder : styles.input],
                                 iconContainer: {
                                     top: 25,
                                     right: 20
@@ -435,7 +429,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 label: 'Veldu tegund vaktar', 
                                 value: '' 
                             }}
-                            onValueChange={(value) => setShiftType(value)}
+                            onValueChange={(value) => setShift(value)}
                             items={shiftOptions}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
@@ -611,8 +605,14 @@ const NewReport = ({ navigation: { navigate } }) => {
                 }
             </ScrollView>
             <TouchableOpacity
+                style={isDeptOrClientEmpty ? styles.disabledButton2 : styles.button2}
+                onPress={() => createNewReport(true)}
+                disabled={isDeptOrClientEmpty}>
+                <Text style={styles.buttonText}>Vista sem drög</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
                 style={isEmpty ? styles.disabledButton : styles.button}
-                onPress={createReport}
+                onPress={() => createNewReport(false)}
                 disabled={isEmpty}>
                 <Text style={styles.buttonText}>Stofna skýrslu  <Text style={styles.plus}>+</Text></Text>
             </TouchableOpacity>

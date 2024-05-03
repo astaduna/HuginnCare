@@ -30,14 +30,14 @@ const ReportDetail = ({ route }) => {
         setSelectedSection(section);
         scrollToSection(section);
     };
-    /* const [report, setReport] = useState(null);
+    // const [report, setReport] = useState(null);
 
-    useEffect(() => {
-        (async () => {
-            setReport(await getReportById(id));
-            setIsLoading(false);
-        })();
-    }, [isFocused]); */
+    // useEffect(() => {
+    //     (async () => {
+    //         setReport(await getReportById(id));
+    //         setIsLoading(false);
+    //     })();
+    // }, [isFocused]);
 
     const handleScroll = (event) => {
         const currentPosition = event.nativeEvent.contentOffset.y;
@@ -61,7 +61,7 @@ const ReportDetail = ({ route }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {report.length // isLoading
+            {!report // isLoading
                 ? <Spinner /> 
                 : <>
                     <View style={styles.jumpLinks}>

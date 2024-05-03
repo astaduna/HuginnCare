@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { greenBlue } from '../../styles/colors';
+import { greenBlue, yellowIcon } from '../../styles/colors';
 
 export default StyleSheet.create({
     container: {
@@ -133,11 +133,27 @@ export default StyleSheet.create({
         backgroundColor: greenBlue,
         zIndex: 10
     },
+    button2: {
+        position: 'absolute',
+        width: '100%',
+        padding: 20,
+        bottom: 70,
+        backgroundColor: 'gold',
+        zIndex: 10
+    },
     disabledButton: {
         position: 'absolute',
         width: '100%',
         padding: 20,
         bottom: 0,
+        backgroundColor: 'gainsboro',
+        zIndex: 10
+    },
+    disabledButton2: {
+        position: 'absolute',
+        width: '100%',
+        padding: 20,
+        bottom: 70,
         backgroundColor: 'gainsboro',
         zIndex: 10
     },

@@ -34,11 +34,11 @@ const ReportList = ({
     const [start, setStart] = useState(startDate);
     const [end, setEnd] = useState(endDate);
 
-    const [pageValue, setPageValue] = useState(page === 4 ? 4 : pageOptions[0].value);
-    const [categoryValue, setCategoryValue] = useState(categoryOptionsB[0].value);
-    const [departmentValue, setDepartmentValue] = useState(departmentOptionsB(departments)[0].value);
-    const [userValue, setUserValue] = useState(userOptionsB(users)[0].value);
-    const [clientValue, setClientValue] = useState(clientOptionsB(clients)[0].value);
+    const [pageValue, setPageValue] = useState(page);
+    const [categoryValue, setCategoryValue] = useState('');
+    const [departmentValue, setDepartmentValue] = useState('');
+    const [userValue, setUserValue] = useState('');
+    const [clientValue, setClientValue] = useState('');
 
     useEffect(() => {
         setCurrentPage(1);
@@ -97,13 +97,13 @@ const ReportList = ({
     const filteredReports = reportsTofilter
         .sort((a, b) => new Date(a.date) - new Date(b.date))
         .filter(report =>
-            departmentValue === '' || departmentValue === null || report.department.id === departmentValue
+            departmentValue === 'all' || departmentValue === '' || report.department.id === departmentValue
         )
         .filter(report =>
-            userValue === '' || userValue === null || report.user.id === userValue
+            userValue === 'all' || userValue === '' || report.user.id === userValue
         )
         .filter(report =>
-            clientValue === '' || clientValue === null || report.client.id === clientValue
+            clientValue === 'all' || clientValue === '' || report.client.id === clientValue
         )
         .filter(report => {
             const reportDate = new Date(report.date);
@@ -133,7 +133,7 @@ const ReportList = ({
                             style={styles.dropdown}
                             placeholder={{ 
                                 label: 'Veldu deild', 
-                                value: null
+                                value: ''
                             }}
                             items={departmentOptionsB(departments)}
                             onValueChange={(value) => setDepartmentValue(value)}
@@ -147,7 +147,7 @@ const ReportList = ({
                             style={styles.dropdown}
                             placeholder={{ 
                                 label: 'Veldu notanda', 
-                                value: null 
+                                value: '' 
                             }}
                             items={userOptionsB(users)}
                             onValueChange={(value) => setUserValue(value)}
@@ -161,7 +161,7 @@ const ReportList = ({
                             style={styles.dropdown}
                             placeholder={{ 
                                 label: 'Veldu þjónustuþega', 
-                                value: null 
+                                value: '' 
                             }}
                             items={clientOptionsB(clients)}
                             onValueChange={(value) => setClientValue(value)}
@@ -175,7 +175,7 @@ const ReportList = ({
                             style={styles.dropdown}
                             placeholder={{ 
                                 label: 'Veldu tegund skýrslu', 
-                                value: null 
+                                value: '' 
                             }}
                             items={categoryOptionsB}
                             onValueChange={(value) => setCategoryValue(value)}
@@ -209,7 +209,10 @@ const ReportList = ({
                         <RNPickerSelect
                             useNativeAndroidPickerStyle={false}
                             style={styles.dropdown}
-                            placeholder={{ label: 'Veldu fjölda', value: '' }}
+                            placeholder={{ 
+                                label: 'Veldu fjölda', 
+                                value: '' 
+                            }}
                             items={pageOptions}
                             onValueChange={(value) => setPageValue(value)}
                             value={pageValue}

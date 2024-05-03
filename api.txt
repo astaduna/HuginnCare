@@ -3,8 +3,6 @@ REPORTS:
 (users, moderators, admins)
 
 GET /reports/all
-	Returns all reports from departments that the user is a member of.
-
 	Possible query parameters:
 		departmentId
 		clientId
@@ -14,13 +12,16 @@ GET /reports/all
 		pageSize
 		page (zero indexed)
 
-/reports/drafts
-/reports/aggregate
-/reports/aggregatelist
+GET /reports/drafts
+
+GET /reports/aggregate
+
+GET /reports/aggregatelist
 
 GET /reports/one/:id
 
 GET /reports/create
+
 POST /reports/create
 	Example request body:
 		{
@@ -141,3 +142,351 @@ POST /reports/edit/:id
 (moderators, admins)
 
 POST /reports/remove/:id
+
+
+
+INCIDENTS:
+
+(users, moderators, admins)
+
+GET /incidents/create
+
+POST /incidents/create
+	request body:
+		incidentLocation
+		incidentTypeExplained
+		incidentType
+		incidentBefore
+		incidentExplained
+		incidentWhatHappened
+		incidentResponse
+		incidentDamages
+		incidentOther
+		incidentShift
+		draft
+		important
+		departmentID
+		isCoercion (if the incident included a coercion)
+		coercionDescription (if the incident included a coercion)
+
+GET /incidents/all
+	optional query parameters:
+		from
+		to
+		pageSize
+		page
+
+GET /coercions/all
+	optional query parameters:
+		from
+		to
+		pageSize
+		page
+
+GET /incidents/one/:id
+
+(moderators, admins)
+
+GET /incidents/edit/:id
+
+POST /incidents/edit/:id
+	request body:
+		incidentLocation
+		incidentTypeExplained
+		incidentType
+		incidentBefore
+		incidentExplained
+		incidentWhatHappened
+		incidentResponse
+		incidentDamages
+		incidentOther
+		incidentShift
+		important
+		departmentID
+		isCoercion (if the incident included a coercion)
+		coercionDescription (if the incident included a coercion)
+
+(admins)
+
+POST /incidents/remove/:id
+
+
+
+DEPARTMENTS:
+
+(moderators, admins)
+
+GET /departments/all
+	Possible query parameters:
+		orderBy
+		searchQuery
+		pageSize
+		page
+		departmentid
+
+POST /departments/addclient/:clientID
+	req body:
+		departmentID
+
+POST /departments/removeclient/:departmentID/:clientID
+
+
+(admins)
+
+GET /departments/create
+
+POST /departments/create
+	req body:
+		name
+		address1
+		address2
+		postal
+		city
+		country
+		phone
+		email
+
+POST /departments/adduser/:departmentID
+	req body:
+		userID
+
+POST /departments/removeuser/:departmentID/:userID
+
+GET /departments/edit/:id
+
+POST /departments/edit/:id
+	req body:
+		name
+		address1
+		address2
+		postal
+		city
+		country
+		phone
+		email
+
+POST /departments/remove/:id
+
+
+
+USERS:
+
+(users, moderators, admins)
+
+GET /users/all
+	possible query parameters:
+		orderBy
+		searchQuery
+		pageSize
+		page
+		departmentid
+
+GET /users/id/:id
+
+GET /users/editself
+
+POST /users/editself
+	req body:
+		password (can be left blank)
+		email (will only change if the user is moderator)
+		phone
+		address1
+		address2
+		postal
+		city
+		other
+		emergencyName
+		emergencyPhone
+
+(moderators, admins)
+
+GET /users/username/:username
+
+GET /users/create
+
+POST /users/create
+	req body:
+		username
+		password
+		type ('user', 'moderator', 'thirdparty', 'admin')
+		name
+		email
+		phone
+		ssn
+		address1
+		address2
+		postal
+		city
+		country
+		other
+		emergencyName
+		emergencyPhone
+
+GET /users/edit/:id
+
+POST /users/edit/:id
+	req body:
+		username
+		password
+		type ('user', 'moderator', 'thirdparty', 'admin')
+		name
+		email
+		phone
+		ssn
+		address1
+		address2
+		postal
+		city
+		country
+		other
+		emergencyName
+		emergencyPhone
+
+POST /users/adddepartment/:userID
+	req body:
+		departmentID
+
+POST /users/removedepartment/:userID/:departmentID
+
+POST /users/remove/:id
+
+GET /users/log/:id
+
+(admins)
+
+GET /users/logs
+
+
+
+CLIENTS:
+
+(users, moderators, admins)
+
+GET /clients/all
+	optional query parameters:
+		orderBy
+		pageSize
+		page
+		departmentid
+		searchQuery
+
+GET /clients/edit/:id
+
+POST /clients/changecolor/:id
+	req body:
+		color
+
+(moderators, admins)
+
+GET /clients/create
+
+POST /clients/create
+	name
+	ssn
+	email
+	phone
+	address1
+	address2
+	postal
+	city
+	country
+	other
+	emergencyName
+	emergencyPhone
+	emergencyEmail
+
+POST /clients/edit/:id
+	req body:
+		name
+		ssn
+		email
+		phone
+		address1
+		address2
+		postal
+		city
+		country
+		other
+		color
+		emergencyName
+		emergencyPhone
+		emergencyEmail
+
+POST /clients/addquestion/:id
+	req body:
+		info
+
+POST /clients/addcontract/:id
+	req body:
+		info
+		shift
+
+GET /clients/editcontract/:id/:contractID
+
+GET /clients/editquestion/:id/:questionID
+
+POST /clients/editcontract/:id/:contractID
+	req body:
+		info
+		shift
+		active (true/false)
+
+POST /clients/editquestion/:id/:questionID
+	req body:
+		info
+		active (true/false)
+
+POST /clients/addclient2behavior/:id
+	req body:
+		behaviorID
+
+POST /clients/addclient2behaviorcategory/:id
+	req body:
+		behaviorcategoryID
+
+POST /clients/addbehavior/:id
+	req body:
+		info
+		type (int/string/bool)
+		multi (true/false)
+
+GET /clients/editbehavior/:id/:behaviorID
+
+POST /clients/editbehavior/:id/:behaviorID
+	req body:
+		info
+		type (int/string/bool)
+		multi (true/false)
+		active (true/false)
+
+POST /clients/removebehavior/:id/:behaviorID
+
+POST /clients/addclient2evaluation/:id
+	req body:
+		evaluationID
+
+POST /clients/addclient2evaluationcategory/:id
+	req body:
+		evaluationcategoryID
+
+POST /clients/addevaluation/:id
+	req body:
+		info
+
+GET /clients/editevaluation/:id/:evaluationID
+
+POST /clients/editevaluation/:id/:evaluationID
+	req body:
+		info
+		multi (true/false)
+		active (true/false)
+
+(admins)
+
+POST /clients/remove/:id
+
+POST /clients/removecontract/:id/:contractID
+
+POST /clients/removequestion/:id/:questionID
+
+POST /clients/removeevaluation/:id/:evaluationID

@@ -7,26 +7,16 @@ import styles from './styles';
 import moment from 'moment';
 
 const Report = ({ 
-    client, clientId, clientReason, 
-    createdAt, 
     date, 
-    deletedAt, 
-    department, departmentId, 
-    draft, 
-    entry, 
-    id, 
-    important, 
-    medicine, medicineReason, 
-    onShift, shift, 
-    updatedAt, 
-    user, userId,
+    id,  
+    user,
     type
 }) => {
     const { navigate } = useNavigation();
 
     return (
         <TouchableOpacity onPress={() => navigate('ReportDetail', { id })}>
-            <View key={clientId} style={styles.tableRow}>
+            <View key={id} style={styles.tableRow}>
                 <Text style={[styles.tableCell, { flex: 1.2 }]}>{moment(new Date(date)).format('DD/MM/YYYY HH:MM')}</Text>
                 <Text style={[styles.tableCell, { flex: 1.1 }]}>{type}</Text>
                 <Text style={styles.tableCell}>{(user.name).split(' ').map(n => n.charAt(0)).join('.')}</Text>

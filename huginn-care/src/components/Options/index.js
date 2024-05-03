@@ -11,7 +11,7 @@ export const categoryOptionsA = [
 ];
 
 export const categoryOptionsB = [
-    { label: 'Allar Tegundir', value: '' },
+    { label: 'Allar Tegundir', value: 'all' },
     ...categoryOptionsA,
     { label: 'Atvikaskýrslur með líkamlegu inngripi', value: 'coercion' }
 ];
@@ -22,11 +22,10 @@ export const clientOptionsA = (clients) =>
         value: client.id
     })).sort((a, b) => a.label.localeCompare(b.label));
 
-export const clientOptionsB = (clients) => [{ 
-    label: 'Allir Þjónustuþegar', 
-    value: '' 
-},
-...clientOptionsA(clients)];
+export const clientOptionsB = (clients) => [
+    { label: 'Allir Þjónustuþegar', value: 'all' },
+    ...clientOptionsA(clients)
+];
 
 export const departmentOptionsA = (departments) =>  
     departments.map(department => ({
@@ -34,11 +33,10 @@ export const departmentOptionsA = (departments) =>
         value: department.id
     })).sort((a, b) => a.label.localeCompare(b.label));
 
-export const departmentOptionsB = (departments) => [{ 
-    label: 'Allar Deildir', 
-    value: '' 
-},
-...departmentOptionsA(departments)];
+export const departmentOptionsB = (departments) => [
+    { label: 'Allar Deildir', value: 'all' },
+    ...departmentOptionsA(departments)
+];
 
 export const orderOptions = [
     { label: 'Nafn A-Ö', value: 'Nafn A-Ö' },
@@ -74,11 +72,10 @@ export const userOptionsA = (users) =>
         value: user.id
     })).sort((a, b) => a.label.localeCompare(b.label));
 
-export const userOptionsB = (users) => [{ 
-    label: 'Allir Notendur', 
-    value: '' 
-},
-...userOptionsA(users)];
+export const userOptionsB = (users) => [
+    { label: 'Allir Notendur', value: 'all' },
+    ...userOptionsA(users)
+];
 
 export const colorOptions = [
     { label: 'Hvítur', value: '#ffffff' },

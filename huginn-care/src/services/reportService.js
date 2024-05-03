@@ -93,8 +93,20 @@ export const getReportById = async (id) => {
 // Function to create a new report
 export const createReport = async (reportData) => {
     try {
-        const response = await fetch(`${API_URL}/reports/create`, reportData);
-        return response.data;
+        const cookies = await AsyncStorage.getItem('sessionCookies');
+        const response = await fetch(`${API_URL}/reports/create`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Cookie: cookies || ''
+            },
+            body: JSON.stringify(reportData)
+        });
+        if (response.ok) {
+            return true;
+        }
+        throw new Error('Failed to create report');
     } catch (error) {
         throw error.response.data;
     }
