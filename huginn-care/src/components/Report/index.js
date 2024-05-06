@@ -15,9 +15,9 @@ const Report = ({
     const { navigate } = useNavigation();
 
     return (
-        <TouchableOpacity onPress={() => navigate('ReportDetail', { id })}>
+        <TouchableOpacity onPress={() => navigate('ReportDetail', { id, type })}>
             <View key={id} style={styles.tableRow}>
-                <Text style={[styles.tableCell, { flex: 1.2 }]}>{moment(new Date(date)).format('DD/MM/YYYY HH:MM')}</Text>
+                <Text style={[styles.tableCell, { flex: 1.2 }]}>{moment(new Date(date)).format('DD/MM/YYYY HH:mm')}</Text>
                 <Text style={[styles.tableCell, { flex: 1.1 }]}>{type}</Text>
                 <Text style={styles.tableCell}>{(user.name).split(' ').map(n => n.charAt(0)).join('.')}</Text>
                 <Text style={[styles.tableCell, { flex: 0.1, alignSelf: 'flex-end', fontWeight: 'bold' }]}>&gt;</Text>

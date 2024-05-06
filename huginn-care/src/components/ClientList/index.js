@@ -24,8 +24,8 @@ const ClientList = ({ clients }) => {
 
     useEffect(() => {
         (async () => {
-            // setDepartments(await getAllDepartments() || []);
-            setDepartments(departmentsJson);
+            setDepartments(await getAllDepartments() || []);
+            // setDepartments(departmentsJson);
         })();
     }, []);
 
@@ -59,7 +59,7 @@ const ClientList = ({ clients }) => {
             client.ssn.includes(searchFilter)
         )
         .filter(client =>
-            departmentValue === '' || departmentValue === null || client.departments.map(department => department.id).includes(departmentValue)
+            departmentValue === 'all' || departmentValue === '' || client.departments.map(department => department.id).includes(departmentValue)
         );
 
     const startIndex = (currentPage - 1) * parseInt(pageValue);

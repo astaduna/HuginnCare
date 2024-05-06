@@ -27,18 +27,18 @@ const NewReport = ({ navigation: { navigate } }) => {
     const [medicineChecked, setMedicineChecked] = useState('');
     const [walkChecked, setWalkChecked] = useState('');
     const [entry, setEntry] = useState('');
-    const [location, setLocation] = useState('');
+    const [incidentLocation, setIncidentLocation] = useState('');
     const [incidentType, setIncidentType] = useState('');
-    const [before, setBefore] = useState('');
-    const [whatHappened, setWhatHappened] = useState('');
-    const [response, setResponse] = useState('');
-    const [alternative, setAlternative] = useState('');
+    const [incidentBefore, setIncidentBefore] = useState('');
+    const [incidentWhatHappened, setIncidentWhatHappened] = useState('');
+    const [incidentResponse, setIncidentResponse] = useState('');
+    const [incidentAlternative, setIncidentAlternative] = useState('');
     const [damages, setDamages] = useState('');
     const [damagesInfo, setDamagesInfo] = useState('');
-    const [other, setOther] = useState('');
+    const [incidentOther, setIncidentOther] = useState('');
     const [important, setImportant] = useState(false);
     const [coercion, setCoercion] = useState('');
-    const [coercionInfo, setCoercionInfo] = useState('');
+    const [coercionDescription, setCoercionDescription] = useState('');
     const [section1, setSection1] = useState();
     const [section2, setSection2] = useState();
     const [section3, setSection3] = useState();
@@ -46,8 +46,8 @@ const NewReport = ({ navigation: { navigate } }) => {
     const [selectedSection, setSelectedSection] = useState('');
     const isDeptOrClientEmpty = departmentID === '' || clientID === '';
     const isDayReportEmpty = reportType === 'day' && (isDeptOrClientEmpty || shift === '' || medicineChecked === '' || walkChecked === '');
-    const isIncidentEmpty = reportType === 'incident' && (isDeptOrClientEmpty || shift === '' || location === '' || incidentType === '' ||
-    before === '' || whatHappened === '' || response === '' || (damages === 'yes' && damagesInfo === '') || alternative === '' || other === '' || (coercion === 'yes' && coercionInfo === ''));
+    const isIncidentEmpty = reportType === 'incident' && (isDeptOrClientEmpty || shift === '' || incidentLocation === '' || incidentType === '' ||
+    incidentBefore === '' || incidentWhatHappened === '' || incidentResponse === '' || (damages === 'yes' && damagesInfo === '') || incidentAlternative === '' || incidentOther === '' || (coercion === 'yes' && coercionDescription === ''));
     const isEmpty = reportType === '' || isDayReportEmpty || isIncidentEmpty;
 
     const isFocused = useIsFocused();
@@ -92,8 +92,6 @@ const NewReport = ({ navigation: { navigate } }) => {
             date,
             departmentID,
             clientID,
-            shift,
-            onShift,
             draft: isDraft ? 'true' : 'false'
         };
         if (reportType === 'day') {
@@ -101,38 +99,35 @@ const NewReport = ({ navigation: { navigate } }) => {
                 ...report,
                 medicine: medicineChecked ? 'true' : 'false',
                 clientReason: walkChecked ? '' : '',
-                entry
+                entry,
+                shift,
+                onShift
             };
             const isCreated = await createReport(day);
+            if (isCreated) {
+                isDraft ? navigate('Drafts') : navigate('AllReports');
+            }
         } if (reportType === 'incident') {
             const incident = {
                 ...report,
-                alternative: 'qqq',
-                before: 'Áreiti frá öðrum',
-                coercion: {
-                    alternative: 'qqq',
-                    before: 'Áreiti frá öðrum',
-                    damages: '',
-                    date: '2024-04-29T20:16:45.945Z',
-                    description: 'aaa',
-                    id: 1,
-                    important: false,
-                    whatHappened: 'qqq'
-                },
-                damages: '',
-                date: '2024-04-29T20:16:45.945Z',
-                important: false,
-                location: 'qqq',
-                other: '',
-                response: 'qqq',
-                type: 'Ógnandi hegðun',
-                user: {
-                    id: 1,
-                    name: 'Molly Brown'
-                },
-                whatHappened: 'qqq'
+                incidentAlternative,
+                incidentBefore,
+                isCoercion: coercion ? 'true' : 'false', 
+                coercionDescription, 
+                incidentDamages: damages ? damagesInfo : '',
+                date,
+                important,
+                incidentLocation,
+                incidentOther,
+                incidentResponse,
+                incidentType,
+                incidentWhatHappened,
+                incidentShift: shift
             };
-            // console.log(date, departmentID, clientID, shift, location, incidentType, before, whatHappened, response, alternative, (damages, damagesInfo), other, (coercion, coercionInfo));
+            const isCreated = await createIncident(incident);
+            if (isCreated) {
+                isDraft ? navigate('Drafts') : navigate('AllReports');
+            }
         }
     };
 
@@ -146,13 +141,13 @@ const NewReport = ({ navigation: { navigate } }) => {
             setMedicineChecked('');
             setWalkChecked('');
             setEntry('');
-            setLocation('');
-            setBefore('');
+            setIncidentLocation('');
+            setIncidentBefore('');
             setIncidentType('');
-            setWhatHappened('');
-            setResponse('');
-            setAlternative('');
-            setOther('');
+            setIncidentWhatHappened('');
+            setIncidentResponse('');
+            setIncidentAlternative('');
+            setIncidentOther('');
             setImportant(false);
         }
     }, [reportType]);
@@ -443,11 +438,11 @@ const NewReport = ({ navigation: { navigate } }) => {
                         </View>
                         <Text style={styles.inputTitle}>Staðsetning atviks</Text>
                         <TextInput
-                            style={[styles.input, location ? styles.greenBorder : styles.input]}
+                            style={[styles.input, incidentLocation ? styles.greenBorder : styles.input]}
                             placeholder=""
                             keyboardType="default"
-                            value={location}
-                            onChangeText={setLocation}
+                            value={incidentLocation}
+                            onChangeText={setIncidentLocation}
                         />
                         <Text style={styles.inputTitle}>Atvik sem um ræðir</Text>
                         <RNPickerSelect
@@ -474,8 +469,8 @@ const NewReport = ({ navigation: { navigate } }) => {
                         <RNPickerSelect
                             useNativeAndroidPickerStyle={false}
                             style={{
-                                inputIOS: [styles.input, before !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, before !== '' ? styles.greenBorder : styles.input],
+                                inputIOS: [styles.input, incidentBefore !== '' ? styles.greenBorder : styles.input],
+                                inputAndroid: [styles.input, incidentBefore !== '' ? styles.greenBorder : styles.input],
                                 iconContainer: {
                                     top: 25,
                                     right: 20
@@ -485,7 +480,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 label: 'Veldu aðdraganda', 
                                 value: '' 
                             }}
-                            onValueChange={(value) => setBefore(value)}
+                            onValueChange={(value) => setIncidentBefore(value)}
                             items={beforeOptions}
                             Icon={() => {
                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
@@ -493,32 +488,32 @@ const NewReport = ({ navigation: { navigate } }) => {
                         />
                         <Text style={styles.inputTitle}>Hvernig fór atvikið fram</Text>
                         <TextInput
-                            style={[styles.textInput, whatHappened ? styles.greenBorder : styles.textInput]}
+                            style={[styles.textInput, incidentWhatHappened ? styles.greenBorder : styles.textInput]}
                             keyboardType="default"
                             multiline={true}
                             onPress={() => Keyboard.dismiss()}
-                            value={whatHappened}
-                            onChangeText={setWhatHappened}
+                            value={incidentWhatHappened}
+                            onChangeText={setIncidentWhatHappened}
                             textAlignVertical='top'
                         />
                         <Text style={styles.inputTitle}>Hvernig var brugðist við atvikinu</Text>
                         <TextInput
-                            style={[styles.textInput, response ? styles.greenBorder : styles.textInput]}
+                            style={[styles.textInput, incidentResponse ? styles.greenBorder : styles.textInput]}
                             keyboardType="default"
                             multiline={true}
                             onPress={() => Keyboard.dismiss()}
-                            value={response}
-                            onChangeText={setResponse}
+                            value={incidentResponse}
+                            onChangeText={setIncidentResponse}
                             textAlignVertical='top'
                         />
                         <Text style={styles.inputTitle}>Hvað væri hægt að gera öðruvísi</Text>
                         <TextInput
-                            style={[styles.textInput, alternative ? styles.greenBorder : styles.textInput]}
+                            style={[styles.textInput, incidentAlternative ? styles.greenBorder : styles.textInput]}
                             keyboardType="default"
                             multiline={true}
                             onPress={() => Keyboard.dismiss()}
-                            value={alternative}
-                            onChangeText={setAlternative}
+                            value={incidentAlternative}
+                            onChangeText={setIncidentAlternative}
                             textAlignVertical='top'
                         />
                         <Text style={styles.inputTitle}>Meiddist einhver eða skemmdist eitthvað</Text>
@@ -551,12 +546,12 @@ const NewReport = ({ navigation: { navigate } }) => {
                             : <></> }
                         <Text style={styles.inputTitle}>Aðrar athugasemdir</Text>
                         <TextInput
-                            style={[styles.textInput, other ? styles.greenBorder : styles.textInput]}
+                            style={[styles.textInput, incidentOther ? styles.greenBorder : styles.textInput]}
                             keyboardType="default"
                             multiline={true}
                             onPress={() => Keyboard.dismiss()}
-                            value={other}
-                            onChangeText={setOther}
+                            value={incidentOther}
+                            onChangeText={setIncidentOther}
                             textAlignVertical='top'
                         />
                         <Text style={styles.inputTitle}>Áríðandi upplýsingar</Text>
@@ -591,13 +586,13 @@ const NewReport = ({ navigation: { navigate } }) => {
                         { coercion === 'yes'
                             ? <>
                                 <Text style={styles.inputTitle}>Lýsing á eðli inngrips</Text><TextInput
-                                    style={[styles.textInput, coercionInfo ? styles.greenBorder : styles.textInput]}
+                                    style={[styles.textInput, coercionDescription ? styles.greenBorder : styles.textInput]}
                                     placeholder=""
                                     keyboardType="default"
                                     multiline={true}
                                     onPress={() => Keyboard.dismiss()}
-                                    value={coercionInfo}
-                                    onChangeText={setCoercionInfo} /></>
+                                    value={coercionDescription}
+                                    onChangeText={setCoercionDescription} /></>
                             : <></> }
                     </View>
                     </>

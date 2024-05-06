@@ -26,9 +26,9 @@ const Drafts = ({ navigation: { navigate } }) => {
                 ? <Spinner /> 
                 : <ScrollView>
                     <Text style={styles.title}>Skýrslur</Text>
-                    <ReportList reports={reports} incidents={[]} page={10} isPaginated={true}/>
+                    <ReportList reports={reports} incidents={[]} page={10}/>
                     <Text style={styles.title}>Atvik</Text>
-                    <ReportList reports={[]} incidents={incidents} page={10} isPaginated={true}/>
+                    <ReportList reports={[]} incidents={incidents} page={10}/>
                 </ScrollView>
             }
         </SafeAreaView>

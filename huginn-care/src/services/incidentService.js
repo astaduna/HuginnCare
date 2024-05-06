@@ -36,18 +36,42 @@ export const getAllCoercions = async () => {
 // Function to get a single incident by ID
 export const getIncidentById = async (id) => {
     try {
-        const response = await fetch(`${API_URL}/incidents/one/${id}`);
-        return response.data;
-    } catch (error) {
-        throw error.response.data;
+        const cookies = await AsyncStorage.getItem('sessionCookies');
+        const response = await fetch(`${API_URL}/incidents/one/${id}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                Cookie: cookies || ''
+            }
+        });
+
+        if (response.headers.map['content-type'] === 'application/json; charset=utf-8') {
+            const json = await response.json();
+            return json.incident;
+        }
+        throw new Error('Failed to fetch data');
+    } catch (err) {
+        return err.toString();
     }
 };
 
 // Function to create a new incident
 export const createIncident = async (incidentData) => {
     try {
-        const response = await fetch(`${API_URL}/incidents/create`, incidentData);
-        return response.data;
+        const cookies = await AsyncStorage.getItem('sessionCookies');
+        const response = await fetch(`${API_URL}/incidents/create`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Cookie: cookies || ''
+            },
+            body: JSON.stringify(incidentData)
+        });
+        if (response.ok) {
+            return true;
+        }
+        throw new Error('Failed to create report');
     } catch (error) {
         throw error.response.data;
     }

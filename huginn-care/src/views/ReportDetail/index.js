@@ -10,9 +10,9 @@ import moment from 'moment';
 import RadioButton from '../../components/RadioButton';
 import Checkbox from 'expo-checkbox';
 import { greenBlue } from '../../styles/colors';
+import { getIncidentById } from '../../services/incidentService';
 
 const ReportDetail = ({ route }) => {
-    const [reportType, setReportType] = useState('incident');
     const [medicineChecked, setMedicineChecked] = useState('');
     const [walkChecked, setWalkChecked] = useState('');
     const [damages, setDamages] = useState('');
@@ -21,7 +21,7 @@ const ReportDetail = ({ route }) => {
     const [section1, setSection1] = useState();
     const [section2, setSection2] = useState();
     const [section3, setSection3] = useState();
-    const { id } = route.params;
+    const { id, type } = route.params;
     const isFocused = useIsFocused();
     const [isLoading, setIsLoading] = useState(true);
     const scrollViewRef = useRef();
@@ -37,14 +37,20 @@ const ReportDetail = ({ route }) => {
         setSelectedSection(section);
         scrollToSection(section);
     };
-    // const [report, setReport] = useState(null);
+    const [report, setReport] = useState({});
+    const [incident, setIncident] = useState({});
 
-    // useEffect(() => {
-    //     (async () => {
-    //         setReport(await getReportById(id));
-    //         setIsLoading(false);
-    //     })();
-    // }, [isFocused]);
+    useEffect(() => {
+        (async () => {
+            if (type === 'Dagsskýrsla') {
+                setReport(await getReportById(id));
+                setIsLoading(false);
+            } else if (type === 'Atvikaskýrsla') {
+                setIncident(await getIncidentById(id));
+                setIsLoading(false);
+            }
+        })();
+    }, [isFocused]);
 
     const handleScroll = (event) => {
         const currentPosition = event.nativeEvent.contentOffset.y;
@@ -86,10 +92,10 @@ const ReportDetail = ({ route }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {!report // isLoading
+            {isLoading // !report
                 ? <Spinner /> 
                 : <>
-                    { reportType === 'day'
+                    { report && type === 'Dagsskýrsla'
                         ? <View style={styles.jumpLinks}>
                             <TouchableOpacity style={[styles.jumpLinkButton, selectedSection === section1 && styles.selectedJumpLinkButton]}
                                 onPress={() => handleSectionSelection(section1)}>
@@ -106,7 +112,7 @@ const ReportDetail = ({ route }) => {
                         </View>
                         : <></>
                     }
-                    { reportType === 'incident'
+                    { incident && type === 'Atvikaskýrsla'
                         ? <View style={styles.jumpLinks}>
                             <TouchableOpacity style={[styles.jumpLinkButton, selectedSection === section1 && styles.selectedJumpLinkButton]}
                                 onPress={() => handleSectionSelection(section1)}>
@@ -124,14 +130,14 @@ const ReportDetail = ({ route }) => {
                         : <></>
                     }
                     <ScrollView ref={scrollViewRef} style={styles.detailsContainer} onScroll={handleScroll} scrollEventThrottle={16}>
-                        { reportType === 'day'
+                        { report && type === 'Dagsskýrsla'
                             ? <><View onLayout={(event) => { setSection1(event.nativeEvent.layout.y); } } style={styles.formFrame}>
                                 <View style={styles.titleWrapper}>
                                     <Text style={styles.title}>Almennar upplýsingar</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Dagsetning</Text>
-                                    <Text style={[styles.input, report.date ? styles.greenBorder : styles.input]}>{moment(new Date(report.date)).format('DD/MM/YYYY')}</Text>
+                                    <Text style={[styles.input, report.date ? styles.greenBorder : styles.input]}>{moment(new Date(report.date)).format('DD/MM/YYYY') || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Deild</Text>
@@ -147,7 +153,7 @@ const ReportDetail = ({ route }) => {
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Tegund vaktar</Text>
-                                    <Text style={[styles.input, report.shift ? styles.greenBorder : styles.input]}>{report.shift === 'day' ? 'Dagvakt' : report.shift === 'evening' ? 'Kvöldvakt' : report.shift === 'evening' ? 'Kvöldvakt' : 'Næturvakt'}</Text>
+                                    <Text style={[styles.input, report.shift ? styles.greenBorder : styles.input]}>{report.shift === 'day' ? 'Dagvakt' : report.shift === 'evening' ? 'Kvöldvakt' : report.shift === 'night' ? 'Næturvakt' : ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Aðrir starfsmenn á vakt</Text>
@@ -202,7 +208,10 @@ const ReportDetail = ({ route }) => {
                                     color={incident.important ? greenBlue : 'gainsboro'}
                                 /></>
                             </View></>
-                            : <><View onLayout={(event) => { setSection1(event.nativeEvent.layout.y); } } style={styles.formFrame}>
+                            : <></>
+                        }
+                        { incident && type === 'Atvikaskýrsla'
+                            ? <><View onLayout={(event) => { setSection1(event.nativeEvent.layout.y); } } style={styles.formFrame}>
                                 <View style={styles.titleWrapper}>
                                     <Text style={styles.title}>Almennar upplýsingar</Text>
                                 </View>
@@ -309,7 +318,8 @@ const ReportDetail = ({ route }) => {
                                         <Text style={[styles.textInput, incident.coercion.description ? styles.greenBorder : styles.textInput]}>{incident.coercion.description || ''}</Text>
                                     </>
                                     : <></> }
-                            </View></> }
+                            </View></> 
+                            : <></> }
                     </ScrollView>
                 </>
             }

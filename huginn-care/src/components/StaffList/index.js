@@ -57,7 +57,7 @@ const StaffList = ({ staffs }) => {
             staff.name.toLowerCase().includes(searchFilter.toLowerCase())
         )
         .filter(staff =>
-            departmentValue === '' || departmentValue === null || staff.departments.map(department => department.id).includes(departmentValue)
+            departmentValue === 'all' || departmentValue === '' || staff.departments.map(department => department.id).includes(departmentValue)
         );
 
     const startIndex = (currentPage - 1) * parseInt(pageValue);
