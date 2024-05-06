@@ -1,5 +1,5 @@
 {
-    "alternative":"qqq",
+    "alternative":"ok",
     "before":"Áreiti frá öðrum",
     "client":{
        "id":6,
@@ -7,7 +7,7 @@
        "ssn":"324236-9999"
     },
     "coercion":{
-       "alternative":"qqq",
+       "alternative":"aa",
        "before":"Áreiti frá öðrum",
        "damages":"",
        "date":"2024-04-29T20:16:45.945Z",
@@ -16,21 +16,21 @@
        "important":false,
        "whatHappened":"qqq"
     },
-    "damages":"",
+    "damages":"ojojojojoj",
     "date":"2024-04-29T20:16:45.945Z",
     "department":{
        "id":2,
        "name":"Fakedeild 2"
     },
     "id":4,
-    "important":false,
-    "location":"qqq",
+    "important":true,
+    "location":"aaa",
     "other":"",
-    "response":"qqq",
+    "response":"ok",
     "type":"Ógnandi hegðun",
     "user":{
        "id":1,
        "name":"Molly Brown"
     },
-    "whatHappened":"qqq"
+    "whatHappened":"qqnothingq"
  }

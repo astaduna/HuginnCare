@@ -117,5 +117,9 @@ export default StyleSheet.create({
     selectedJumpLinkText: {
         fontWeight: 'bold',
         color: 'black'
+    },
+    checkBox: {
+        margin: 10,
+        color: 'gainsboro'
     }
 });
