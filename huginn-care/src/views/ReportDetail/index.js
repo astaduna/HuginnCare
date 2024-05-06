@@ -1,31 +1,55 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import { Image, Linking, SafeAreaView, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { Image, Linking, SafeAreaView, Text, TouchableOpacity, View, ScrollView, TextInput } from 'react-native';
 import { getReportById } from '../../services/reportService';
+import { FontAwesome } from '@expo/vector-icons';
+import RNPickerSelect from 'react-native-picker-select';
 import Spinner from '../../components/Spinner';
 import styles from './styles';
-import report from '../../resources/report.json';
-import incident from '../../resources/incident.json';
+import reportJson from '../../resources/report.json';
+import incidentJson from '../../resources/incident.json';
+import departmentsJson from '../../resources/departments.json';
+import clientsJson from '../../resources/clients.json';
 import moment from 'moment';
 import RadioButton from '../../components/RadioButton';
 import Checkbox from 'expo-checkbox';
 import { greenBlue } from '../../styles/colors';
 import { getIncidentById } from '../../services/incidentService';
+import { departmentOptionsA } from '../../components/Options';
 
 const ReportDetail = ({ route }) => {
+    const [departmentID, setDepartmentID] = useState('');
+    const [clientID, setClientID] = useState('');
+    const [shift, setShift] = useState('');
+    const [onShift, setOnShift] = useState('');
     const [medicineChecked, setMedicineChecked] = useState('');
     const [walkChecked, setWalkChecked] = useState('');
+    const [entry, setEntry] = useState('');
+    const [incidentLocation, setIncidentLocation] = useState('');
+    const [incidentType, setIncidentType] = useState('');
+    const [incidentBefore, setIncidentBefore] = useState('');
+    const [incidentWhatHappened, setIncidentWhatHappened] = useState('');
+    const [incidentResponse, setIncidentResponse] = useState('');
+    const [incidentAlternative, setIncidentAlternative] = useState('');
     const [damages, setDamages] = useState('');
+    const [damagesInfo, setDamagesInfo] = useState('');
+    const [incidentOther, setIncidentOther] = useState('');
+    const [important, setImportant] = useState(false);
     const [coercion, setCoercion] = useState('');
-    const [shift, setShift] = useState('yes');
+    const [coercionDescription, setCoercionDescription] = useState('');
     const [section1, setSection1] = useState();
     const [section2, setSection2] = useState();
     const [section3, setSection3] = useState();
     const { id, type } = route.params;
+    // const [type, setType] = useState('Atvikaskýrsla');
     const isFocused = useIsFocused();
     const [isLoading, setIsLoading] = useState(true);
     const scrollViewRef = useRef();
     const [selectedSection, setSelectedSection] = useState('');
+    const [editMode, setEditMode] = useState(false);
+
+    const [departments, setDepartments] = useState([]);
+    const [clients, setClients] = useState([]);
     
     const scrollToSection = (section) => {
         if (scrollViewRef.current) {
@@ -42,11 +66,19 @@ const ReportDetail = ({ route }) => {
 
     useEffect(() => {
         (async () => {
+            // const clientsData = await getAllClients();
+            // setDepartments(await getAllDepartments() || []);
+            // setClients(clientsData.filter(clientID => clientID.client_department_pivot.departmentId === departmentID));
+            setDepartments(departmentsJson);
+            setClients(clientsJson);
             if (type === 'Dagsskýrsla') {
-                setReport(await getReportById(id));
+                // setReport(await getReportById(id));
+                setReport(reportJson);
+                
                 setIsLoading(false);
             } else if (type === 'Atvikaskýrsla') {
-                setIncident(await getIncidentById(id));
+                // setIncident(await getIncidentById(id));
+                setIncident(incidentJson);
                 setIsLoading(false);
             }
         })();
@@ -62,6 +94,14 @@ const ReportDetail = ({ route }) => {
         } else {
             setSelectedSection(section3);
         }
+    };
+
+    const handleEditButtonClick = () => {
+        setEditMode(true);
+    };
+
+    const handleSaveButtonClick = () => {
+        setEditMode(false);
     };
 
     useEffect(() => {
@@ -130,6 +170,24 @@ const ReportDetail = ({ route }) => {
                         : <></>
                     }
                     <ScrollView ref={scrollViewRef} style={styles.detailsContainer} onScroll={handleScroll} scrollEventThrottle={16}>
+                        {editMode
+                            ? (
+                                <View style={styles.buttons}>
+                                    <TouchableOpacity style={styles.saveButton} onPress={handleSaveButtonClick}>
+                                        <Text style={styles.buttonText}>Vista</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            )
+                            : (
+                                <View style={styles.buttons}>
+                                    <TouchableOpacity style={styles.editButton} onPress={handleEditButtonClick}>
+                                        <Text style={styles.buttonText}>Breyta</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.deleteButton}>
+                                        <Text style={styles.buttonText}>Eyða</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            )}
                         { report && type === 'Dagsskýrsla'
                             ? <><View onLayout={(event) => { setSection1(event.nativeEvent.layout.y); } } style={styles.formFrame}>
                                 <View style={styles.titleWrapper}>
@@ -156,7 +214,6 @@ const ReportDetail = ({ route }) => {
                                     <Text style={[styles.input, report.shift ? styles.greenBorder : styles.input]}>{report.shift === 'day' ? 'Dagvakt' : report.shift === 'evening' ? 'Kvöldvakt' : report.shift === 'night' ? 'Næturvakt' : ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
-                                    <Text style={styles.inputTitle}>Aðrir starfsmenn á vakt</Text>
                                     <Text style={[styles.input, report.onShift ? styles.greenBorder : styles.input]}>{report.onShift || ''}</Text>
                                 </View>
                                 <Text style={styles.inputTitle}>Lyf gefin?</Text>
@@ -201,12 +258,14 @@ const ReportDetail = ({ route }) => {
                                             Starfsmenn skulu því vanda orðaval sitt. Ef þeir eru í vafa ber að hafa samband við deildarstjóra.</Text>
                                     <Text style={[styles.textInput, report.entry ? styles.greenBorder : styles.textInput]}>{report.entry || ''}</Text>
                                 </View>
-                                <Text style={styles.inputTitle}>Áríðandi upplýsingar</Text>
-                                <><Checkbox
-                                    style={styles.checkBox}
-                                    value={incident.important }
-                                    color={incident.important ? greenBlue : 'gainsboro'}
-                                /></>
+                                <View style={styles.important}>
+                                    <Text style={styles.inputTitle}>Áríðandi upplýsingar</Text>
+                                    <><Checkbox
+                                        style={styles.checkBox}
+                                        value={report.important}
+                                        color={report.important ? greenBlue : 'gainsboro'}
+                                    /></>
+                                </View>
                             </View></>
                             : <></>
                         }
@@ -288,12 +347,14 @@ const ReportDetail = ({ route }) => {
                                     <Text style={styles.inputTitle}>Aðrar athugasemdir</Text>
                                     <Text style={[styles.textInput, incident.other ? styles.greenBorder : styles.textInput]}>{incident.other || ''}</Text>
                                 </View>
-                                <Text style={styles.inputTitle}>Áríðandi upplýsingar</Text>
-                                <><Checkbox
-                                    style={styles.checkBox}
-                                    value={incident.important }
-                                    color={incident.important ? greenBlue : 'gainsboro'}
-                                /></>
+                                <View style={styles.important}>
+                                    <Text style={styles.inputTitle}>Áríðandi upplýsingar</Text>
+                                    <><Checkbox
+                                        style={styles.checkBox}
+                                        value={incident.important}
+                                        color={incident.important ? greenBlue : 'gainsboro'}
+                                    /></>
+                                </View>
 
                             </View><View onLayout={(event) => { setSection3(event.nativeEvent.layout.y); } } style={[styles.formFrame, styles.lastFormFrame]}>
                                 <View style={styles.titleWrapper}>

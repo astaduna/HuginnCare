@@ -121,8 +121,12 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         color: 'black'
     },
+    important: {
+        flexDirection: 'row'
+    },
     checkBox: {
-        margin: 10,
+        marginVertical: 15,
+        marginLeft: 20,
         color: 'gainsboro'
     },
     button: {

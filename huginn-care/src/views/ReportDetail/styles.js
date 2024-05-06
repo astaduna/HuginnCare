@@ -118,8 +118,44 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         color: 'black'
     },
+    important: {
+        flexDirection: 'row'
+    },
     checkBox: {
-        margin: 10,
+        marginVertical: 15,
+        marginLeft: 20,
         color: 'gainsboro'
+    },
+    buttons: {
+        flexDirection: 'row',
+        alignSelf: 'flex-end',
+        marginTop: 25,
+        marginRight: 15,
+        right: 0
+    },
+    editButton: {
+        width: '20%',
+        padding: 10,
+        marginHorizontal: 10,
+        backgroundColor: 'gold',
+        borderRadius: 5
+    },
+    deleteButton: {
+        width: '20%',
+        padding: 10,
+        backgroundColor: 'crimson',
+        borderRadius: 5
+    },
+    saveButton: {
+        width: '20%',
+        padding: 10,
+        marginHorizontal: 10,
+        backgroundColor: greenBlue,
+        borderRadius: 5
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+        textAlign: 'center'
     }
 });

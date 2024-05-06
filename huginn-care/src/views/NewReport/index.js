@@ -358,6 +358,15 @@ const NewReport = ({ navigation: { navigate } }) => {
                                 textAlignVertical='top'
                             />
                         </View>
+                        <View style={styles.important}>
+                            <Text style={styles.inputTitle}>Áríðandi upplýsingar</Text>
+                            <><Checkbox
+                                style={styles.checkBox}
+                                value={important}  
+                                onValueChange={setImportant}
+                                color={important ? greenBlue : 'gainsboro'}
+                            /></>
+                        </View>
                     </View>
                     </>
                     : <></>
@@ -554,13 +563,15 @@ const NewReport = ({ navigation: { navigate } }) => {
                             onChangeText={setIncidentOther}
                             textAlignVertical='top'
                         />
-                        <Text style={styles.inputTitle}>Áríðandi upplýsingar</Text>
-                        <><Checkbox
-                            style={styles.checkBox}
-                            value={important}  
-                            onValueChange={setImportant}
-                            color={important ? greenBlue : 'gainsboro'}
-                        /></>
+                        <View style={styles.important}>
+                            <Text style={styles.inputTitle}>Áríðandi upplýsingar</Text>
+                            <><Checkbox
+                                style={styles.checkBox}
+                                value={important}  
+                                onValueChange={setImportant}
+                                color={important ? greenBlue : 'gainsboro'}
+                            /></>
+                        </View>
                     </View>
                     <View onLayout={(event) => { setSection3(event.nativeEvent.layout.y); }} style={[styles.formFrame, styles.lastFormFrame]}>
                         <View style={styles.titleWrapper}>
