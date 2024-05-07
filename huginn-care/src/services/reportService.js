@@ -53,7 +53,7 @@ export const getDrafts = async () => {
         }
 
         const json = await response.json();
-        return json.reports;
+        return json;
     } catch (err) {
         console.error('Failed to fetch data:', err);
         return `Error: ${err.message}`;
