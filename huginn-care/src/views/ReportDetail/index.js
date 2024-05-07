@@ -74,8 +74,8 @@ const ReportDetail = ({ route }) => {
             if (type === 'Dagsskýrsla') {
                 // setReport(await getReportById(id));
                 setReport(reportJson);
-                setDepartmentID(report.department.name);
-                setClientID(report.client.name);
+                setDepartmentID(report.department?.name);
+                setClientID(report.client?.name);
                 setShift(report.shift === 'day' ? 'Dagvakt' : report.shift === 'evening' ? 'Kvöldvakt' : report.shift === 'night' ? 'Næturvakt' : '');
                 setOnShift(report.onShift);
                 setMedicineChecked(report.medicine ? 'yes' : 'no');
@@ -86,8 +86,8 @@ const ReportDetail = ({ route }) => {
             } else if (type === 'Atvikaskýrsla') {
                 // setIncident(await getIncidentById(id));
                 setIncident(incidentJson);
-                setDepartmentID(incident.department.name);
-                setClientID(incident.client.name);
+                setDepartmentID(incident.department?.name);
+                setClientID(incident.client?.name);
                 setShift(incident.shift === 'day' ? 'Dagvakt' : incident.shift === 'evening' ? 'Kvöldvakt' : incident.shift === 'night' ? 'Næturvakt' : '');
                 setOnShift(incident.onShift);
                 setDamages(incident.damages ? 'yes' : 'no');
@@ -215,8 +215,8 @@ const ReportDetail = ({ route }) => {
                                                 }
                                             }}
                                             placeholder={{ 
-                                                label: report.department.name, 
-                                                value: report.department.name
+                                                label: report.department?.name, 
+                                                value: report.department?.name
                                             }}
                                             onValueChange={(value) => setDepartmentID(value)}
                                             items={departmentOptionsA(departments)}
@@ -224,7 +224,7 @@ const ReportDetail = ({ route }) => {
                                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
                                             }}
                                         /></>
-                                        : <><Text style={[styles.input, report.department.name ? styles.greenBorder : styles.input]}>{report.department.name || ''}</Text></>}
+                                        : <><Text style={[styles.input, report.department?.name ? styles.greenBorder : styles.input]}>{report.department?.name || ''}</Text></>}
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Þjónustuþegi</Text>
@@ -243,8 +243,8 @@ const ReportDetail = ({ route }) => {
                                                 }
                                             }}
                                             placeholder={{ 
-                                                label: report.client.name, 
-                                                value: report.client.name
+                                                label: report.client?.name, 
+                                                value: report.client?.name
                                             }}
                                             onValueChange={(value) => setClientID(value)}
                                             items={clientOptionsA(clients)}
@@ -252,14 +252,14 @@ const ReportDetail = ({ route }) => {
                                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
                                             }}
                                         /></> 
-                                        : <><Text style={[styles.input, report.client.name ? styles.greenBorder : styles.input]}>{report.client.name || ''}</Text></>}
+                                        : <><Text style={[styles.input, report.client?.name ? styles.greenBorder : styles.input]}>{report.client?.name || ''}</Text></>}
                                     
                                 </View>
                                 { editMode 
                                     ? <></> 
                                     : <><View style={styles.detailItem}>
                                         <Text style={styles.inputTitle}>Notandi</Text>
-                                        <Text style={[styles.input, report.user.name ? styles.greenBorder : styles.input]}>{report.user.name || ''}</Text>
+                                        <Text style={[styles.input, report.user?.name ? styles.greenBorder : styles.input]}>{report.user?.name || ''}</Text>
                                     </View></> }
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Tegund vaktar</Text>
@@ -415,22 +415,22 @@ const ReportDetail = ({ route }) => {
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Deild</Text>
                                     { editMode ? <></> : <></>}
-                                    <Text style={[styles.input, incident.department.name ? styles.greenBorder : styles.input]}>{incident.department.name || ''}</Text>
+                                    <Text style={[styles.input, incident.department?.name ? styles.greenBorder : styles.input]}>{incident.department?.name || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Þjónustuþegi</Text>
                                     { editMode ? <></> : <></>}
-                                    <Text style={[styles.input, incident.client.name ? styles.greenBorder : styles.input]}>{incident.client.name || ''}</Text>
+                                    <Text style={[styles.input, incident.client?.name ? styles.greenBorder : styles.input]}>{incident.client?.name || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Notandi</Text>
                                     { editMode ? <></> : <></>}
-                                    <Text style={[styles.input, incident.user.name ? styles.greenBorder : styles.input]}>{incident.user.name || ''}</Text>
+                                    <Text style={[styles.input, incident.user?.name ? styles.greenBorder : styles.input]}>{incident.user?.name || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Tegund vaktar</Text>
                                     { editMode ? <></> : <></>}
-                                    <Text style={[styles.input, incident.shift ? styles.greenBorder : styles.input]}>{incident.shift === 'day' ? 'Dagvakt' : incident.shift === 'evening' ? 'Kvöldvakt' : incident.shift === 'evening' ? 'Kvöldvakt' : 'Næturvakt'}</Text>
+                                    <Text style={[styles.input, incident.shift ? styles.greenBorder : styles.input]}>{shift}</Text>
                                 </View>
                             </View><View onLayout={(event) => { setSection2(event.nativeEvent.layout.y); } } style={styles.formFrame}>
                                 <View style={styles.titleWrapper}>
@@ -505,7 +505,7 @@ const ReportDetail = ({ route }) => {
 
                             </View><View onLayout={(event) => { setSection3(event.nativeEvent.layout.y); } } style={[styles.formFrame, styles.lastFormFrame]}>
                                 <View style={styles.titleWrapper}>
-                                    <Text style={styles.title}>Líkamlegt unngrip</Text>
+                                    <Text style={styles.title}>Líkamlegt inngrip</Text>
                                 </View>
                                 <Text style={styles.inputTitle}>Þurfti líkamlegt inngrip?</Text>
                                 { editMode ? <></> : <></>}
@@ -524,7 +524,7 @@ const ReportDetail = ({ route }) => {
                                 { coercion === 'yes'
                                     ? <>
                                         <Text style={styles.inputTitle}>Lýsing á eðli inngrips</Text>
-                                        <Text style={[styles.textInput, incident.coercion.description ? styles.greenBorder : styles.textInput]}>{incident.coercion.description || ''}</Text>
+                                        <Text style={[styles.textInput, incident.coercion?.description ? styles.greenBorder : styles.textInput]}>{incident?.coercion?.description || ''}</Text>
                                     </>
                                     : <></> }
                             </View></> 
