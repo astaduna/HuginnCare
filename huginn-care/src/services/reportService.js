@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { API_URL, STORAGE } from './apiService';
+import { API_URL } from './apiService';
 
 // Function to get all reports
 export const getAllReports = async () => {
@@ -10,19 +10,24 @@ export const getAllReports = async () => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                Cookie: cookies || ''
+                ...(cookies ? { Cookie: cookies } : {})
             }
         });
 
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-            const json = await response.json();
-            return json.reports;
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        throw new Error('Failed to fetch data');
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            throw new Error('Incorrect content-type!');
+        }
+
+        const json = await response.json();
+        return json.reports;
     } catch (err) {
-        return err.toString();
+        console.error('Failed to fetch data:', err);
+        return `Error: ${err.message}`;
     }
 };
 
@@ -34,17 +39,24 @@ export const getDrafts = async () => {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
-                Cookie: cookies || ''
+                ...(cookies ? { Cookie: cookies } : {})
             }
         });
 
-        if (response.headers.map['content-type'] === 'application/json; charset=utf-8') {
-            const json = await response.json();
-            return json;
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-        throw new Error('Failed to fetch data');
+
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            throw new Error('Incorrect content-type!');
+        }
+
+        const json = await response.json();
+        return json.reports;
     } catch (err) {
-        return err.toString();
+        console.error('Failed to fetch data:', err);
+        return `Error: ${err.message}`;
     }
 };
 
@@ -76,17 +88,24 @@ export const getReportById = async (id) => {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
-                Cookie: cookies || ''
+                ...(cookies ? { Cookie: cookies } : {})
             }
         });
 
-        if (response.headers.map['content-type'] === 'application/json; charset=utf-8') {
-            const json = await response.json();
-            return json.report;
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-        throw new Error('Failed to fetch data');
+
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            throw new Error('Incorrect content-type!');
+        }
+
+        const json = await response.json();
+        return json.reports;
     } catch (err) {
-        return err.toString();
+        console.error('Failed to fetch data:', err);
+        return `Error: ${err.message}`;
     }
 };
 
@@ -99,7 +118,7 @@ export const createReport = async (reportData) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                Cookie: cookies || ''
+                ...(cookies ? { Cookie: cookies } : {})
             },
             body: JSON.stringify(reportData)
         });
