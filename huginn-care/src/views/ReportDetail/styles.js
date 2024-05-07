@@ -149,7 +149,6 @@ export default StyleSheet.create({
     saveButton: {
         width: '20%',
         padding: 10,
-        marginHorizontal: 10,
         backgroundColor: greenBlue,
         borderRadius: 5
     },

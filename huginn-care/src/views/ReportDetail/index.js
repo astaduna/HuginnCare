@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import { Image, Linking, SafeAreaView, Text, TouchableOpacity, View, ScrollView, TextInput } from 'react-native';
+import { Image, Linking, SafeAreaView, Text, TouchableOpacity, View, ScrollView, TextInput, Keyboard } from 'react-native';
 import { getReportById } from '../../services/reportService';
 import { FontAwesome } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
@@ -15,7 +15,7 @@ import RadioButton from '../../components/RadioButton';
 import Checkbox from 'expo-checkbox';
 import { greenBlue } from '../../styles/colors';
 import { getIncidentById } from '../../services/incidentService';
-import { departmentOptionsA } from '../../components/Options';
+import { clientOptionsA, departmentOptionsA, shiftOptions } from '../../components/Options';
 
 const ReportDetail = ({ route }) => {
     const [departmentID, setDepartmentID] = useState('');
@@ -74,15 +74,29 @@ const ReportDetail = ({ route }) => {
             if (type === 'Dagsskýrsla') {
                 // setReport(await getReportById(id));
                 setReport(reportJson);
-                
+                setDepartmentID(report.department.name);
+                setClientID(report.client.name);
+                setShift(report.shift === 'day' ? 'Dagvakt' : report.shift === 'evening' ? 'Kvöldvakt' : report.shift === 'night' ? 'Næturvakt' : '');
+                setOnShift(report.onShift);
+                setMedicineChecked(report.medicine ? 'yes' : 'no');
+                setWalkChecked(report.clientReason ? 'yes' : 'no');
+                setEntry(report.entry);
+                setImportant(report.important);
                 setIsLoading(false);
             } else if (type === 'Atvikaskýrsla') {
                 // setIncident(await getIncidentById(id));
                 setIncident(incidentJson);
+                setDepartmentID(incident.department.name);
+                setClientID(incident.client.name);
+                setShift(incident.shift === 'day' ? 'Dagvakt' : incident.shift === 'evening' ? 'Kvöldvakt' : incident.shift === 'night' ? 'Næturvakt' : '');
+                setOnShift(incident.onShift);
+                setDamages(incident.damages ? 'yes' : 'no');
+                setCoercion(incident.coercion ? 'yes' : 'no');
+                setImportant(incident.important);
                 setIsLoading(false);
             }
         })();
-    }, [isFocused]);
+    }, [isFocused, report, incident]);
 
     const handleScroll = (event) => {
         const currentPosition = event.nativeEvent.contentOffset.y;
@@ -100,35 +114,19 @@ const ReportDetail = ({ route }) => {
         setEditMode(true);
     };
 
-    const handleSaveButtonClick = () => {
+    const handleDeleteButtonClick = () => {
+        console.log('deleted');
+    };
+
+    const handleCancelButtonClick = () => {
+        console.log('cancelled');
         setEditMode(false);
     };
 
-    useEffect(() => {
-        if (report && report.medicine) {
-            setMedicineChecked('yes');
-        } else {
-            setMedicineChecked('no');
-        }
-
-        if (report && report.clientReason) {
-            setWalkChecked('yes');
-        } else {
-            setWalkChecked('no');
-        }
-
-        if (incident && incident.damages) {
-            setDamages('yes');
-        } else {
-            setDamages('no');
-        }
-
-        if (incident && incident.coercion) {
-            setCoercion('yes');
-        } else {
-            setCoercion('no');
-        }
-    }, [incident, report]);
+    const handleSaveButtonClick = () => {
+        console.log('edited');
+        setEditMode(false);
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -173,6 +171,9 @@ const ReportDetail = ({ route }) => {
                         {editMode
                             ? (
                                 <View style={styles.buttons}>
+                                    <TouchableOpacity style={styles.editButton} onPress={handleCancelButtonClick}>
+                                        <Text style={styles.buttonText}>Hætta</Text>
+                                    </TouchableOpacity>
                                     <TouchableOpacity style={styles.saveButton} onPress={handleSaveButtonClick}>
                                         <Text style={styles.buttonText}>Vista</Text>
                                     </TouchableOpacity>
@@ -199,54 +200,170 @@ const ReportDetail = ({ route }) => {
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Deild</Text>
-                                    <Text style={[styles.input, report.department.name ? styles.greenBorder : styles.input]}>{report.department.name || ''}</Text>
+                                    { editMode
+                                        ? <><RNPickerSelect
+                                            useNativeAndroidPickerStyle={false}
+                                            style={{
+                                                inputIOS: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
+                                                inputAndroid: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
+                                                iconContainer: {
+                                                    top: 25,
+                                                    right: 20
+                                                },
+                                                placeholder: {
+                                                    color: 'black'
+                                                }
+                                            }}
+                                            placeholder={{ 
+                                                label: report.department.name, 
+                                                value: report.department.name
+                                            }}
+                                            onValueChange={(value) => setDepartmentID(value)}
+                                            items={departmentOptionsA(departments)}
+                                            Icon={() => {
+                                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                                            }}
+                                        /></>
+                                        : <><Text style={[styles.input, report.department.name ? styles.greenBorder : styles.input]}>{report.department.name || ''}</Text></>}
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Þjónustuþegi</Text>
-                                    <Text style={[styles.input, report.client.name ? styles.greenBorder : styles.input]}>{report.client.name || ''}</Text>
+                                    { editMode 
+                                        ? <><RNPickerSelect
+                                            useNativeAndroidPickerStyle={false}
+                                            style={{
+                                                inputIOS: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
+                                                inputAndroid: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
+                                                iconContainer: {
+                                                    top: 25,
+                                                    right: 20
+                                                },
+                                                placeholder: {
+                                                    color: 'black'
+                                                }
+                                            }}
+                                            placeholder={{ 
+                                                label: report.client.name, 
+                                                value: report.client.name
+                                            }}
+                                            onValueChange={(value) => setClientID(value)}
+                                            items={clientOptionsA(clients)}
+                                            Icon={() => {
+                                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                                            }}
+                                        /></> 
+                                        : <><Text style={[styles.input, report.client.name ? styles.greenBorder : styles.input]}>{report.client.name || ''}</Text></>}
+                                    
                                 </View>
-                                <View style={styles.detailItem}>
-                                    <Text style={styles.inputTitle}>Notandi</Text>
-                                    <Text style={[styles.input, report.user.name ? styles.greenBorder : styles.input]}>{report.user.name || ''}</Text>
-                                </View>
+                                { editMode 
+                                    ? <></> 
+                                    : <><View style={styles.detailItem}>
+                                        <Text style={styles.inputTitle}>Notandi</Text>
+                                        <Text style={[styles.input, report.user.name ? styles.greenBorder : styles.input]}>{report.user.name || ''}</Text>
+                                    </View></> }
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Tegund vaktar</Text>
-                                    <Text style={[styles.input, report.shift ? styles.greenBorder : styles.input]}>{report.shift === 'day' ? 'Dagvakt' : report.shift === 'evening' ? 'Kvöldvakt' : report.shift === 'night' ? 'Næturvakt' : ''}</Text>
+                                    { editMode 
+                                        ? <><RNPickerSelect
+                                            useNativeAndroidPickerStyle={false}
+                                            style={{
+                                                inputIOS: [styles.input, shift !== '' ? styles.greenBorder : styles.input],
+                                                inputAndroid: [styles.input, shift !== '' ? styles.greenBorder : styles.input],
+                                                iconContainer: {
+                                                    top: 25,
+                                                    right: 20
+                                                },
+                                                placeholder: {
+                                                    color: 'black'
+                                                }
+                                            }}
+                                            placeholder={{ 
+                                                label: shift, 
+                                                value: shift
+                                            }}
+                                            onValueChange={(value) => setShift(value)}
+                                            items={shiftOptions}
+                                            Icon={() => {
+                                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                                            }}
+                                        /></> 
+                                        : <><Text style={[styles.input, report.shift ? styles.greenBorder : styles.input]}>{shift}</Text></>}
+                                    
                                 </View>
                                 <View style={styles.detailItem}>
-                                    <Text style={[styles.input, report.onShift ? styles.greenBorder : styles.input]}>{report.onShift || ''}</Text>
+                                    <Text style={styles.inputTitle}>Starfsmenn á vakt</Text>
+                                    { editMode 
+                                        ? <><TextInput
+                                            style={[styles.input, onShift ? styles.greenBorder : styles.input]}
+                                            placeholder={shift}
+                                            keyboardType="default"
+                                            value={onShift}
+                                            onChangeText={setOnShift}
+                                        /></>
+                                        : <><Text style={[styles.input, report.onShift ? styles.greenBorder : styles.input]}>{report.onShift || ''}</Text></>}
                                 </View>
                                 <Text style={styles.inputTitle}>Lyf gefin?</Text>
-                                <View style={[styles.radioInput, medicineChecked === 'yes' && styles.greenBorder]}>
-                                    <RadioButton
-                                        value="yes"
-                                        status={medicineChecked} />
-                                    <Text>Já, eða á ekki við</Text>
-                                </View>
-                                <View style={[styles.radioInput, medicineChecked === 'no' && styles.greenBorder]}>
-                                    <RadioButton
-                                        value="no"
-                                        status={medicineChecked} />
-                                    <Text>Nei</Text>
-                                </View>
+                                { editMode 
+                                    ? <><View style={[styles.radioInput, medicineChecked === 'yes' && styles.greenBorder]}>
+                                        <RadioButton
+                                            value="yes"
+                                            status={medicineChecked}
+                                            onPress={() => setMedicineChecked('yes')} />
+                                        <Text>Já, eða á ekki við</Text>
+                                    </View>
+                                    <View style={[styles.radioInput, medicineChecked === 'no' && styles.greenBorder]}>
+                                        <RadioButton
+                                            value="no"
+                                            status={medicineChecked}
+                                            onPress={() => setMedicineChecked('no')} />
+                                        <Text>Nei</Text>
+                                    </View></> 
+                                    : <><View style={[styles.radioInput, medicineChecked === 'yes' && styles.greenBorder]}>
+                                        <RadioButton
+                                            value="yes"
+                                            status={medicineChecked} />
+                                        <Text>Já, eða á ekki við</Text>
+                                    </View>
+                                    <View style={[styles.radioInput, medicineChecked === 'no' && styles.greenBorder]}>
+                                        <RadioButton
+                                            value="no"
+                                            status={medicineChecked} />
+                                        <Text>Nei</Text>
+                                    </View></>}
                             </View><View onLayout={(event) => { setSection2(event.nativeEvent.layout.y); } } style={styles.formFrame}>
                                 <View style={styles.titleWrapper}>
                                     <Text style={styles.title}>Dagssamningar</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Fór hann í göngutúr</Text>
-                                    <View style={[styles.radioInput, walkChecked === 'yes' && styles.greenBorder]}>
-                                        <RadioButton
-                                            value="yes"
-                                            status={walkChecked} />
-                                        <Text>Já</Text>
-                                    </View>
-                                    <View style={[styles.radioInput, walkChecked === 'no' && styles.greenBorder]}>
-                                        <RadioButton
-                                            value="no"
-                                            status={walkChecked} />
-                                        <Text>Nei</Text>
-                                    </View>
+                                    { editMode
+                                        ? <><View style={[styles.radioInput, walkChecked === 'yes' && styles.greenBorder]}>
+                                            <RadioButton
+                                                value="yes"
+                                                status={walkChecked}
+                                                onPress={() => setWalkChecked('yes')} />
+                                            <Text>Já</Text>
+                                        </View>
+                                        <View style={[styles.radioInput, walkChecked === 'no' && styles.greenBorder]}>
+                                            <RadioButton
+                                                value="no"
+                                                status={walkChecked}
+                                                onPress={() => setWalkChecked('no')} />
+                                            <Text>Nei</Text>
+                                        </View></>
+                                        : <><View style={[styles.radioInput, walkChecked === 'yes' && styles.greenBorder]}>
+                                            <RadioButton
+                                                value="yes"
+                                                status={walkChecked} />
+                                            <Text>Já</Text>
+                                        </View>
+                                        <View style={[styles.radioInput, walkChecked === 'no' && styles.greenBorder]}>
+                                            <RadioButton
+                                                value="no"
+                                                status={walkChecked} />
+                                            <Text>Nei</Text>
+                                        </View></>}
+                                    
                                 </View>
 
                             </View><View onLayout={(event) => { setSection3(event.nativeEvent.layout.y); } } style={[styles.formFrame, styles.lastFormFrame]}>
@@ -256,15 +373,32 @@ const ReportDetail = ({ route }) => {
                                 <View style={styles.detailItem}>
                                     <Text style={styles.paragraph}>ATH: Samkvæmt gildandi lögum um persónuvernd þá getur þjónustuþegi fengið afrit af öllum upplýsingum sem skrifaðar eru um hann.
                                             Starfsmenn skulu því vanda orðaval sitt. Ef þeir eru í vafa ber að hafa samband við deildarstjóra.</Text>
-                                    <Text style={[styles.textInput, report.entry ? styles.greenBorder : styles.textInput]}>{report.entry || ''}</Text>
+                                    { editMode 
+                                        ? <><TextInput
+                                            style={[styles.textInput, entry ? styles.greenBorder : styles.textInput]}
+                                            keyboardType="default"
+                                            multiline={true}
+                                            onPress={() => Keyboard.dismiss()}
+                                            value={entry}
+                                            onChangeText={setEntry}
+                                            textAlignVertical='top'
+                                        /></> 
+                                        : <><Text style={[styles.textInput, report.entry ? styles.greenBorder : styles.textInput]}>{report.entry || ''}</Text></>}
                                 </View>
                                 <View style={styles.important}>
                                     <Text style={styles.inputTitle}>Áríðandi upplýsingar</Text>
-                                    <><Checkbox
-                                        style={styles.checkBox}
-                                        value={report.important}
-                                        color={report.important ? greenBlue : 'gainsboro'}
-                                    /></>
+                                    { editMode
+                                        ? <><Checkbox
+                                            style={styles.checkBox}
+                                            value={important}  
+                                            onValueChange={setImportant}
+                                            color={important ? greenBlue : 'gainsboro'}
+                                        /></>
+                                        : <><Checkbox
+                                            style={styles.checkBox}
+                                            value={report.important}
+                                            color={report.important ? greenBlue : 'gainsboro'}
+                                        /></>}
                                 </View>
                             </View></>
                             : <></>
@@ -280,18 +414,22 @@ const ReportDetail = ({ route }) => {
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Deild</Text>
+                                    { editMode ? <></> : <></>}
                                     <Text style={[styles.input, incident.department.name ? styles.greenBorder : styles.input]}>{incident.department.name || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Þjónustuþegi</Text>
+                                    { editMode ? <></> : <></>}
                                     <Text style={[styles.input, incident.client.name ? styles.greenBorder : styles.input]}>{incident.client.name || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Notandi</Text>
+                                    { editMode ? <></> : <></>}
                                     <Text style={[styles.input, incident.user.name ? styles.greenBorder : styles.input]}>{incident.user.name || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Tegund vaktar</Text>
+                                    { editMode ? <></> : <></>}
                                     <Text style={[styles.input, incident.shift ? styles.greenBorder : styles.input]}>{incident.shift === 'day' ? 'Dagvakt' : incident.shift === 'evening' ? 'Kvöldvakt' : incident.shift === 'evening' ? 'Kvöldvakt' : 'Næturvakt'}</Text>
                                 </View>
                             </View><View onLayout={(event) => { setSection2(event.nativeEvent.layout.y); } } style={styles.formFrame}>
@@ -300,30 +438,37 @@ const ReportDetail = ({ route }) => {
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Staðsetning atviks</Text>
+                                    { editMode ? <></> : <></>}
                                     <Text style={[styles.input, incident.location ? styles.greenBorder : styles.input]}>{incident.location || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Atvik sem um ræðir</Text>
+                                    { editMode ? <></> : <></>}
                                     <Text style={[styles.input, incident.type ? styles.greenBorder : styles.input]}>{incident.type || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Aðdragandi atviks</Text>
+                                    { editMode ? <></> : <></>}
                                     <Text style={[styles.input, incident.before ? styles.greenBorder : styles.input]}>{incident.before || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Hvernig fór atvikið fram</Text>
+                                    { editMode ? <></> : <></>}
                                     <Text style={[styles.textInput, incident.whatHappened ? styles.greenBorder : styles.textInput]}>{incident.whatHappened || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Hvernig var brugðist við atvikinu</Text>
+                                    { editMode ? <></> : <></>}
                                     <Text style={[styles.textInput, incident.response ? styles.greenBorder : styles.textInput]}>{incident.response || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Hvað væri hægt að gera öðruvísi</Text>
+                                    { editMode ? <></> : <></>}
                                     <Text style={[styles.textInput, incident.alternative ? styles.greenBorder : styles.textInput]}>{incident.alternative || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Meiddist einhver eða skemmdist eitthvað</Text>
+                                    { editMode ? <></> : <></>}
                                     <View style={[styles.radioInput, damages === 'yes' && styles.greenBorder]}>
                                         <RadioButton
                                             value='yes'
@@ -345,10 +490,12 @@ const ReportDetail = ({ route }) => {
                                     : <></> }
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Aðrar athugasemdir</Text>
+                                    { editMode ? <></> : <></>}
                                     <Text style={[styles.textInput, incident.other ? styles.greenBorder : styles.textInput]}>{incident.other || ''}</Text>
                                 </View>
                                 <View style={styles.important}>
                                     <Text style={styles.inputTitle}>Áríðandi upplýsingar</Text>
+                                    { editMode ? <></> : <></>}
                                     <><Checkbox
                                         style={styles.checkBox}
                                         value={incident.important}
@@ -361,6 +508,7 @@ const ReportDetail = ({ route }) => {
                                     <Text style={styles.title}>Líkamlegt unngrip</Text>
                                 </View>
                                 <Text style={styles.inputTitle}>Þurfti líkamlegt inngrip?</Text>
+                                { editMode ? <></> : <></>}
                                 <View style={[styles.radioInput, coercion === 'yes' && styles.greenBorder]}>
                                     <RadioButton
                                         value="yes"
