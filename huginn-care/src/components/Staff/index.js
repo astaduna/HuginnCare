@@ -10,7 +10,7 @@ const Staff = ({ name, departments, phone, type }) => {
             <Text style={styles.tableCell}>{name}</Text>
             <Text style={styles.tableCell}><Text style={styles.departments}>{departments.map(department => department.name).join(', ')}</Text></Text>
             <Text style={styles.tableCell}>{phone}</Text>
-            <Text style={styles.tableCell}>{type === 'user' ? 'alm. notandi' : ''}</Text>
+            <Text style={styles.tableCell}>{type === 'user' ? 'alm. notandi' : type === 'moderator' ? 'vaktstjóri' : 'Aðstandandi/fagaðili'}</Text>
             <View style={[styles.tableCell, { flex: 0.3 }]}>
                 <View>
                     <Text onPress={() => {}}>👁️</Text>
