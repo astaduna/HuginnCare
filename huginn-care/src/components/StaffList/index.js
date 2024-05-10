@@ -23,8 +23,8 @@ const StaffList = ({ staffs }) => {
 
     useEffect(() => {
         (async () => {
-            // setDepartments(await getAllDepartments() || []);
-            setDepartments(departmentsJson);
+            setDepartments(await getAllDepartments() || []);
+            // setDepartments(departmentsJson);
         })();
     }, []);
 

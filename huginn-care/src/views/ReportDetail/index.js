@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import { Image, Linking, SafeAreaView, Text, TouchableOpacity, View, ScrollView, TextInput, Keyboard } from 'react-native';
+import { getAllClients } from '../../services/clientService';
+import { getAllDepartments } from '../../services/departmentService';
+import { getIncidentById } from '../../services/incidentService';
 import { getReportById } from '../../services/reportService';
 import { FontAwesome } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
@@ -14,7 +17,6 @@ import moment from 'moment';
 import RadioButton from '../../components/RadioButton';
 import Checkbox from 'expo-checkbox';
 import { greenBlue } from '../../styles/colors';
-import { getIncidentById } from '../../services/incidentService';
 import { clientOptionsA, departmentOptionsA, shiftOptions } from '../../components/Options';
 
 const ReportDetail = ({ route }) => {
@@ -66,14 +68,14 @@ const ReportDetail = ({ route }) => {
 
     useEffect(() => {
         (async () => {
-            // const clientsData = await getAllClients();
-            // setDepartments(await getAllDepartments() || []);
-            // setClients(clientsData.filter(clientID => clientID.client_department_pivot.departmentId === departmentID));
-            setDepartments(departmentsJson);
-            setClients(clientsJson);
+            const clientsData = await getAllClients();
+            setDepartments(await getAllDepartments() || []);
+            setClients(clientsData.filter(clientID => clientID.client_department_pivot.departmentId === departmentID));
+            // setDepartments(departmentsJson);
+            // setClients(clientsJson);
             if (type === 'Dagsskýrsla') {
-                // setReport(await getReportById(id));
-                setReport(reportJson);
+                setReport(await getReportById(id));
+                // setReport(reportJson);
                 setDepartmentID(report.department?.name);
                 setClientID(report.client?.name);
                 setShift(report.shift === 'day' ? 'Dagvakt' : report.shift === 'evening' ? 'Kvöldvakt' : report.shift === 'night' ? 'Næturvakt' : '');
@@ -84,8 +86,8 @@ const ReportDetail = ({ route }) => {
                 setImportant(report.important);
                 setIsLoading(false);
             } else if (type === 'Atvikaskýrsla') {
-                // setIncident(await getIncidentById(id));
-                setIncident(incidentJson);
+                setIncident(await getIncidentById(id));
+                // setIncident(incidentJson);
                 setDepartmentID(incident.department?.name);
                 setClientID(incident.client?.name);
                 setShift(incident.shift === 'day' ? 'Dagvakt' : incident.shift === 'evening' ? 'Kvöldvakt' : incident.shift === 'night' ? 'Næturvakt' : '');
@@ -115,16 +117,16 @@ const ReportDetail = ({ route }) => {
     };
 
     const handleDeleteButtonClick = () => {
-        console.log('deleted');
+        // console.log('deleted');
     };
 
     const handleCancelButtonClick = () => {
-        console.log('cancelled');
+        // console.log('cancelled');
         setEditMode(false);
     };
 
     const handleSaveButtonClick = () => {
-        console.log('edited');
+        // console.log('edited');
         setEditMode(false);
     };
 

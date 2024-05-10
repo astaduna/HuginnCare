@@ -9,7 +9,7 @@ const FloatingActionButton = () => {
     return (
         <TouchableOpacity
             style={styles.fab}
-            onPress={() => navigation.navigate('NewReport')} // Adjust as needed for your navigation structure
+            onPress={() => navigation.navigate('NewReport')}
         >
             <Text style={styles.fabIcon}>+</Text>
         </TouchableOpacity>

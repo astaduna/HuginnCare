@@ -45,7 +45,7 @@ const NewReport = ({ navigation: { navigate } }) => {
     const scrollViewRef = useRef();
     const [selectedSection, setSelectedSection] = useState('');
     const isDeptOrClientEmpty = departmentID === '' || clientID === '';
-    const isDayReportEmpty = reportType === 'day' && (isDeptOrClientEmpty || shift === '' || medicineChecked === '' || walkChecked === '');
+    const isDayReportEmpty = reportType === 'day' && (isDeptOrClientEmpty || shift === '' || medicineChecked === '' || walkChecked === '' || entry === '');
     const isIncidentEmpty = reportType === 'incident' && (isDeptOrClientEmpty || shift === '' || incidentLocation === '' || incidentType === '' ||
     incidentBefore === '' || incidentWhatHappened === '' || incidentResponse === '' || (damages === 'yes' && damagesInfo === '') || incidentAlternative === '' || incidentOther === '' || (coercion === 'yes' && coercionDescription === ''));
     const isEmpty = reportType === '' || isDayReportEmpty || isIncidentEmpty;
@@ -56,11 +56,11 @@ const NewReport = ({ navigation: { navigate } }) => {
 
     useEffect(() => {
         (async () => {
-            // const clientsData = await getAllClients();
-            // setDepartments(await getAllDepartments() || []);
-            // setClients(clientsData.filter(clientID => clientID.client_department_pivot.departmentId === departmentID));
-            setDepartments(departmentsJson);
-            setClients(clientsJson);
+            const clientsData = await getAllClients();
+            setDepartments(await getAllDepartments() || []);
+            setClients(clientsData.filter(clientID => clientID.client_department_pivot.departmentId === departmentID));
+            // setDepartments(departmentsJson);
+            // setClients(clientsJson);
         })();
     }, [isFocused, departmentID]);
 

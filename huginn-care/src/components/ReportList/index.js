@@ -47,14 +47,14 @@ const ReportList = ({
     useEffect(() => {
         (async () => {
             if (isFiltered) {
-                // const usersData = await getAllUsers();
-                // const clientsData = await getAllClients();
-                // setDepartments(await getAllDepartments() || []);
-                // setUsers(usersData.filter(user => user.user_department_pivot.departmentId === departmentValue));
-                // setClients(clientsData.filter(client => client.client_department_pivot.departmentId === departmentValue));
-                setDepartments(departmentsJson);
-                setUsers(usersJson.filter(user => user.user_department_pivot.departmentId === departmentValue));
-                setClients(clientsJson.filter(client => client.client_department_pivot.departmentId === departmentValue));
+                const usersData = await getAllUsers();
+                const clientsData = await getAllClients();
+                setDepartments(await getAllDepartments() || []);
+                setUsers(usersData.filter(user => user.user_department_pivot.departmentId === departmentValue));
+                setClients(clientsData.filter(client => client.client_department_pivot.departmentId === departmentValue));
+                // setDepartments(departmentsJson);
+                // setUsers(usersJson.filter(user => user.user_department_pivot.departmentId === departmentValue));
+                // setClients(clientsJson.filter(client => client.client_department_pivot.departmentId === departmentValue));
             }
         })();
     }, [departmentValue]);
@@ -91,11 +91,11 @@ const ReportList = ({
     } else if (categoryValue === 'coercion') {
         reportsTofilter = incidents.filter(incident => incident.coercion != null);
     } else {
-        reportsTofilter = reports.concat(incidents);
+        reportsTofilter = reports?.concat(incidents);
     }
 
     const filteredReports = reportsTofilter
-        .sort((a, b) => new Date(a.date) - new Date(b.date))
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
         .filter(report =>
             departmentValue === 'all' || departmentValue === '' || report.department.id === departmentValue
         )
@@ -190,7 +190,7 @@ const ReportList = ({
                         >
                             <View style={styles.calendarBorder}>
                                 <Text style={styles.paragraph}>
-                                    {start ? start.toLocaleDateString('en-GB') : ''} - {end ? end.toLocaleDateString('en-GB') : ''}
+                                    {start?.toLocaleDateString('en-GB')} - {end?.toLocaleDateString('en-GB')}
                                 </Text>
                             </View>
                         </TouchableOpacity>

@@ -5,7 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import { getAllDepartments } from '../../services/departmentService';
 import Client from '../Client';
-import { departmentOptionsB, orderOptions, pageOptions, userOptionsB } from '../Options';
+import { departmentOptionsB, orderOptions, pageOptions } from '../Options';
 import departmentsJson from '../../resources/departments.json';
 
 const ClientList = ({ clients }) => {
