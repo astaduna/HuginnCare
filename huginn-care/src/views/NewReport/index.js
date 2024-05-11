@@ -27,13 +27,18 @@ const NewReport = ({ navigation: { navigate } }) => {
     const [section3, setSection3] = useState();
     const scrollViewRef = useRef();
     const [selectedSection, setSelectedSection] = useState('');
-    const [isEmpty, setIsEmpty] = useState(false);
+    const [isReportEmpty, setIsReportEmpty] = useState(false);
+    const [isIncidentEmpty, setIsIncidentEmpty] = useState(false);
     const [isDeptOrClientEmpty, setIsDeptOrClientEmpty] = useState(false);
     const [createNewReportFunc, setCreateNewReportFunc] = useState(() => () => {});
     const [createNewIncidentFunc, setCreateNewIncidentFunc] = useState(() => () => {});
 
-    const handleIsEmpty = (value) => {
-        setIsEmpty(value);
+    const handleIsReportEmpty = (value) => {
+        setIsReportEmpty(value);
+    };
+
+    const handleIsIncidentEmpty = (value) => {
+        setIsIncidentEmpty(value);
     };
 
     const handleIsDeptOrClientEmpty = (value) => {
@@ -174,7 +179,7 @@ const NewReport = ({ navigation: { navigate } }) => {
                         <ReportModal
                             navigate={navigate}
                             handleSection={handleSection}
-                            handleIsEmpty={handleIsEmpty}
+                            handleIsReportEmpty={handleIsReportEmpty}
                             handleIsDeptOrClientEmpty={handleIsDeptOrClientEmpty}
                             handleCreateNewReportFunc={handleCreateNewReportFunc}
                         />
@@ -182,8 +187,9 @@ const NewReport = ({ navigation: { navigate } }) => {
                     : reportType === 'incident'
                         ? (
                             <IncidentModal
+                                navigate={navigate}
                                 handleSection={handleSection}
-                                handleIsEmpty={handleIsEmpty}
+                                handleIsIncidentEmpty={handleIsIncidentEmpty}
                                 handleIsDeptOrClientEmpty={handleIsDeptOrClientEmpty}
                                 handleCreateNewIncidentFunc={handleCreateNewIncidentFunc}
                             />
@@ -194,14 +200,14 @@ const NewReport = ({ navigation: { navigate } }) => {
                 ? (
                     <><TouchableOpacity
                         style={isDeptOrClientEmpty ? styles.disabledButton2 : styles.button2}
-                        onPress={createNewReportFunc(true)}
+                        onPress={() => createNewReportFunc(true)}
                         disabled={isDeptOrClientEmpty}>
                         <Text style={styles.buttonText}>Vista sem drög</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={isEmpty ? styles.disabledButton : styles.button}
-                        onPress={createNewReportFunc(false)}
-                        disabled={isEmpty}>
+                        style={isReportEmpty ? styles.disabledButton : styles.button}
+                        onPress={() => createNewReportFunc(false)}
+                        disabled={isReportEmpty}>
                         <Text style={styles.buttonText}>Stofna skýrslu <Text style={styles.plus}>+</Text></Text>
                     </TouchableOpacity></>
                 )
@@ -214,9 +220,9 @@ const NewReport = ({ navigation: { navigate } }) => {
                             <Text style={styles.buttonText}>Vista sem drög</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={isEmpty ? styles.disabledButton : styles.button}
+                            style={isIncidentEmpty ? styles.disabledButton : styles.button}
                             onPress={() => createNewIncidentFunc(false)}
-                            disabled={isEmpty}>
+                            disabled={isIncidentEmpty}>
                             <Text style={styles.buttonText}>Stofna skýrslu <Text style={styles.plus}>+</Text></Text>
         
                         </TouchableOpacity></>

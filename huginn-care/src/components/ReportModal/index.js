@@ -19,7 +19,7 @@ import usersJson from '../../resources/users.json';
 const ReportModal = ({
     navigate,
     handleSection,
-    handleIsEmpty,
+    handleIsReportEmpty,
     handleIsDeptOrClientEmpty,
     handleCreateNewReportFunc
 }) => {
@@ -46,8 +46,9 @@ const ReportModal = ({
 
     useEffect(() => {
         (async () => {
+            const departmentsData = await getAllDepartments();
             const clientsData = await getAllClients();
-            setDepartments(await getAllDepartments() || []);
+            setDepartments(departmentsData || []);
             setClients(clientsData.filter(clientID => clientID.client_department_pivot.departmentId === departmentID));
             // setDepartments(departmentsJson);
             // setClients(clientsJson);
@@ -60,8 +61,8 @@ const ReportModal = ({
             departmentID,
             clientID,
             draft: isDraft ? 'true' : 'false',
-            medicine: medicineChecked ? 'true' : 'false',
-            clientReason: walkChecked ? '' : '',
+            medicine: medicineChecked === 'yes' ? 'true' : 'false',
+            clientReason: walkChecked === 'yes' ? '' : 'no',
             entry,
             shift,
             onShift
@@ -73,7 +74,7 @@ const ReportModal = ({
     };
 
     const updateIsEmpty = () => {
-        handleIsEmpty(isEmpty);
+        handleIsReportEmpty(isEmpty);
     };
 
     const updateIsDeptOrClientEmpty = () => {

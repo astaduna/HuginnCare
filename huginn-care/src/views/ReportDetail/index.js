@@ -81,7 +81,7 @@ const ReportDetail = ({ route }) => {
                 setShift(report.shift === 'day' ? 'Dagvakt' : report.shift === 'evening' ? 'Kvöldvakt' : report.shift === 'night' ? 'Næturvakt' : '');
                 setOnShift(report.onShift);
                 setMedicineChecked(report.medicine ? 'yes' : 'no');
-                setWalkChecked(report.clientReason ? 'yes' : 'no');
+                setWalkChecked(!report.clientReason ? 'yes' : 'no');
                 setEntry(report.entry);
                 setImportant(report.important);
                 setIsLoading(false);

@@ -20,7 +20,7 @@ import usersJson from '../../resources/users.json';
 const IncidentModal = ({
     navigate,
     handleSection,
-    handleIsEmpty,
+    handleIsIncidentEmpty,
     handleIsDeptOrClientEmpty,
     handleCreateNewIncidentFunc
 }) => {
@@ -45,7 +45,7 @@ const IncidentModal = ({
     const isDeptOrClientEmpty = departmentID === '' || clientID === '';
     const isEmpty = isDeptOrClientEmpty || shift === '' || incidentLocation === '' || incidentType === '' ||
     incidentBefore === '' || incidentWhatHappened === '' || incidentResponse === '' || (damages === 'yes' && damagesInfo === '') || 
-    incidentAlternative === '' || incidentOther === '' || (coercion === 'yes' && coercionDescription === '');
+    incidentAlternative === '' || (coercion === 'yes' && coercionDescription === '');
 
     const isFocused = useIsFocused();
     const [departments, setDepartments] = useState([]);
@@ -57,8 +57,9 @@ const IncidentModal = ({
 
     useEffect(() => {
         (async () => {
+            const departmentsData = await getAllDepartments();
             const clientsData = await getAllClients();
-            setDepartments(await getAllDepartments() || []);
+            setDepartments(departmentsData || []);
             setClients(clientsData.filter(clientID => clientID.client_department_pivot.departmentId === departmentID));
             // setDepartments(departmentsJson);
             // setClients(clientsJson);
@@ -91,7 +92,7 @@ const IncidentModal = ({
     };
 
     const updateIsEmpty = () => {
-        handleIsEmpty(isEmpty);
+        handleIsIncidentEmpty(isEmpty);
     };
 
     const updateIsDeptOrClientEmpty = () => {
