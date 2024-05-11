@@ -17,7 +17,7 @@ import moment from 'moment';
 import RadioButton from '../../components/RadioButton';
 import Checkbox from 'expo-checkbox';
 import { greenBlue } from '../../styles/colors';
-import { clientOptionsA, departmentOptionsA, shiftOptions } from '../../components/Options';
+import { beforeOptions, clientOptionsA, departmentOptionsA, shiftOptions, typeOptions } from '../../components/Options';
 
 const ReportDetail = ({ route }) => {
     const [departmentID, setDepartmentID] = useState('');
@@ -91,10 +91,18 @@ const ReportDetail = ({ route }) => {
                 setDepartmentID(incident.department?.name);
                 setClientID(incident.client?.name);
                 setShift(incident.shift === 'day' ? 'Dagvakt' : incident.shift === 'evening' ? 'Kvöldvakt' : incident.shift === 'night' ? 'Næturvakt' : '');
-                setOnShift(incident.onShift);
+                setIncidentLocation(incident.location);
+                setIncidentType(incident.type);
+                setIncidentBefore(incident.before);
+                setIncidentWhatHappened(incident.whatHappened);
+                setIncidentResponse(incident.response);
+                setIncidentAlternative(incident.alternative);
                 setDamages(incident.damages ? 'yes' : 'no');
-                setCoercion(incident.coercion ? 'yes' : 'no');
+                setDamagesInfo(incident?.damages);
+                setIncidentOther(incident.other);
                 setImportant(incident.important);
+                setCoercion(incident.coercion ? 'yes' : 'no');
+                setCoercionDescription(incident.coercion?.description);
                 setIsLoading(false);
             }
         })();
@@ -297,7 +305,7 @@ const ReportDetail = ({ route }) => {
                                     { editMode 
                                         ? <><TextInput
                                             style={[styles.input, onShift ? styles.greenBorder : styles.input]}
-                                            placeholder={shift}
+                                            placeholder={onShift}
                                             keyboardType="default"
                                             value={onShift}
                                             onChangeText={setOnShift}
@@ -416,23 +424,93 @@ const ReportDetail = ({ route }) => {
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Deild</Text>
-                                    { editMode ? <></> : <></>}
-                                    <Text style={[styles.input, incident.department?.name ? styles.greenBorder : styles.input]}>{incident.department?.name || ''}</Text>
+                                    { editMode 
+                                        ? <><RNPickerSelect
+                                            useNativeAndroidPickerStyle={false}
+                                            style={{
+                                                inputIOS: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
+                                                inputAndroid: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
+                                                iconContainer: {
+                                                    top: 25,
+                                                    right: 20
+                                                },
+                                                placeholder: {
+                                                    color: 'black'
+                                                }
+                                            }}
+                                            placeholder={{ 
+                                                label: incident.department?.name, 
+                                                value: incident.department?.name
+                                            }}
+                                            onValueChange={(value) => setDepartmentID(value)}
+                                            items={departmentOptionsA(departments)}
+                                            Icon={() => {
+                                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                                            }}
+                                        /></> 
+                                        : <><Text style={[styles.input, incident.department?.name ? styles.greenBorder : styles.input]}>{incident.department?.name || ''}</Text></>}
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Þjónustuþegi</Text>
-                                    { editMode ? <></> : <></>}
-                                    <Text style={[styles.input, incident.client?.name ? styles.greenBorder : styles.input]}>{incident.client?.name || ''}</Text>
+                                    { editMode 
+                                        ? <><RNPickerSelect
+                                            useNativeAndroidPickerStyle={false}
+                                            style={{
+                                                inputIOS: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
+                                                inputAndroid: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
+                                                iconContainer: {
+                                                    top: 25,
+                                                    right: 20
+                                                },
+                                                placeholder: {
+                                                    color: 'black'
+                                                }
+                                            }}
+                                            placeholder={{ 
+                                                label: incident.client?.name, 
+                                                value: incident.client?.name
+                                            }}
+                                            onValueChange={(value) => setClientID(value)}
+                                            items={clientOptionsA(clients)}
+                                            Icon={() => {
+                                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                                            }}
+                                        /></>  
+                                        : <><Text style={[styles.input, incident.client?.name ? styles.greenBorder : styles.input]}>{incident.client?.name || ''}</Text></>}
                                 </View>
-                                <View style={styles.detailItem}>
-                                    <Text style={styles.inputTitle}>Notandi</Text>
-                                    { editMode ? <></> : <></>}
-                                    <Text style={[styles.input, incident.user?.name ? styles.greenBorder : styles.input]}>{incident.user?.name || ''}</Text>
-                                </View>
+                                { editMode 
+                                    ? <></> 
+                                    : <><View style={styles.detailItem}>
+                                        <Text style={styles.inputTitle}>Notandi</Text>
+                                        <Text style={[styles.input, incident.user?.name ? styles.greenBorder : styles.input]}>{incident.user?.name || ''}</Text>
+                                    </View></> }
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Tegund vaktar</Text>
-                                    { editMode ? <></> : <></>}
-                                    <Text style={[styles.input, incident.shift ? styles.greenBorder : styles.input]}>{shift}</Text>
+                                    { editMode 
+                                        ? <><RNPickerSelect
+                                            useNativeAndroidPickerStyle={false}
+                                            style={{
+                                                inputIOS: [styles.input, shift !== '' ? styles.greenBorder : styles.input],
+                                                inputAndroid: [styles.input, shift !== '' ? styles.greenBorder : styles.input],
+                                                iconContainer: {
+                                                    top: 25,
+                                                    right: 20
+                                                },
+                                                placeholder: {
+                                                    color: 'black'
+                                                }
+                                            }}
+                                            placeholder={{ 
+                                                label: shift, 
+                                                value: shift
+                                            }}
+                                            onValueChange={(value) => setShift(value)}
+                                            items={shiftOptions}
+                                            Icon={() => {
+                                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                                            }}
+                                        /></> 
+                                        : <><Text style={[styles.input, incident.shift ? styles.greenBorder : styles.input]}>{shift}</Text></>}
                                 </View>
                             </View><View onLayout={(event) => { setSection2(event.nativeEvent.layout.y); } } style={styles.formFrame}>
                                 <View style={styles.titleWrapper}>
@@ -440,69 +518,189 @@ const ReportDetail = ({ route }) => {
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Staðsetning atviks</Text>
-                                    { editMode ? <></> : <></>}
-                                    <Text style={[styles.input, incident.location ? styles.greenBorder : styles.input]}>{incident.location || ''}</Text>
+                                    { editMode 
+                                        ? <><TextInput
+                                            style={[styles.input, incidentLocation ? styles.greenBorder : styles.input]}
+                                            placeholder={incidentLocation}
+                                            keyboardType="default"
+                                            value={incidentLocation}
+                                            onChangeText={setIncidentLocation}
+                                        /></>
+                                        : <><Text style={[styles.input, incident.location ? styles.greenBorder : styles.input]}>{incident.location || ''}</Text></>}
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Atvik sem um ræðir</Text>
-                                    { editMode ? <></> : <></>}
-                                    <Text style={[styles.input, incident.type ? styles.greenBorder : styles.input]}>{incident.type || ''}</Text>
+                                    { editMode 
+                                        ? <><RNPickerSelect
+                                            useNativeAndroidPickerStyle={false}
+                                            style={{
+                                                inputIOS: [styles.input, incidentType !== '' ? styles.greenBorder : styles.input],
+                                                inputAndroid: [styles.input, incidentType !== '' ? styles.greenBorder : styles.input],
+                                                iconContainer: {
+                                                    top: 25,
+                                                    right: 20
+                                                },
+                                                placeholder: {
+                                                    color: 'black'
+                                                }
+                                            }}
+                                            placeholder={{ 
+                                                label: incident.type, 
+                                                value: incident.type 
+                                            }}
+                                            onValueChange={(value) => setIncidentType(value)}
+                                            items={typeOptions}
+                                            Icon={() => {
+                                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                                            }}
+                                        /></> 
+                                        : <><Text style={[styles.input, incident.type ? styles.greenBorder : styles.input]}>{incident.type || ''}</Text></>}
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Aðdragandi atviks</Text>
-                                    { editMode ? <></> : <></>}
-                                    <Text style={[styles.input, incident.before ? styles.greenBorder : styles.input]}>{incident.before || ''}</Text>
+                                    { editMode 
+                                        ? <><RNPickerSelect
+                                            useNativeAndroidPickerStyle={false}
+                                            style={{
+                                                inputIOS: [styles.input, incidentBefore !== '' ? styles.greenBorder : styles.input],
+                                                inputAndroid: [styles.input, incidentBefore !== '' ? styles.greenBorder : styles.input],
+                                                iconContainer: {
+                                                    top: 25,
+                                                    right: 20
+                                                },
+                                                placeholder: {
+                                                    color: 'black'
+                                                }
+                                            }}
+                                            placeholder={{ 
+                                                label: incident.before, 
+                                                value: incident.before 
+                                            }}
+                                            onValueChange={(value) => setIncidentBefore(value)}
+                                            items={beforeOptions}
+                                            Icon={() => {
+                                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
+                                            }}
+                                        /></> 
+                                        : <><Text style={[styles.input, incident.before ? styles.greenBorder : styles.input]}>{incident.before || ''}</Text></>}
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Hvernig fór atvikið fram</Text>
-                                    { editMode ? <></> : <></>}
-                                    <Text style={[styles.textInput, incident.whatHappened ? styles.greenBorder : styles.textInput]}>{incident.whatHappened || ''}</Text>
+                                    { editMode 
+                                        ? <><TextInput
+                                            style={[styles.textInput, incidentWhatHappened ? styles.greenBorder : styles.textInput]}
+                                            keyboardType="default"
+                                            multiline={true}
+                                            onPress={() => Keyboard.dismiss()}
+                                            value={incidentWhatHappened}
+                                            onChangeText={setIncidentWhatHappened}
+                                            textAlignVertical='top'
+                                        /></> 
+                                        : <><Text style={[styles.textInput, incident.whatHappened ? styles.greenBorder : styles.textInput]}>{incident.whatHappened || ''}</Text></>}
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Hvernig var brugðist við atvikinu</Text>
-                                    { editMode ? <></> : <></>}
-                                    <Text style={[styles.textInput, incident.response ? styles.greenBorder : styles.textInput]}>{incident.response || ''}</Text>
+                                    { editMode 
+                                        ? <><TextInput
+                                            style={[styles.textInput, incidentResponse ? styles.greenBorder : styles.textInput]}
+                                            keyboardType="default"
+                                            multiline={true}
+                                            onPress={() => Keyboard.dismiss()}
+                                            value={incidentResponse}
+                                            onChangeText={setIncidentResponse}
+                                            textAlignVertical='top'
+                                        /></> 
+                                        : <><Text style={[styles.textInput, incident.response ? styles.greenBorder : styles.textInput]}>{incident.response || ''}</Text></>}
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Hvað væri hægt að gera öðruvísi</Text>
-                                    { editMode ? <></> : <></>}
-                                    <Text style={[styles.textInput, incident.alternative ? styles.greenBorder : styles.textInput]}>{incident.alternative || ''}</Text>
+                                    { editMode 
+                                        ? <><TextInput
+                                            style={[styles.textInput, incidentAlternative ? styles.greenBorder : styles.textInput]}
+                                            keyboardType="default"
+                                            multiline={true}
+                                            onPress={() => Keyboard.dismiss()}
+                                            value={incidentAlternative}
+                                            onChangeText={setIncidentAlternative}
+                                            textAlignVertical='top'
+                                        /></> 
+                                        : <><Text style={[styles.textInput, incident.alternative ? styles.greenBorder : styles.textInput]}>{incident.alternative || ''}</Text></>}
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Meiddist einhver eða skemmdist eitthvað</Text>
-                                    { editMode ? <></> : <></>}
-                                    <View style={[styles.radioInput, damages === 'yes' && styles.greenBorder]}>
-                                        <RadioButton
-                                            value='yes'
-                                            status={damages} />
-                                        <Text>Já</Text>
-                                    </View>
-                                    <View style={[styles.radioInput, damages === 'no' && styles.greenBorder]}>
-                                        <RadioButton
-                                            value='no'
-                                            status={damages} />
-                                        <Text>Nei</Text>
-                                    </View>
+                                    { editMode 
+                                        ? <><View style={[styles.radioInput, damages === 'yes' && styles.greenBorder]}>
+                                            <RadioButton
+                                                value="yes"
+                                                status={damages}
+                                                onPress={() => setDamages('yes')}
+                                            />
+                                            <Text>Já</Text>
+                                        </View>
+                                        <View style={[styles.radioInput, damages === '' && styles.greenBorder]}>
+                                            <RadioButton
+                                                value=""
+                                                status={damages}
+                                                onPress={() => setDamages('')}
+                                            />
+                                            <Text>Nei</Text>
+                                        </View></> 
+                                        : <><View style={[styles.radioInput, damages === 'yes' && styles.greenBorder]}>
+                                            <RadioButton
+                                                value='yes'
+                                                status={damages} />
+                                            <Text>Já</Text>
+                                        </View>
+                                        <View style={[styles.radioInput, damages === 'no' && styles.greenBorder]}>
+                                            <RadioButton
+                                                value='no'
+                                                status={damages} />
+                                            <Text>Nei</Text>
+                                        </View></>}
                                 </View>
                                 { damages === 'yes'
-                                    ? <>
+                                    ? <> 
                                         <Text style={styles.inputTitle}>Lýsing á meiðslum eða skemdum</Text>
-                                        <Text style={[styles.textInput, incident.damages ? styles.greenBorder : styles.textInput]}>{incident.damages || ''}</Text>
+                                        { editMode 
+                                            ? <><TextInput
+                                                style={[styles.textInput, damagesInfo ? styles.greenBorder : styles.textInput]}
+                                                placeholder=""
+                                                keyboardType="default"
+                                                multiline={true}
+                                                onPress={() => Keyboard.dismiss()}
+                                                value={damagesInfo}
+                                                onChangeText={setDamagesInfo} /></> 
+                                            : <><Text style={[styles.textInput, incident.damages ? styles.greenBorder : styles.textInput]}>{incident.damages || ''}</Text></>}
                                     </>
                                     : <></> }
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Aðrar athugasemdir</Text>
-                                    { editMode ? <></> : <></>}
-                                    <Text style={[styles.textInput, incident.other ? styles.greenBorder : styles.textInput]}>{incident.other || ''}</Text>
+                                    { editMode 
+                                        ? <><TextInput
+                                            style={[styles.textInput, incidentOther ? styles.greenBorder : styles.textInput]}
+                                            keyboardType="default"
+                                            multiline={true}
+                                            onPress={() => Keyboard.dismiss()}
+                                            value={incidentOther}
+                                            onChangeText={setIncidentOther}
+                                            textAlignVertical='top'
+                                        /></> 
+                                        : <><Text style={[styles.textInput, incident.other ? styles.greenBorder : styles.textInput]}>{incident.other || ''}</Text></>}
                                 </View>
                                 <View style={styles.important}>
                                     <Text style={styles.inputTitle}>Áríðandi upplýsingar</Text>
-                                    { editMode ? <></> : <></>}
-                                    <><Checkbox
-                                        style={styles.checkBox}
-                                        value={incident.important}
-                                        color={incident.important ? greenBlue : 'gainsboro'}
-                                    /></>
+                                    { editMode
+                                        ? <><Checkbox
+                                            style={styles.checkBox}
+                                            value={important}  
+                                            onValueChange={setImportant}
+                                            color={important ? greenBlue : 'gainsboro'}
+                                        /></>
+                                        : <><Checkbox
+                                            style={styles.checkBox}
+                                            value={incident.important}
+                                            color={incident.important ? greenBlue : 'gainsboro'}
+                                        /></>}
                                 </View>
 
                             </View><View onLayout={(event) => { setSection3(event.nativeEvent.layout.y); } } style={[styles.formFrame, styles.lastFormFrame]}>
@@ -510,23 +708,49 @@ const ReportDetail = ({ route }) => {
                                     <Text style={styles.title}>Líkamlegt inngrip</Text>
                                 </View>
                                 <Text style={styles.inputTitle}>Þurfti líkamlegt inngrip?</Text>
-                                { editMode ? <></> : <></>}
-                                <View style={[styles.radioInput, coercion === 'yes' && styles.greenBorder]}>
-                                    <RadioButton
-                                        value="yes"
-                                        status={coercion} />
-                                    <Text>Já</Text>
-                                </View>
-                                <View style={[styles.radioInput, coercion === 'no' && styles.greenBorder]}>
-                                    <RadioButton
-                                        value="no"
-                                        status={coercion} />
-                                    <Text>Nei</Text>
-                                </View>
+                                { editMode 
+                                    ? <><View style={[styles.radioInput, coercion === 'yes' && styles.greenBorder]}>
+                                        <RadioButton
+                                            value="yes"
+                                            status={coercion}
+                                            onPress={() => setCoercion('yes')}
+                                        />
+                                        <Text>Já</Text>
+                                    </View>
+                                    <View style={[styles.radioInput, coercion === '' && styles.greenBorder]}>
+                                        <RadioButton
+                                            value=""
+                                            status={coercion}
+                                            onPress={() => setCoercion('')}
+                                        />
+                                        <Text>Nei</Text>
+                                    </View></> 
+                                    : <><View style={[styles.radioInput, coercion === 'yes' && styles.greenBorder]}>
+                                        <RadioButton
+                                            value="yes"
+                                            status={coercion} />
+                                        <Text>Já</Text>
+                                    </View>
+                                    <View style={[styles.radioInput, coercion === 'no' && styles.greenBorder]}>
+                                        <RadioButton
+                                            value="no"
+                                            status={coercion} />
+                                        <Text>Nei</Text>
+                                    </View></>}
+                                
                                 { coercion === 'yes'
-                                    ? <>
-                                        <Text style={styles.inputTitle}>Lýsing á eðli inngrips</Text>
-                                        <Text style={[styles.textInput, incident.coercion?.description ? styles.greenBorder : styles.textInput]}>{incident?.coercion?.description || ''}</Text>
+                                    ? <> 
+                                        { editMode 
+                                            ? <><Text style={styles.inputTitle}>Lýsing á eðli inngrips</Text><TextInput
+                                                style={[styles.textInput, coercionDescription ? styles.greenBorder : styles.textInput]}
+                                                placeholder=""
+                                                keyboardType="default"
+                                                multiline={true}
+                                                onPress={() => Keyboard.dismiss()}
+                                                value={coercionDescription}
+                                                onChangeText={setCoercionDescription} /></> 
+                                            : <><Text style={styles.inputTitle}>Lýsing á eðli inngrips</Text>
+                                                <Text style={[styles.textInput, incident.coercion?.description ? styles.greenBorder : styles.textInput]}>{incident?.coercion?.description || ''}</Text></> }
                                     </>
                                     : <></> }
                             </View></> 
