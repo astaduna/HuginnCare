@@ -49,7 +49,7 @@ const ReportModal = ({
             const departmentsData = await getAllDepartments();
             const clientsData = await getAllClients();
             setDepartments(departmentsData || []);
-            setClients(clientsData.filter(clientID => clientID.client_department_pivot.departmentId === departmentID));
+            setClients(clientsData.filter(client => client.client_department_pivot.departmentId === departmentID));
             // setDepartments(departmentsJson);
             // setClients(clientsJson);
         })();

@@ -134,8 +134,21 @@ export const createReport = async (reportData) => {
 // Function to edit a report by ID
 export const editReport = async (id, reportData) => {
     try {
-        const response = await fetch(`${API_URL}/reports/edit/${id}`, reportData);
-        return response.data;
+        const cookies = await AsyncStorage.getItem('sessionCookies');
+        const response = await fetch(`${API_URL}/reports/edit/${id}`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                ...(cookies ? { Cookie: cookies } : {})
+            },
+            body: JSON.stringify(reportData)
+        });
+
+        if (response.ok) {
+            return true;
+        }
+        throw new Error('Failed to create report');
     } catch (error) {
         throw error.response.data;
     }

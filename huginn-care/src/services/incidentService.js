@@ -80,8 +80,20 @@ export const createIncident = async (incidentData) => {
 // Function to edit an incident by ID
 export const editIncident = async (id, incidentData) => {
     try {
-        const response = await fetch(`${API_URL}/incidents/edit/${id}`, incidentData);
-        return response.data;
+        const cookies = await AsyncStorage.getItem('sessionCookies');
+        const response = await fetch(`${API_URL}/incidents/edit/${id}`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Cookie: cookies || ''
+            },
+            body: JSON.stringify(incidentData)
+        });
+        if (response.ok) {
+            return true;
+        }
+        throw new Error('Failed to create report');
     } catch (error) {
         throw error.response.data;
     }

@@ -3,8 +3,8 @@ import { useIsFocused } from '@react-navigation/native';
 import { Image, Linking, SafeAreaView, Text, TouchableOpacity, View, ScrollView, TextInput, Keyboard } from 'react-native';
 import { getAllClients } from '../../services/clientService';
 import { getAllDepartments } from '../../services/departmentService';
-import { getIncidentById } from '../../services/incidentService';
-import { getReportById } from '../../services/reportService';
+import { editIncident, getIncidentById } from '../../services/incidentService';
+import { editReport, getReportById } from '../../services/reportService';
 import { FontAwesome } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import Spinner from '../../components/Spinner';
@@ -68,45 +68,51 @@ const ReportDetail = ({ route }) => {
 
     useEffect(() => {
         (async () => {
+            const departmentsData = await getAllDepartments();
             const clientsData = await getAllClients();
-            setDepartments(await getAllDepartments() || []);
-            setClients(clientsData.filter(clientID => clientID.client_department_pivot.departmentId === departmentID));
+            setDepartments(departmentsData || []);
+            setClients(clientsData.filter(client => client.client_department_pivot.departmentId === departmentID));
             // setDepartments(departmentsJson);
             // setClients(clientsJson);
+        })();
+    }, [isFocused, departmentID]);
+
+    useEffect(() => {
+        (async () => {
             if (type === 'Dagsskýrsla') {
                 setReport(await getReportById(id));
                 // setReport(reportJson);
-                setDepartmentID(report.department?.name);
-                setClientID(report.client?.name);
-                setShift(report.shift === 'day' ? 'Dagvakt' : report.shift === 'evening' ? 'Kvöldvakt' : report.shift === 'night' ? 'Næturvakt' : '');
-                setOnShift(report.onShift);
+                setDepartmentID(report.department?.id);
+                setClientID(report.client?.id);
+                setShift(report.shift);
+                setOnShift(report.onShift || '');
                 setMedicineChecked(report.medicine ? 'yes' : 'no');
                 setWalkChecked(!report.clientReason ? 'yes' : 'no');
-                setEntry(report.entry);
+                setEntry(report.entry || '');
                 setImportant(report.important);
                 setIsLoading(false);
             } else if (type === 'Atvikaskýrsla') {
                 setIncident(await getIncidentById(id));
                 // setIncident(incidentJson);
-                setDepartmentID(incident.department?.name);
-                setClientID(incident.client?.name);
-                setShift(incident.shift === 'day' ? 'Dagvakt' : incident.shift === 'evening' ? 'Kvöldvakt' : incident.shift === 'night' ? 'Næturvakt' : '');
-                setIncidentLocation(incident.location);
+                setDepartmentID(incident.department?.id);
+                setClientID(incident.client?.id);
+                setShift(incident.shift);
+                setIncidentLocation(incident.location || '');
                 setIncidentType(incident.type);
-                setIncidentBefore(incident.before);
-                setIncidentWhatHappened(incident.whatHappened);
-                setIncidentResponse(incident.response);
-                setIncidentAlternative(incident.alternative);
+                setIncidentBefore(incident.before || '');
+                setIncidentWhatHappened(incident.whatHappened || '');
+                setIncidentResponse(incident.response || '');
+                setIncidentAlternative(incident.alternative || '');
                 setDamages(incident.damages ? 'yes' : 'no');
                 setDamagesInfo(incident?.damages);
-                setIncidentOther(incident.other);
+                setIncidentOther(incident.other || '');
                 setImportant(incident.important);
                 setCoercion(incident.coercion ? 'yes' : 'no');
-                setCoercionDescription(incident.coercion?.description);
+                setCoercionDescription(incident.coercion?.description || '');
                 setIsLoading(false);
             }
         })();
-    }, [isFocused, report, incident]);
+    }, [isFocused]);
 
     const handleScroll = (event) => {
         const currentPosition = event.nativeEvent.contentOffset.y;
@@ -133,8 +139,42 @@ const ReportDetail = ({ route }) => {
         setEditMode(false);
     };
 
-    const handleSaveButtonClick = () => {
-        // console.log('edited');
+    const handleSaveButtonClick = async () => {
+        console.log('edited');
+        if (type === 'Dagsskýrsla') {
+            const updatedReport = {
+                date: report.date,
+                departmentID,
+                clientID,
+                medicine: medicineChecked === 'yes' ? 'true' : 'false',
+                clientReason: walkChecked === 'yes' ? '' : 'no',
+                entry,
+                shift,
+                onShift
+            };
+            await editReport(id, updatedReport);
+        }
+        setEditMode(false);
+        if (type === 'Atvikaskýrsla') {
+            const updatedIncident = {
+                date: incident.date,
+                incidentDepartmentID: departmentID,
+                clientID,
+                incidentAlternative,
+                incidentBefore,
+                isCoercion: coercion ? 'true' : 'false', 
+                coercionDescription, 
+                incidentDamages: damages ? damagesInfo : '',
+                important,
+                incidentLocation,
+                incidentOther,
+                incidentResponse,
+                incidentType,
+                incidentWhatHappened,
+                incidentShift: shift
+            };
+            await editIncident(id, updatedIncident);
+        }
         setEditMode(false);
     };
 
@@ -194,9 +234,6 @@ const ReportDetail = ({ route }) => {
                                     <TouchableOpacity style={styles.editButton} onPress={handleEditButtonClick}>
                                         <Text style={styles.buttonText}>Breyta</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={styles.deleteButton}>
-                                        <Text style={styles.buttonText}>Eyða</Text>
-                                    </TouchableOpacity>
                                 </View>
                             )}
                         { report && type === 'Dagsskýrsla'
@@ -226,7 +263,7 @@ const ReportDetail = ({ route }) => {
                                             }}
                                             placeholder={{ 
                                                 label: report.department?.name, 
-                                                value: report.department?.name
+                                                value: report.department?.id
                                             }}
                                             onValueChange={(value) => setDepartmentID(value)}
                                             items={departmentOptionsA(departments)}
@@ -242,8 +279,8 @@ const ReportDetail = ({ route }) => {
                                         ? <><RNPickerSelect
                                             useNativeAndroidPickerStyle={false}
                                             style={{
-                                                inputIOS: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
-                                                inputAndroid: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
+                                                inputIOS: [styles.input, clientID !== '' ? styles.greenBorder : styles.input],
+                                                inputAndroid: [styles.input, clientID !== '' ? styles.greenBorder : styles.input],
                                                 iconContainer: {
                                                     top: 25,
                                                     right: 20
@@ -254,7 +291,7 @@ const ReportDetail = ({ route }) => {
                                             }}
                                             placeholder={{ 
                                                 label: report.client?.name, 
-                                                value: report.client?.name
+                                                value: report.client?.id
                                             }}
                                             onValueChange={(value) => setClientID(value)}
                                             items={clientOptionsA(clients)}
@@ -288,7 +325,7 @@ const ReportDetail = ({ route }) => {
                                                 }
                                             }}
                                             placeholder={{ 
-                                                label: shift, 
+                                                label: shift === 'day' ? 'Dagvakt' : shift === 'evening' ? 'Kvöldvakt' : shift === 'night' ? 'Næturvakt' : '', 
                                                 value: shift
                                             }}
                                             onValueChange={(value) => setShift(value)}
@@ -297,7 +334,7 @@ const ReportDetail = ({ route }) => {
                                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
                                             }}
                                         /></> 
-                                        : <><Text style={[styles.input, report.shift ? styles.greenBorder : styles.input]}>{shift}</Text></>}
+                                        : <><Text style={[styles.input, report.shift ? styles.greenBorder : styles.input]}>{shift === 'day' ? 'Dagvakt' : shift === 'evening' ? 'Kvöldvakt' : shift === 'night' ? 'Næturvakt' : ''}</Text></>}
                                     
                                 </View>
                                 <View style={styles.detailItem}>
@@ -440,7 +477,7 @@ const ReportDetail = ({ route }) => {
                                             }}
                                             placeholder={{ 
                                                 label: incident.department?.name, 
-                                                value: incident.department?.name
+                                                value: incident.department?.id
                                             }}
                                             onValueChange={(value) => setDepartmentID(value)}
                                             items={departmentOptionsA(departments)}
@@ -468,7 +505,7 @@ const ReportDetail = ({ route }) => {
                                             }}
                                             placeholder={{ 
                                                 label: incident.client?.name, 
-                                                value: incident.client?.name
+                                                value: incident.client?.id
                                             }}
                                             onValueChange={(value) => setClientID(value)}
                                             items={clientOptionsA(clients)}
@@ -501,7 +538,7 @@ const ReportDetail = ({ route }) => {
                                                 }
                                             }}
                                             placeholder={{ 
-                                                label: shift, 
+                                                label: shift === 'day' ? 'Dagvakt' : shift === 'evening' ? 'Kvöldvakt' : shift === 'night' ? 'Næturvakt' : '', 
                                                 value: shift
                                             }}
                                             onValueChange={(value) => setShift(value)}
@@ -510,7 +547,7 @@ const ReportDetail = ({ route }) => {
                                                 return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
                                             }}
                                         /></> 
-                                        : <><Text style={[styles.input, incident.shift ? styles.greenBorder : styles.input]}>{shift}</Text></>}
+                                        : <><Text style={[styles.input, incident.shift ? styles.greenBorder : styles.input]}>{shift === 'day' ? 'Dagvakt' : shift === 'evening' ? 'Kvöldvakt' : shift === 'night' ? 'Næturvakt' : ''}</Text></>}
                                 </View>
                             </View><View onLayout={(event) => { setSection2(event.nativeEvent.layout.y); } } style={styles.formFrame}>
                                 <View style={styles.titleWrapper}>
