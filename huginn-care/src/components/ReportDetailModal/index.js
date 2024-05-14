@@ -1,13 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import { Image, Linking, SafeAreaView, Text, TouchableOpacity, View, ScrollView, TextInput, Keyboard } from 'react-native';
+import { Text, View, TextInput, Keyboard } from 'react-native';
 import { getAllClients } from '../../services/clientService';
 import { getAllDepartments } from '../../services/departmentService';
-import { editIncident, getIncidentById } from '../../services/incidentService';
 import { editReport, getReportById } from '../../services/reportService';
-import { FontAwesome } from '@expo/vector-icons';
-import RNPickerSelect from 'react-native-picker-select';
-import Spinner from '../../components/Spinner';
 import styles from './styles';
 import reportJson from '../../resources/report.json';
 import incidentJson from '../../resources/incident.json';
@@ -17,15 +13,19 @@ import moment from 'moment';
 import RadioButton from '../../components/RadioButton';
 import Checkbox from 'expo-checkbox';
 import { greenBlue } from '../../styles/colors';
-import { beforeOptions, clientOptionsA, departmentOptionsA, shiftOptions, typeOptions } from '../../components/Options';
 
-const ReportDetail = ({ 
-    route,
-    handleSection
+const ReportDetailModal = ({
+    id,
+    editMode,
+    navigate,
+    handleSection,
+    handleEditMode,
+    handleEditReportFunc
 }) => {
     const [departmentID, setDepartmentID] = useState('');
     const [clientID, setClientID] = useState('');
     const [shift, setShift] = useState('');
+    const [shiftType, setShiftType] = useState('');
     const [onShift, setOnShift] = useState('');
     const [medicineChecked, setMedicineChecked] = useState('');
     const [walkChecked, setWalkChecked] = useState('');
@@ -34,13 +34,9 @@ const ReportDetail = ({
     const [section1, setSection1] = useState();
     const [section2, setSection2] = useState();
     const [section3, setSection3] = useState();
-    const { id, type } = route.params;
     // const [type, setType] = useState('Atvikaskýrsla');
     const isFocused = useIsFocused();
     const [isLoading, setIsLoading] = useState(true);
-    const scrollViewRef = useRef();
-    const [selectedSection, setSelectedSection] = useState('');
-    const [editMode, setEditMode] = useState(false);
 
     const [departments, setDepartments] = useState([]);
     const [clients, setClients] = useState([]);
@@ -60,44 +56,44 @@ const ReportDetail = ({
 
     useEffect(() => {
         (async () => {
-            setReport(await getReportById(id));
+            const reportData = await getReportById(id);
+            setReport(reportData);
             // setReport(reportJson);
-            setDepartmentID(report.department?.id);
-            setClientID(report.client?.id);
-            setShift(report.shift);
-            setOnShift(report.onShift || '');
-            setMedicineChecked(report.medicine ? 'yes' : 'no');
-            setWalkChecked(!report.clientReason ? 'yes' : 'no');
-            setEntry(report.entry || '');
-            setImportant(report.important);
+            setDepartmentID(reportData.department?.id);
+            setClientID(reportData.client?.id);
+            setShift(reportData.shift || '');
+            setShiftType(reportData.shift === 'day' ? 'Dagvakt' : reportData.shift === 'evening' ? 'Kvöldvakt' : reportData.shift === 'night' ? 'Næturvakt' : '');
+            setOnShift(reportData.onShift || '');
+            setMedicineChecked(reportData.medicine ? 'yes' : 'no');
+            setWalkChecked(!reportData.clientReason ? 'yes' : 'no');
+            setEntry(reportData.entry || '');
+            setImportant(reportData.important);
             setIsLoading(false);
         })();
     }, [isFocused]);
 
-    const handleEditButtonClick = () => {
-        setEditMode(true);
+    const editReportDetail = async (type) => {
+        if (type === 'Dagsskýrsla') {
+            const updatedReport = {
+                date: report.date,
+                medicine: medicineChecked === 'yes' ? 'true' : 'false',
+                clientReason: walkChecked === 'yes' ? '' : 'no',
+                entry,
+                shift,
+                onShift,
+                important: important ? 'true' : 'false'
+            };
+            const isEdited = await editReport(id, updatedReport);
+            if (isEdited) {
+                navigate('AllReports');
+            }
+            handleEditMode(false);
+        }
     };
 
-    const handleCancelButtonClick = () => {
-        // console.log('cancelled');
-        setEditMode(false);
-    };
-
-    const handleSaveButtonClick = async () => {
-        console.log('edited');
-        const updatedReport = {
-            date: report.date,
-            departmentID,
-            clientID,
-            medicine: medicineChecked === 'yes' ? 'true' : 'false',
-            clientReason: walkChecked === 'yes' ? '' : 'no',
-            entry,
-            shift,
-            onShift
-        };
-        await editReport(id, updatedReport);
-        setEditMode(false);
-    };
+    useEffect(() => {
+        handleEditReportFunc(editReportDetail);
+    }, [shift, onShift, medicineChecked, walkChecked, entry, important]);
 
     useEffect(() => {
         handleSection(section1, section2, section3);
@@ -105,25 +101,7 @@ const ReportDetail = ({
 
     return (
         <>
-            {editMode
-                ? (
-                    <View style={styles.buttons}>
-                        <TouchableOpacity style={styles.editButton} onPress={handleCancelButtonClick}>
-                            <Text style={styles.buttonText}>Hætta</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.saveButton} onPress={handleSaveButtonClick}>
-                            <Text style={styles.buttonText}>Vista</Text>
-                        </TouchableOpacity>
-                    </View>
-                )
-                : (
-                    <View style={styles.buttons}>
-                        <TouchableOpacity style={styles.editButton} onPress={handleEditButtonClick}>
-                            <Text style={styles.buttonText}>Breyta</Text>
-                        </TouchableOpacity>
-                    </View>
-                )}
-                        ? <><View onLayout={(event) => { setSection1(event.nativeEvent.layout.y); } } style={styles.formFrame}>
+            <View onLayout={(event) => { setSection1(event.nativeEvent.layout.y); } } style={styles.formFrame}>
                 <View style={styles.titleWrapper}>
                     <Text style={styles.title}>Almennar upplýsingar</Text>
                 </View>
@@ -133,94 +111,16 @@ const ReportDetail = ({
                 </View>
                 <View style={styles.detailItem}>
                     <Text style={styles.inputTitle}>Deild</Text>
-                    { editMode
-                        ? <><RNPickerSelect
-                            useNativeAndroidPickerStyle={false}
-                            style={{
-                                inputIOS: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
-                                iconContainer: {
-                                    top: 25,
-                                    right: 20
-                                },
-                                placeholder: {
-                                    color: 'black'
-                                }
-                            }}
-                            placeholder={{ 
-                                label: report.department?.name, 
-                                value: report.department?.id
-                            }}
-                            onValueChange={(value) => setDepartmentID(value)}
-                            items={departmentOptionsA(departments)}
-                            Icon={() => {
-                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                            }}
-                        /></>
-                        : <><Text style={[styles.input, report.department?.name ? styles.greenBorder : styles.input]}>{report.department?.name || ''}</Text></>}
+                    <Text style={[styles.input, report.department?.name ? styles.greenBorder : styles.input]}>{report.department?.name || ''}</Text>
                 </View>
                 <View style={styles.detailItem}>
                     <Text style={styles.inputTitle}>Þjónustuþegi</Text>
-                    { editMode 
-                        ? <><RNPickerSelect
-                            useNativeAndroidPickerStyle={false}
-                            style={{
-                                inputIOS: [styles.input, clientID !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, clientID !== '' ? styles.greenBorder : styles.input],
-                                iconContainer: {
-                                    top: 25,
-                                    right: 20
-                                },
-                                placeholder: {
-                                    color: 'black'
-                                }
-                            }}
-                            placeholder={{ 
-                                label: report.client?.name, 
-                                value: report.client?.id
-                            }}
-                            onValueChange={(value) => setClientID(value)}
-                            items={clientOptionsA(clients)}
-                            Icon={() => {
-                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                            }}
-                        /></> 
-                        : <><Text style={[styles.input, report.client?.name ? styles.greenBorder : styles.input]}>{report.client?.name || ''}</Text></>}
+                    <Text style={[styles.input, report.client?.name ? styles.greenBorder : styles.input]}>{report.client?.name || ''}</Text>
                                     
                 </View>
-                { editMode 
-                    ? <></> 
-                    : <><View style={styles.detailItem}>
-                        <Text style={styles.inputTitle}>Notandi</Text>
-                        <Text style={[styles.input, report.user?.name ? styles.greenBorder : styles.input]}>{report.user?.name || ''}</Text>
-                    </View></> }
                 <View style={styles.detailItem}>
                     <Text style={styles.inputTitle}>Tegund vaktar</Text>
-                    { editMode 
-                        ? <><RNPickerSelect
-                            useNativeAndroidPickerStyle={false}
-                            style={{
-                                inputIOS: [styles.input, shift !== '' ? styles.greenBorder : styles.input],
-                                inputAndroid: [styles.input, shift !== '' ? styles.greenBorder : styles.input],
-                                iconContainer: {
-                                    top: 25,
-                                    right: 20
-                                },
-                                placeholder: {
-                                    color: 'black'
-                                }
-                            }}
-                            placeholder={{ 
-                                label: shift === 'day' ? 'Dagvakt' : shift === 'evening' ? 'Kvöldvakt' : shift === 'night' ? 'Næturvakt' : '', 
-                                value: shift
-                            }}
-                            onValueChange={(value) => setShift(value)}
-                            items={shiftOptions}
-                            Icon={() => {
-                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                            }}
-                        /></> 
-                        : <><Text style={[styles.input, report.shift ? styles.greenBorder : styles.input]}>{shift === 'day' ? 'Dagvakt' : shift === 'evening' ? 'Kvöldvakt' : shift === 'night' ? 'Næturvakt' : ''}</Text></>}
+                    <Text style={[styles.input, report.shift ? styles.greenBorder : styles.input]}>{shiftType}</Text>
                                     
                 </View>
                 <View style={styles.detailItem}>
@@ -233,7 +133,7 @@ const ReportDetail = ({
                             value={onShift}
                             onChangeText={setOnShift}
                         /></>
-                        : <><Text style={[styles.input, report.onShift ? styles.greenBorder : styles.input]}>{report.onShift || ''}</Text></>}
+                        : <><Text style={[styles.input, onShift ? styles.greenBorder : styles.input]}>{onShift || ''}</Text></>}
                 </View>
                 <Text style={styles.inputTitle}>Lyf gefin?</Text>
                 { editMode 
@@ -316,7 +216,7 @@ const ReportDetail = ({
                             onChangeText={setEntry}
                             textAlignVertical='top'
                         /></> 
-                        : <><Text style={[styles.textInput, report.entry ? styles.greenBorder : styles.textInput]}>{report.entry || ''}</Text></>}
+                        : <><Text style={[styles.textInput, entry ? styles.greenBorder : styles.textInput]}>{report.entry || ''}</Text></>}
                 </View>
                 <View style={styles.important}>
                     <Text style={styles.inputTitle}>Áríðandi upplýsingar</Text>
@@ -334,8 +234,7 @@ const ReportDetail = ({
                         /></>}
                 </View>
             </View></>
-        </>
     );
 };
 
-export default ReportDetail;
+export default ReportDetailModal;
