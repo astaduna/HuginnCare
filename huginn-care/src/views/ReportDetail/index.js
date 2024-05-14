@@ -19,10 +19,11 @@ import Checkbox from 'expo-checkbox';
 import { greenBlue } from '../../styles/colors';
 import { beforeOptions, clientOptionsA, departmentOptionsA, shiftOptions, typeOptions } from '../../components/Options';
 
-const ReportDetail = ({ route }) => {
+const ReportDetail = ({ route, navigation: { navigate } }) => {
     const [departmentID, setDepartmentID] = useState('');
     const [clientID, setClientID] = useState('');
     const [shift, setShift] = useState('');
+    const [shiftType, setShiftType] = useState('');
     const [onShift, setOnShift] = useState('');
     const [medicineChecked, setMedicineChecked] = useState('');
     const [walkChecked, setWalkChecked] = useState('');
@@ -80,35 +81,40 @@ const ReportDetail = ({ route }) => {
     useEffect(() => {
         (async () => {
             if (type === 'Dagsskýrsla') {
-                setReport(await getReportById(id));
+                const reportData = await getReportById(id);
+                setReport(reportData);
                 // setReport(reportJson);
-                setDepartmentID(report.department?.id);
-                setClientID(report.client?.id);
-                setShift(report.shift);
-                setOnShift(report.onShift || '');
-                setMedicineChecked(report.medicine ? 'yes' : 'no');
-                setWalkChecked(!report.clientReason ? 'yes' : 'no');
-                setEntry(report.entry || '');
-                setImportant(report.important);
+                setDepartmentID(reportData.department?.id);
+                setClientID(reportData.client?.id);
+                setShift(reportData.shift || '');
+                setShiftType(reportData.shift === 'day' ? 'Dagvakt' : reportData.shift === 'evening' ? 'Kvöldvakt' : reportData.shift === 'night' ? 'Næturvakt' : '');
+                setOnShift(reportData.onShift || '');
+                setMedicineChecked(reportData.medicine ? 'yes' : 'no');
+                setWalkChecked(!reportData.clientReason ? 'yes' : 'no');
+                setEntry(reportData.entry || '');
+                setImportant(reportData.important);
                 setIsLoading(false);
             } else if (type === 'Atvikaskýrsla') {
-                setIncident(await getIncidentById(id));
+                const incidentData = await getIncidentById(id);
+                setIncident(incidentData);
                 // setIncident(incidentJson);
-                setDepartmentID(incident.department?.id);
-                setClientID(incident.client?.id);
-                setShift(incident.shift);
-                setIncidentLocation(incident.location || '');
-                setIncidentType(incident.type);
-                setIncidentBefore(incident.before || '');
-                setIncidentWhatHappened(incident.whatHappened || '');
-                setIncidentResponse(incident.response || '');
-                setIncidentAlternative(incident.alternative || '');
-                setDamages(incident.damages ? 'yes' : 'no');
-                setDamagesInfo(incident?.damages);
-                setIncidentOther(incident.other || '');
-                setImportant(incident.important);
-                setCoercion(incident.coercion ? 'yes' : 'no');
-                setCoercionDescription(incident.coercion?.description || '');
+                console.log(incidentData)
+                setDepartmentID(incidentData.department?.id);
+                setClientID(incidentData.client?.id);
+                setShift(incidentData.shift);
+                setShiftType(incidentData.shift === 'day' ? 'Dagvakt' : incidentData.shift === 'evening' ? 'Kvöldvakt' : incidentData.shift === 'night' ? 'Næturvakt' : '');
+                setIncidentLocation(incidentData.location || '');
+                setIncidentType(incidentData.type);
+                setIncidentBefore(incidentData.before || '');
+                setIncidentWhatHappened(incidentData.whatHappened || '');
+                setIncidentResponse(incidentData.response || '');
+                setIncidentAlternative(incidentData.alternative || '');
+                setDamages(incidentData.damages ? 'yes' : 'no');
+                setDamagesInfo(incidentData.damages || '');
+                setIncidentOther(incidentData.other || '');
+                setImportant(incidentData.important);
+                setCoercion(incidentData.coercion ? 'yes' : 'no');
+                setCoercionDescription(incidentData.coercion?.description || '');
                 setIsLoading(false);
             }
         })();
@@ -144,28 +150,28 @@ const ReportDetail = ({ route }) => {
         if (type === 'Dagsskýrsla') {
             const updatedReport = {
                 date: report.date,
-                departmentID,
-                clientID,
                 medicine: medicineChecked === 'yes' ? 'true' : 'false',
                 clientReason: walkChecked === 'yes' ? '' : 'no',
                 entry,
                 shift,
-                onShift
+                onShift,
+                important: important ? 'true' : 'false'
             };
-            await editReport(id, updatedReport);
+            const isEdited = await editReport(id, updatedReport);
+            if (isEdited) {
+                navigate('AllReports');
+            }
+            setEditMode(false);
         }
-        setEditMode(false);
         if (type === 'Atvikaskýrsla') {
             const updatedIncident = {
                 date: incident.date,
-                incidentDepartmentID: departmentID,
-                clientID,
                 incidentAlternative,
                 incidentBefore,
                 isCoercion: coercion ? 'true' : 'false', 
                 coercionDescription, 
                 incidentDamages: damages ? damagesInfo : '',
-                important,
+                important: important ? 'true' : 'false',
                 incidentLocation,
                 incidentOther,
                 incidentResponse,
@@ -173,9 +179,12 @@ const ReportDetail = ({ route }) => {
                 incidentWhatHappened,
                 incidentShift: shift
             };
-            await editIncident(id, updatedIncident);
+            const isEdited = await editIncident(id, updatedIncident);
+            if (isEdited) {
+                navigate('AllReports');
+            }
+            setEditMode(false);
         }
-        setEditMode(false);
     };
 
     return (
@@ -247,94 +256,16 @@ const ReportDetail = ({ route }) => {
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Deild</Text>
-                                    { editMode
-                                        ? <><RNPickerSelect
-                                            useNativeAndroidPickerStyle={false}
-                                            style={{
-                                                inputIOS: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
-                                                inputAndroid: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
-                                                iconContainer: {
-                                                    top: 25,
-                                                    right: 20
-                                                },
-                                                placeholder: {
-                                                    color: 'black'
-                                                }
-                                            }}
-                                            placeholder={{ 
-                                                label: report.department?.name, 
-                                                value: report.department?.id
-                                            }}
-                                            onValueChange={(value) => setDepartmentID(value)}
-                                            items={departmentOptionsA(departments)}
-                                            Icon={() => {
-                                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                                            }}
-                                        /></>
-                                        : <><Text style={[styles.input, report.department?.name ? styles.greenBorder : styles.input]}>{report.department?.name || ''}</Text></>}
+                                    <Text style={[styles.input, report.department?.name ? styles.greenBorder : styles.input]}>{report.department?.name || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Þjónustuþegi</Text>
-                                    { editMode 
-                                        ? <><RNPickerSelect
-                                            useNativeAndroidPickerStyle={false}
-                                            style={{
-                                                inputIOS: [styles.input, clientID !== '' ? styles.greenBorder : styles.input],
-                                                inputAndroid: [styles.input, clientID !== '' ? styles.greenBorder : styles.input],
-                                                iconContainer: {
-                                                    top: 25,
-                                                    right: 20
-                                                },
-                                                placeholder: {
-                                                    color: 'black'
-                                                }
-                                            }}
-                                            placeholder={{ 
-                                                label: report.client?.name, 
-                                                value: report.client?.id
-                                            }}
-                                            onValueChange={(value) => setClientID(value)}
-                                            items={clientOptionsA(clients)}
-                                            Icon={() => {
-                                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                                            }}
-                                        /></> 
-                                        : <><Text style={[styles.input, report.client?.name ? styles.greenBorder : styles.input]}>{report.client?.name || ''}</Text></>}
+                                    <Text style={[styles.input, report.client?.name ? styles.greenBorder : styles.input]}>{report.client?.name || ''}</Text>
                                     
                                 </View>
-                                { editMode 
-                                    ? <></> 
-                                    : <><View style={styles.detailItem}>
-                                        <Text style={styles.inputTitle}>Notandi</Text>
-                                        <Text style={[styles.input, report.user?.name ? styles.greenBorder : styles.input]}>{report.user?.name || ''}</Text>
-                                    </View></> }
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Tegund vaktar</Text>
-                                    { editMode 
-                                        ? <><RNPickerSelect
-                                            useNativeAndroidPickerStyle={false}
-                                            style={{
-                                                inputIOS: [styles.input, shift !== '' ? styles.greenBorder : styles.input],
-                                                inputAndroid: [styles.input, shift !== '' ? styles.greenBorder : styles.input],
-                                                iconContainer: {
-                                                    top: 25,
-                                                    right: 20
-                                                },
-                                                placeholder: {
-                                                    color: 'black'
-                                                }
-                                            }}
-                                            placeholder={{ 
-                                                label: shift === 'day' ? 'Dagvakt' : shift === 'evening' ? 'Kvöldvakt' : shift === 'night' ? 'Næturvakt' : '', 
-                                                value: shift
-                                            }}
-                                            onValueChange={(value) => setShift(value)}
-                                            items={shiftOptions}
-                                            Icon={() => {
-                                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                                            }}
-                                        /></> 
-                                        : <><Text style={[styles.input, report.shift ? styles.greenBorder : styles.input]}>{shift === 'day' ? 'Dagvakt' : shift === 'evening' ? 'Kvöldvakt' : shift === 'night' ? 'Næturvakt' : ''}</Text></>}
+                                    <Text style={[styles.input, report.shift ? styles.greenBorder : styles.input]}>{shiftType}</Text>
                                     
                                 </View>
                                 <View style={styles.detailItem}>
@@ -461,93 +392,15 @@ const ReportDetail = ({ route }) => {
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Deild</Text>
-                                    { editMode 
-                                        ? <><RNPickerSelect
-                                            useNativeAndroidPickerStyle={false}
-                                            style={{
-                                                inputIOS: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
-                                                inputAndroid: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
-                                                iconContainer: {
-                                                    top: 25,
-                                                    right: 20
-                                                },
-                                                placeholder: {
-                                                    color: 'black'
-                                                }
-                                            }}
-                                            placeholder={{ 
-                                                label: incident.department?.name, 
-                                                value: incident.department?.id
-                                            }}
-                                            onValueChange={(value) => setDepartmentID(value)}
-                                            items={departmentOptionsA(departments)}
-                                            Icon={() => {
-                                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                                            }}
-                                        /></> 
-                                        : <><Text style={[styles.input, incident.department?.name ? styles.greenBorder : styles.input]}>{incident.department?.name || ''}</Text></>}
+                                    <Text style={[styles.input, incident.department?.name ? styles.greenBorder : styles.input]}>{incident.department?.name || ''}</Text>
                                 </View>
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Þjónustuþegi</Text>
-                                    { editMode 
-                                        ? <><RNPickerSelect
-                                            useNativeAndroidPickerStyle={false}
-                                            style={{
-                                                inputIOS: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
-                                                inputAndroid: [styles.input, departmentID !== '' ? styles.greenBorder : styles.input],
-                                                iconContainer: {
-                                                    top: 25,
-                                                    right: 20
-                                                },
-                                                placeholder: {
-                                                    color: 'black'
-                                                }
-                                            }}
-                                            placeholder={{ 
-                                                label: incident.client?.name, 
-                                                value: incident.client?.id
-                                            }}
-                                            onValueChange={(value) => setClientID(value)}
-                                            items={clientOptionsA(clients)}
-                                            Icon={() => {
-                                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                                            }}
-                                        /></>  
-                                        : <><Text style={[styles.input, incident.client?.name ? styles.greenBorder : styles.input]}>{incident.client?.name || ''}</Text></>}
+                                    <Text style={[styles.input, incident.client?.name ? styles.greenBorder : styles.input]}>{incident.client?.name || ''}</Text>
                                 </View>
-                                { editMode 
-                                    ? <></> 
-                                    : <><View style={styles.detailItem}>
-                                        <Text style={styles.inputTitle}>Notandi</Text>
-                                        <Text style={[styles.input, incident.user?.name ? styles.greenBorder : styles.input]}>{incident.user?.name || ''}</Text>
-                                    </View></> }
                                 <View style={styles.detailItem}>
                                     <Text style={styles.inputTitle}>Tegund vaktar</Text>
-                                    { editMode 
-                                        ? <><RNPickerSelect
-                                            useNativeAndroidPickerStyle={false}
-                                            style={{
-                                                inputIOS: [styles.input, shift !== '' ? styles.greenBorder : styles.input],
-                                                inputAndroid: [styles.input, shift !== '' ? styles.greenBorder : styles.input],
-                                                iconContainer: {
-                                                    top: 25,
-                                                    right: 20
-                                                },
-                                                placeholder: {
-                                                    color: 'black'
-                                                }
-                                            }}
-                                            placeholder={{ 
-                                                label: shift === 'day' ? 'Dagvakt' : shift === 'evening' ? 'Kvöldvakt' : shift === 'night' ? 'Næturvakt' : '', 
-                                                value: shift
-                                            }}
-                                            onValueChange={(value) => setShift(value)}
-                                            items={shiftOptions}
-                                            Icon={() => {
-                                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                                            }}
-                                        /></> 
-                                        : <><Text style={[styles.input, incident.shift ? styles.greenBorder : styles.input]}>{shift === 'day' ? 'Dagvakt' : shift === 'evening' ? 'Kvöldvakt' : shift === 'night' ? 'Næturvakt' : ''}</Text></>}
+                                    <Text style={[styles.input, incident.shift ? styles.greenBorder : styles.input]}>{shift === 'day' ? 'Dagvakt' : shift === 'evening' ? 'Kvöldvakt' : shift === 'night' ? 'Næturvakt' : ''}</Text>
                                 </View>
                             </View><View onLayout={(event) => { setSection2(event.nativeEvent.layout.y); } } style={styles.formFrame}>
                                 <View style={styles.titleWrapper}>
@@ -688,9 +541,9 @@ const ReportDetail = ({ route }) => {
                                                 status={damages} />
                                             <Text>Já</Text>
                                         </View>
-                                        <View style={[styles.radioInput, damages === 'no' && styles.greenBorder]}>
+                                        <View style={[styles.radioInput, damages === '' && styles.greenBorder]}>
                                             <RadioButton
-                                                value='no'
+                                                value=''
                                                 status={damages} />
                                             <Text>Nei</Text>
                                         </View></>}
