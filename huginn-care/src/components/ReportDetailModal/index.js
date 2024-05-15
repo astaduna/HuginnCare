@@ -36,23 +36,8 @@ const ReportDetailModal = ({
     const [section3, setSection3] = useState();
     // const [type, setType] = useState('Atvikaskýrsla');
     const isFocused = useIsFocused();
-    const [isLoading, setIsLoading] = useState(true);
-
-    const [departments, setDepartments] = useState([]);
-    const [clients, setClients] = useState([]);
     
     const [report, setReport] = useState({});
-
-    useEffect(() => {
-        (async () => {
-            const departmentsData = await getAllDepartments();
-            const clientsData = await getAllClients();
-            setDepartments(departmentsData || []);
-            setClients(clientsData.filter(client => client.client_department_pivot.departmentId === departmentID));
-            // setDepartments(departmentsJson);
-            // setClients(clientsJson);
-        })();
-    }, [isFocused, departmentID]);
 
     useEffect(() => {
         (async () => {
@@ -68,9 +53,8 @@ const ReportDetailModal = ({
             setWalkChecked(!reportData.clientReason ? 'yes' : 'no');
             setEntry(reportData.entry || '');
             setImportant(reportData.important);
-            setIsLoading(false);
         })();
-    }, [isFocused]);
+    }, [isFocused, id]);
 
     const editReportDetail = async (type) => {
         if (type === 'Dagsskýrsla') {
@@ -97,7 +81,7 @@ const ReportDetailModal = ({
 
     useEffect(() => {
         handleSection(section1, section2, section3);
-    }, []);
+    }, [section1, section2, section3]);
 
     return (
         <>

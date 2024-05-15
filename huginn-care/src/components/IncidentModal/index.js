@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userState } from '../../components/LoginModal/user';
 import { useIsFocused } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import { View, Text, TextInput, Keyboard } from 'react-native';
@@ -11,9 +13,6 @@ import { getAllClients } from '../../services/clientService';
 import { getAllDepartments } from '../../services/departmentService';
 import { greenBlue } from '../../styles/colors';
 import { beforeOptions, clientOptionsA, departmentOptionsA, shiftOptions, typeOptions } from '../../components/Options';
-import departmentsJson from '../../resources/departments.json';
-import clientsJson from '../../resources/clients.json';
-import usersJson from '../../resources/users.json';
 
 const IncidentModal = ({
     navigate,
@@ -22,6 +21,7 @@ const IncidentModal = ({
     handleIsDeptOrClientEmpty,
     handleCreateNewIncidentFunc
 }) => {
+    const currentUser = useRecoilValue(userState);
     const date = new Date();
     const [departmentID, setDepartmentID] = useState('');
     const [clientID, setClientID] = useState('');
@@ -57,10 +57,8 @@ const IncidentModal = ({
         (async () => {
             const departmentsData = await getAllDepartments();
             const clientsData = await getAllClients();
-            setDepartments(departmentsData || []);
+            setDepartments(currentUser.thisUser.type === 'user' ? currentUser.thisUser.departments : departmentsData);
             setClients(clientsData.filter(clientID => clientID.client_department_pivot.departmentId === departmentID));
-            // setDepartments(departmentsJson);
-            // setClients(clientsJson);
         })();
     }, [isFocused, departmentID]);
 
@@ -100,8 +98,9 @@ const IncidentModal = ({
     useEffect(() => {
         updateIsEmpty();
         handleCreateNewIncidentFunc(createNewIncident);
-    }, [departmentID, clientID, shift, onShift, incidentLocation, incidentType, incidentBefore, 
-        incidentWhatHappened, incidentResponse, incidentAlternative]);
+    }, [departmentID, clientID, shift, incidentLocation, incidentType, incidentBefore, incidentWhatHappened, 
+        incidentResponse, incidentAlternative, damages, damagesInfo, incidentOther,
+        coercion, coercionDescription, important]);
 
     useEffect(() => {
         updateIsDeptOrClientEmpty();
@@ -110,7 +109,7 @@ const IncidentModal = ({
 
     useEffect(() => {
         handleSection(section1, section2, section3);
-    });
+    }, [section1, section2, section3]);
 
     return (
         <View>

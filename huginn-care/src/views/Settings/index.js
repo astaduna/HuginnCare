@@ -9,10 +9,22 @@ const Settings = ({ navigation }) => {
     const currentUser = useRecoilValue(userState);
     const setUser = useSetRecoilState(userState);
     const [userDetails, setUserDetails] = useState(currentUser?.thisUser || {});
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
+    const [address1, setAddress1] = useState('');
+    const [address2, setAddress2] = useState('');
+    const [postal, setPostal] = useState('');
+    const [city, setCity] = useState('');
 
     useEffect(() => {
         // Update local state when the Recoil state updates
         setUserDetails(currentUser?.thisUser || {});
+        setPhone(userDetails?.phone);
+        setEmail(userDetails?.email);
+        setAddress1(userDetails?.address1);
+        setAddress2(userDetails?.address2);
+        setPostal(userDetails?.postal);
+        setCity(userDetails?.city);
     }, [currentUser]);
 
     const handleChange = (name, value) => {
@@ -21,8 +33,18 @@ const Settings = ({ navigation }) => {
 
     const handleSave = async () => {
         try {
-            const updatedUser = await editSelfProfile(userDetails);
-            setUser({ ...currentUser, thisUser: updatedUser }); // Update the global state if the server update was successful
+            const user = {
+                password: userDetails?.password,
+                email,
+                phone,
+                address1,
+                address2,
+                postal,
+                city
+            };
+            console.log(user);
+            const updatedUser = await editSelfProfile(user);
+            // setUser({ ...currentUser, thisUser: updatedUser }); // Update the global state if the server update was successful
             Alert.alert('Success', 'User data updated successfully.');
         } catch (error) {
             Alert.alert('Error', error.message || 'Failed to update user data.');
@@ -36,52 +58,47 @@ const Settings = ({ navigation }) => {
                 <View style={styles.section}>
                     <Text style={styles.title}>Mínar upplýsingar</Text>
                     <Text style={styles.inputTitle}>Nafn</Text>
-                    <TextInput
-                        style={styles.textInput}
-                        value={userDetails.name || ''}
-                        onChangeText={(text) => handleChange('name', text)}
-                        label="Nafn"
-                    />
+                    <Text style={styles.textInput}>{userDetails.name || ''}</Text>
                     <Text style={styles.inputTitle}>Símanúmer</Text>
                     <TextInput
                         style={styles.textInput}
-                        value={userDetails.phone || ''}
-                        onChangeText={(text) => handleChange('phone', text)}
+                        value={phone}
+                        onChangeText={(text) => setPhone(text)}
                         label="Símanúmer"
                     />
                     <Text style={styles.inputTitle}>Netfang</Text>
                     <TextInput
                         style={styles.textInput}
-                        value={userDetails.email || ''}
-                        onChangeText={(text) => handleChange('email', text)}
+                        value={email}
+                        onChangeText={(text) => setEmail(text)}
                         label="Netfang"
                     />
                     <Text style={styles.inputTitle}>Lögheimili, lína 1</Text>
                     <TextInput
                         style={styles.textInput}
-                        value={userDetails.address1 || ''}
-                        onChangeText={(text) => handleChange('address1', text)}
+                        value={address1}
+                        onChangeText={(text) => setAddress1(text)}
                         label="Lögheimili 1"
                     />
                     <Text style={styles.inputTitle}>Lögheimili, lína 2</Text>
                     <TextInput
                         style={styles.textInput}
-                        value={userDetails.address2 || ''}
-                        onChangeText={(text) => handleChange('address2', text)}
+                        value={address2}
+                        onChangeText={(text) => setAddress2(text)}
                         label="Lögheimili 2"
                     />
                     <Text style={styles.inputTitle}>Póstnr.</Text>
                     <TextInput
                         style={styles.textInput}
-                        value={userDetails.postal || ''}
-                        onChangeText={(text) => handleChange('postal', text)}
+                        value={postal}
+                        onChangeText={(text) => setPostal(text)}
                         label="Post Nr"
                     />
                     <Text style={styles.inputTitle}>Bæjarfélag</Text>
                     <TextInput
                         style={styles.textInput}
-                        value={userDetails.city || ''}
-                        onChangeText={(text) => handleChange('city', text)}
+                        value={city}
+                        onChangeText={(text) => setCity(text)}
                         label="Bæjarfélag"
                     />
                     <TouchableOpacity

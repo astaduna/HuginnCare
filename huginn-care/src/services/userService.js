@@ -35,8 +35,21 @@ export const getUserById = async (id) => {
 // Function to edit the current user's profile
 export const editSelfProfile = async (userData) => {
     try {
-        const response = await fetch(`${API_URL}/users/editself`, userData);
-        return response.data;
+        const cookies = await AsyncStorage.getItem('sessionCookies');
+        const response = await fetch(`${API_URL}/users/editself`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                ...(cookies ? { Cookie: cookies } : {})
+            },
+            body: JSON.stringify(userData)
+        });
+
+        if (response.ok) {
+            return true;
+        }
+        throw new Error('Failed to create report');
     } catch (error) {
         throw error.response.data;
     }
@@ -109,16 +122,5 @@ export const getUserLogsById = async (id) => {
         return response.data;
     } catch (error) {
         throw error.response.data;
-    }
-};
-
-const handleSave = async () => {
-    try {
-        const updatedUser = await editSelfProfile(user); // Using the updated service function
-        setUser(updatedUser); // Update the global state if the server update was successful
-        Alert.alert('Success', 'User data updated successfully.');
-    } catch (error) {
-        Alert.alert('Error', error.message || 'Failed to update user data.'); // Use the error message from the catch block
-        console.error(error);
     }
 };

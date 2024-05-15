@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userState } from '../../components/LoginModal/user';
 import styles from './styles';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
@@ -9,6 +11,7 @@ import { departmentOptionsB, orderOptions, pageOptions } from '../Options';
 import departmentsJson from '../../resources/departments.json';
 
 const ClientList = ({ clients }) => {
+    const currentUser = useRecoilValue(userState);
     const [departments, setDepartments] = useState([]);
     const [searchFilter, setSearchFilter] = useState('');
     const [clientColors, setClientColors] = useState({});
@@ -24,7 +27,8 @@ const ClientList = ({ clients }) => {
 
     useEffect(() => {
         (async () => {
-            setDepartments(await getAllDepartments() || []);
+            const departmentsData = await getAllDepartments();
+            setDepartments(currentUser.thisUser.type === 'user' ? currentUser.thisUser.departments : departmentsData);
             // setDepartments(departmentsJson);
         })();
     }, []);

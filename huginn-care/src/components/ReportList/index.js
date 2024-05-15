@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userState } from '../../components/LoginModal/user';
 import styles from './styles';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
@@ -21,6 +23,7 @@ const ReportList = ({
     isPaginated = false,
     isFiltered = false
 }) => {
+    const currentUser = useRecoilValue(userState);
     const [departments, setDepartments] = useState([]);
     const [users, setUsers] = useState([]);
     const [clients, setClients] = useState([]);
@@ -47,9 +50,10 @@ const ReportList = ({
     useEffect(() => {
         (async () => {
             if (isFiltered) {
+                const departmentsData = await getAllDepartments();
                 const usersData = await getAllUsers();
                 const clientsData = await getAllClients();
-                setDepartments(await getAllDepartments() || []);
+                setDepartments(currentUser.thisUser.type === 'user' ? currentUser.thisUser.departments : departmentsData);
                 setUsers(usersData.filter(user => user.user_department_pivot.departmentId === departmentValue));
                 setClients(clientsData.filter(client => client.client_department_pivot.departmentId === departmentValue));
                 // setDepartments(departmentsJson);

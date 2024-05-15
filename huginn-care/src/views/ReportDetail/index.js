@@ -36,31 +36,8 @@ const ReportDetail = ({ route, navigation: { navigate } }) => {
     const [departments, setDepartments] = useState([]);
     const [clients, setClients] = useState([]);
     const [editReportFunc, setEditReportFunc] = useState(() => () => {});
-    
-    const scrollToSection = (section) => {
-        if (scrollViewRef.current) {
-            scrollViewRef.current.scrollTo({ y: section, animated: true });
-        }
-    };
-
-    const handleSectionSelection = (section) => {
-        setSelectedSection(section);
-        scrollToSection(section);
-    };
     const [report, setReport] = useState({});
     const [incident, setIncident] = useState({});
-
-    const handleScroll = (event) => {
-        const currentPosition = event.nativeEvent.contentOffset.y;
-
-        if (currentPosition < section2 - 30) {
-            setSelectedSection(section1);
-        } else if (currentPosition < section3 - 35) {
-            setSelectedSection(section2);
-        } else {
-            setSelectedSection(section3);
-        }
-    };
 
     const handleEditButtonClick = () => {
         setEditMode(true);
@@ -77,11 +54,34 @@ const ReportDetail = ({ route, navigation: { navigate } }) => {
     const handleEditMode = (value) => {
         setEditMode(value);
     };
+    
+    const scrollToSection = (section) => {
+        if (scrollViewRef.current) {
+            scrollViewRef.current.scrollTo({ y: section, animated: true });
+        }
+    };
+
+    const handleSectionSelection = (section) => {
+        setSelectedSection(section);
+        scrollToSection(section);
+    };
 
     const handleSection = (section1, section2, section3) => {
         setSection1(section1);
         setSection2(section2);
         setSection3(section3);
+    };
+
+    const handleScroll = (event) => {
+        const currentPosition = event.nativeEvent.contentOffset.y;
+
+        if (currentPosition < section2 - 30) {
+            setSelectedSection(section1);
+        } else if (currentPosition < section3 - 35) {
+            setSelectedSection(section2);
+        } else {
+            setSelectedSection(section3);
+        }
     };
 
     return (

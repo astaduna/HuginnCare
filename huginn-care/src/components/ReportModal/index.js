@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userState } from '../../components/LoginModal/user';
 import { useIsFocused } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import { View, Text, TextInput, Keyboard } from 'react-native';
@@ -22,6 +24,7 @@ const ReportModal = ({
     handleIsDeptOrClientEmpty,
     handleCreateNewReportFunc
 }) => {
+    const currentUser = useRecoilValue(userState);
     const date = new Date();
     const [departmentID, setDepartmentID] = useState('');
     const [clientID, setClientID] = useState('');
@@ -33,7 +36,7 @@ const ReportModal = ({
     const [important, setImportant] = useState(false);
         
     const isDeptOrClientEmpty = departmentID === '' || clientID === '';
-    const isEmpty = isDeptOrClientEmpty || shift === '' || medicineChecked === '' || walkChecked === '';
+    const isEmpty = isDeptOrClientEmpty || shift === '' || medicineChecked === '' || walkChecked === '' || entry === '';
 
     const isFocused = useIsFocused();
     const [departments, setDepartments] = useState([]);
@@ -47,7 +50,7 @@ const ReportModal = ({
         (async () => {
             const departmentsData = await getAllDepartments();
             const clientsData = await getAllClients();
-            setDepartments(departmentsData || []);
+            setDepartments(currentUser.thisUser.type === 'user' ? currentUser.thisUser.departments : departmentsData);
             setClients(clientsData.filter(client => client.client_department_pivot.departmentId === departmentID));
             // setDepartments(departmentsJson);
             // setClients(clientsJson);
@@ -83,7 +86,7 @@ const ReportModal = ({
     useEffect(() => {
         updateIsEmpty();
         handleCreateNewReportFunc(createNewReport);
-    }, [departmentID, clientID, shift, medicineChecked, walkChecked]);
+    }, [departmentID, clientID, shift, onShift, medicineChecked, walkChecked, entry, important]);
 
     useEffect(() => {
         updateIsDeptOrClientEmpty();
@@ -92,7 +95,7 @@ const ReportModal = ({
 
     useEffect(() => {
         handleSection(section1, section2, section3);
-    }, []);
+    }, [section1, section2, section3]);
 
     return (
         <>
