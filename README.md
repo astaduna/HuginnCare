@@ -12,8 +12,9 @@
 
 ### `npm start`
 ### `This phone application can not be run on iOS `
-### `scan the qr code that appears in the terminal`
-### `for testing the app use the authetication, `
+### `For android, go to Expo Go app and click on "Scan QR code"`
+### `Scan the qr code that appears in the terminal`
+### `For testing the app use the authetication, `
 
 Username | Password | Deild/ir | Type |
 --- | --- | --- | --- |
