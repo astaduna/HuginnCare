@@ -11,3 +11,4 @@
 ### `npm start`
 
 ### `scan the qr code that appears in the terminal`
+### `for testing the app use the authetication, username: Gudrun pw: gudrun1234`
