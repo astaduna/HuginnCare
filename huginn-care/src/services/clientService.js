@@ -22,6 +22,8 @@ export const getAllClients = async () => {
     }
 };
 
+// UNUSED FUNCTIONS
+
 // Function to edit a client's color by ID
 export const changeClientColorById = async (id, color) => {
     try {

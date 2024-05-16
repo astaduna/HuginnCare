@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { userState } from '../../components/LoginModal/user';
 import styles from './styles';
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { Text, View, TouchableOpacity } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import CalendarPicker from 'react-native-calendar-picker';
 import { getAllClients } from '../../services/clientService';
@@ -12,9 +11,6 @@ import { getAllUsers } from '../../services/userService';
 import Report from '../Report';
 import { greenBlue } from '../../styles/colors';
 import { categoryOptionsB, clientOptionsB, departmentOptionsB, pageOptions, userOptionsB } from '../Options';
-import departmentsJson from '../../resources/departments.json';
-import clientsJson from '../../resources/clients.json';
-import usersJson from '../../resources/users.json';
 
 const ReportList = ({ 
     reports, 
@@ -53,12 +49,9 @@ const ReportList = ({
                 const departmentsData = await getAllDepartments();
                 const usersData = await getAllUsers();
                 const clientsData = await getAllClients();
-                setDepartments(currentUser.thisUser.type === 'user' ? currentUser.thisUser.departments : departmentsData);
+                setDepartments(currentUser.thisUser.type === 'user' ? currentUser.thisUser.departments : departmentsData || []);
                 setUsers(usersData.filter(user => user.user_department_pivot.departmentId === departmentValue));
                 setClients(clientsData.filter(client => client.client_department_pivot.departmentId === departmentValue));
-                // setDepartments(departmentsJson);
-                // setUsers(usersJson.filter(user => user.user_department_pivot.departmentId === departmentValue));
-                // setClients(clientsJson.filter(client => client.client_department_pivot.departmentId === departmentValue));
             }
         })();
     }, [departmentValue]);
@@ -87,14 +80,14 @@ const ReportList = ({
         }
     };
 
-    let reportsTofilter;
-    if (categoryValue === 'day') {
+    let reportsTofilter = [];
+    if (categoryValue === 'day' && reports) {
         reportsTofilter = reports;
-    } else if (categoryValue === 'incident') {
+    } else if (categoryValue === 'incident' && incidents) {
         reportsTofilter = incidents;
-    } else if (categoryValue === 'coercion') {
+    } else if (categoryValue === 'coercion' && incidents) {
         reportsTofilter = incidents.filter(incident => incident.coercion != null);
-    } else {
+    } else if ((categoryValue === 'all' || categoryValue === '') && (reports || incidents)) {
         reportsTofilter = reports?.concat(incidents);
     }
 
@@ -142,9 +135,6 @@ const ReportList = ({
                             items={departmentOptionsB(departments)}
                             onValueChange={(value) => setDepartmentValue(value)}
                             value={departmentValue}
-                            Icon={() => {
-                                return <FontAwesome name='chevron-down' size={12} color='gray' />;
-                            }}
                         />
                         <RNPickerSelect
                             useNativeAndroidPickerStyle={false}
@@ -156,9 +146,6 @@ const ReportList = ({
                             items={userOptionsB(users)}
                             onValueChange={(value) => setUserValue(value)}
                             value={userValue}
-                            Icon={() => {
-                                return <FontAwesome name='chevron-down' size={12} color='gray' />;
-                            }}
                         />
                         <RNPickerSelect
                             useNativeAndroidPickerStyle={false}
@@ -170,9 +157,6 @@ const ReportList = ({
                             items={clientOptionsB(clients)}
                             onValueChange={(value) => setClientValue(value)}
                             value={clientValue}
-                            Icon={() => {
-                                return <FontAwesome name='chevron-down' size={12} color='gray' />;
-                            }}
                         />
                         <RNPickerSelect
                             useNativeAndroidPickerStyle={false}
@@ -184,9 +168,6 @@ const ReportList = ({
                             items={categoryOptionsB}
                             onValueChange={(value) => setCategoryValue(value)}
                             value={categoryValue}
-                            Icon={() => {
-                                return <FontAwesome name='chevron-down' size={12} color='gray' />;
-                            }}
                         />
                         <Text style={styles.inputTitle}>Tímabil</Text>
                         <TouchableOpacity
@@ -220,9 +201,6 @@ const ReportList = ({
                             items={pageOptions}
                             onValueChange={(value) => setPageValue(value)}
                             value={pageValue}
-                            Icon={() => {
-                                return <FontAwesome name='chevron-down' size={12} color='gray' />;
-                            }}
                         />
                     </View>
                 )
@@ -245,7 +223,7 @@ const ReportList = ({
                                             onPress={handlePrevPage}
                                             disabled={currentPage === 1}
                                         >
-                                            <FontAwesome name='chevron-left' size={18} color={currentPage === 1 ? 'gainsboro' : 'black'} />
+                                            <Text style={{ color: currentPage === 1 ? 'gainsboro' : 'black' }}>&#10094;</Text>
                                         </TouchableOpacity>
                                         {pageNumbers.map((number) => (
                                             <TouchableOpacity
@@ -264,7 +242,7 @@ const ReportList = ({
                                             onPress={handleNextPage}
                                             disabled={paginatedReports.length < pageValue || currentPage === totalPages}
                                         >
-                                            <FontAwesome name='chevron-right' size={18} color={currentPage === totalPages ? 'gainsboro' : 'black'} />
+                                            <Text style={{ color: currentPage === 1 ? 'gainsboro' : 'black' }}>&#10095;</Text>
                                         </TouchableOpacity>
                                     </View>
                                 )

@@ -3,12 +3,10 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userState } from '../../components/LoginModal/user';
 import styles from './styles';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import { getAllDepartments } from '../../services/departmentService';
 import Client from '../Client';
 import { departmentOptionsB, orderOptions, pageOptions } from '../Options';
-import departmentsJson from '../../resources/departments.json';
 
 const ClientList = ({ clients }) => {
     const currentUser = useRecoilValue(userState);
@@ -29,7 +27,6 @@ const ClientList = ({ clients }) => {
         (async () => {
             const departmentsData = await getAllDepartments();
             setDepartments(currentUser.thisUser.type === 'user' ? currentUser.thisUser.departments : departmentsData);
-            // setDepartments(departmentsJson);
         })();
     }, []);
 
@@ -98,9 +95,6 @@ const ClientList = ({ clients }) => {
                     items={pageOptions}
                     onValueChange={(value) => setPageValue(value)}
                     value={pageValue}
-                    Icon={() => {
-                        return <FontAwesome name='chevron-down' size={12} color='gray' />;
-                    }}
                 />
             </View>
             <View>
@@ -115,9 +109,6 @@ const ClientList = ({ clients }) => {
                     items={orderOptions}
                     onValueChange={(value) => setOrderValue(value)}
                     value={orderValue}
-                    Icon={() => {
-                        return <FontAwesome name='chevron-down' size={12} color='gray' />;
-                    }}
                 />
                 <RNPickerSelect
                     useNativeAndroidPickerStyle={false}
@@ -129,9 +120,6 @@ const ClientList = ({ clients }) => {
                     items={departmentOptionsB(departments)}
                     onValueChange={(value) => setDepartmentValue(value)}
                     value={departmentValue}
-                    Icon={() => {
-                        return <FontAwesome name='chevron-down' size={12} color='gray' />;
-                    }}
                 />
             </View>
             <Text style={styles.inputTitle}>Leita</Text>
@@ -171,7 +159,7 @@ const ClientList = ({ clients }) => {
                                     onPress={handlePrevPage}
                                     disabled={currentPage === 1}
                                 >
-                                    <FontAwesome name='chevron-left' size={18} color={currentPage === 1 ? 'gainsboro' : 'black'} />
+                                    <Text style={{ color: currentPage === 1 ? 'gainsboro' : 'black' }}>&#10094;</Text>
                                 </TouchableOpacity>
                                 {pageNumbers.map((number) => (
                                     <TouchableOpacity
@@ -190,7 +178,7 @@ const ClientList = ({ clients }) => {
                                     onPress={handleNextPage}
                                     disabled={paginatedClients.length < pageValue || currentPage === totalPages}
                                 >
-                                    <FontAwesome name='chevron-right' size={18} color={currentPage === totalPages ? 'gainsboro' : 'black'} />
+                                    <Text style={{ color: currentPage === 1 ? 'gainsboro' : 'black' }}>&#10095;</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

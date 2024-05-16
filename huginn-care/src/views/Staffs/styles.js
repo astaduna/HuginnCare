@@ -22,10 +22,5 @@ export default StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: darkGray
-    },
-    paragraph: {
-        textAlign: 'center',
-        color: 'black'
-    }
-        
+    }   
 });

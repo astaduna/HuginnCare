@@ -1,21 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import { Image, Linking, SafeAreaView, Text, TouchableOpacity, View, ScrollView, TextInput, Keyboard } from 'react-native';
-import { getAllClients } from '../../services/clientService';
-import { getAllDepartments } from '../../services/departmentService';
+import { Text, View, TextInput, Keyboard } from 'react-native';
 import { editIncident, getIncidentById } from '../../services/incidentService';
-import { FontAwesome } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
-import Spinner from '../../components/Spinner';
 import styles from './styles';
-import incidentJson from '../../resources/incident.json';
-import departmentsJson from '../../resources/departments.json';
-import clientsJson from '../../resources/clients.json';
 import moment from 'moment';
 import RadioButton from '../../components/RadioButton';
 import Checkbox from 'expo-checkbox';
 import { greenBlue } from '../../styles/colors';
-import { beforeOptions, clientOptionsA, departmentOptionsA, shiftOptions, typeOptions } from '../../components/Options';
+import { beforeOptions, typeOptions } from '../../components/Options';
 
 const IncidentDetailModal = ({
     id,
@@ -25,11 +18,7 @@ const IncidentDetailModal = ({
     handleEditMode,
     handleEditReportFunc
 }) => {
-    const [departmentID, setDepartmentID] = useState('');
-    const [clientID, setClientID] = useState('');
     const [shift, setShift] = useState('');
-    const [shiftType, setShiftType] = useState('');
-    const [onShift, setOnShift] = useState('');
     const [incidentLocation, setIncidentLocation] = useState('');
     const [incidentType, setIncidentType] = useState('');
     const [incidentBefore, setIncidentBefore] = useState('');
@@ -45,26 +34,14 @@ const IncidentDetailModal = ({
     const [section1, setSection1] = useState();
     const [section2, setSection2] = useState();
     const [section3, setSection3] = useState();
-    // const [type, setType] = useState('Atvikaskýrsla');
     const isFocused = useIsFocused();
-    const [isLoading, setIsLoading] = useState(true);
-    const scrollViewRef = useRef();
-    const [selectedSection, setSelectedSection] = useState('');
-
-    const [departments, setDepartments] = useState([]);
-    const [clients, setClients] = useState([]);
-
     const [incident, setIncident] = useState({});
 
     useEffect(() => {
         (async () => {
             const incidentData = await getIncidentById(id);
             setIncident(incidentData);
-            // setIncident(incidentJson);
-            setDepartmentID(incidentData.department?.id);
-            setClientID(incidentData.client?.id);
             setShift(incidentData.shift);
-            setShiftType(incidentData.shift === 'day' ? 'Dagvakt' : incidentData.shift === 'evening' ? 'Kvöldvakt' : incidentData.shift === 'night' ? 'Næturvakt' : '');
             setIncidentLocation(incidentData.location || '');
             setIncidentType(incidentData.type);
             setIncidentBefore(incidentData.before || '');
@@ -77,7 +54,6 @@ const IncidentDetailModal = ({
             setImportant(incidentData.important);
             setCoercion(incidentData.coercion ? 'yes' : 'no');
             setCoercionDescription(incidentData.coercion?.description || '');
-            setIsLoading(false);
         })();
     }, [isFocused, id]);
 
@@ -175,9 +151,6 @@ const IncidentDetailModal = ({
                             }}
                             onValueChange={(value) => setIncidentType(value)}
                             items={typeOptions}
-                            Icon={() => {
-                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                            }}
                         /></> 
                         : <><Text style={[styles.input, incident.type ? styles.greenBorder : styles.input]}>{incident.type || ''}</Text></>}
                 </View>
@@ -203,9 +176,6 @@ const IncidentDetailModal = ({
                             }}
                             onValueChange={(value) => setIncidentBefore(value)}
                             items={beforeOptions}
-                            Icon={() => {
-                                return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                            }}
                         /></> 
                         : <><Text style={[styles.input, incident.before ? styles.greenBorder : styles.input]}>{incident.before || ''}</Text></>}
                 </View>

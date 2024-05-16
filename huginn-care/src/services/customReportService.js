@@ -1,5 +1,7 @@
 import { API_URL } from './apiService';
 
+// UNUSED FUNCTIONS
+
 // Function to get all custom report templates
 export const getAllCustomReportTemplates = async () => {
     try {

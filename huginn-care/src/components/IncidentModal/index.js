@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { userState } from '../../components/LoginModal/user';
 import { useIsFocused } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import { View, Text, TextInput, Keyboard } from 'react-native';
 import Checkbox from 'expo-checkbox';
-import { FontAwesome } from '@expo/vector-icons';
 import RadioButton from '../../components/RadioButton';
 import styles from './styles';
 import { createIncident } from '../../services/incidentService';
@@ -26,7 +25,6 @@ const IncidentModal = ({
     const [departmentID, setDepartmentID] = useState('');
     const [clientID, setClientID] = useState('');
     const [shift, setShift] = useState('');
-    const [onShift, setOnShift] = useState('');
     const [incidentLocation, setIncidentLocation] = useState('');
     const [incidentType, setIncidentType] = useState('');
     const [incidentBefore, setIncidentBefore] = useState('');
@@ -58,7 +56,7 @@ const IncidentModal = ({
             const departmentsData = await getAllDepartments();
             const clientsData = await getAllClients();
             setDepartments(currentUser.thisUser.type === 'user' ? currentUser.thisUser.departments : departmentsData);
-            setClients(clientsData.filter(clientID => clientID.client_department_pivot.departmentId === departmentID));
+            setClients(clientsData.filter(client => client.departments.some(department => department.id === departmentID)));
         })();
     }, [isFocused, departmentID]);
 
@@ -73,7 +71,7 @@ const IncidentModal = ({
             isCoercion: coercion ? 'true' : 'false', 
             coercionDescription, 
             incidentDamages: damages ? damagesInfo : '',
-            important,
+            important: important ? 'true' : 'false',
             incidentLocation,
             incidentOther,
             incidentResponse,
@@ -134,11 +132,8 @@ const IncidentModal = ({
                     }}
                     onValueChange={(value) => setDepartmentID(value)}
                     items={departmentOptionsA(departments)}
-                    Icon={() => {
-                        return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                    }}
                 />
-                <Text style={styles.inputTitle}>þjónustuþegi</Text>
+                <Text style={styles.inputTitle}>Þjónustuþegi</Text>
                 <RNPickerSelect
                     useNativeAndroidPickerStyle={false}
                     style={{
@@ -155,9 +150,6 @@ const IncidentModal = ({
                     }}
                     onValueChange={(value) => setClientID(value)}
                     items={clientOptionsA(clients)}
-                    Icon={() => {
-                        return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                    }}
                 />
                 <Text style={styles.inputTitle}>Tegund vaktar</Text>
                 <RNPickerSelect
@@ -176,9 +168,6 @@ const IncidentModal = ({
                     }}
                     onValueChange={(value) => setShift(value)}
                     items={shiftOptions}
-                    Icon={() => {
-                        return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                    }}
                 />
             </View>
 
@@ -211,9 +200,6 @@ const IncidentModal = ({
                     }}
                     onValueChange={(value) => setIncidentType(value)}
                     items={typeOptions}
-                    Icon={() => {
-                        return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                    }}
                 />
                 <Text style={styles.inputTitle}>Aðdragandi atviks</Text>
                 <RNPickerSelect
@@ -232,9 +218,6 @@ const IncidentModal = ({
                     }}
                     onValueChange={(value) => setIncidentBefore(value)}
                     items={beforeOptions}
-                    Icon={() => {
-                        return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                    }}
                 />
                 <Text style={styles.inputTitle}>Hvernig fór atvikið fram</Text>
                 <TextInput

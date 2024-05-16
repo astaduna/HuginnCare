@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import { Text, View, TextInput, Keyboard } from 'react-native';
-import { getAllClients } from '../../services/clientService';
-import { getAllDepartments } from '../../services/departmentService';
 import { editReport, getReportById } from '../../services/reportService';
 import styles from './styles';
-import reportJson from '../../resources/report.json';
-import incidentJson from '../../resources/incident.json';
-import departmentsJson from '../../resources/departments.json';
-import clientsJson from '../../resources/clients.json';
 import moment from 'moment';
 import RadioButton from '../../components/RadioButton';
 import Checkbox from 'expo-checkbox';
@@ -22,8 +16,6 @@ const ReportDetailModal = ({
     handleEditMode,
     handleEditReportFunc
 }) => {
-    const [departmentID, setDepartmentID] = useState('');
-    const [clientID, setClientID] = useState('');
     const [shift, setShift] = useState('');
     const [shiftType, setShiftType] = useState('');
     const [onShift, setOnShift] = useState('');
@@ -34,7 +26,6 @@ const ReportDetailModal = ({
     const [section1, setSection1] = useState();
     const [section2, setSection2] = useState();
     const [section3, setSection3] = useState();
-    // const [type, setType] = useState('Atvikaskýrsla');
     const isFocused = useIsFocused();
     
     const [report, setReport] = useState({});
@@ -42,10 +33,7 @@ const ReportDetailModal = ({
     useEffect(() => {
         (async () => {
             const reportData = await getReportById(id);
-            setReport(reportData);
-            // setReport(reportJson);
-            setDepartmentID(reportData.department?.id);
-            setClientID(reportData.client?.id);
+            setReport(reportData || {});
             setShift(reportData.shift || '');
             setShiftType(reportData.shift === 'day' ? 'Dagvakt' : reportData.shift === 'evening' ? 'Kvöldvakt' : reportData.shift === 'night' ? 'Næturvakt' : '');
             setOnShift(reportData.onShift || '');

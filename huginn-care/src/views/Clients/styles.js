@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { darkGray, greenBlue } from '../../styles/colors';
+import { darkGray } from '../../styles/colors';
 
 export default StyleSheet.create({
     container: {
@@ -22,10 +22,5 @@ export default StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: darkGray
-    },
-    paragraph: {
-        textAlign: 'center',
-        color: 'black'
-    }
-        
+    }   
 });

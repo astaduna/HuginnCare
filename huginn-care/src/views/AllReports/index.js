@@ -6,8 +6,6 @@ import { getAllReports } from '../../services/reportService';
 import Spinner from '../../components/Spinner';
 import ReportList from '../../components/ReportList';
 import styles from './styles';
-import reportsJson from '../../resources/reports.json';
-import incidentsJson from '../../resources/incidents.json';
 
 const AllReports = ({ navigation: { navigate } }) => {
     const isFocused = useIsFocused();
@@ -19,8 +17,6 @@ const AllReports = ({ navigation: { navigate } }) => {
         (async () => {
             setReports(await getAllReports());
             setIncidents(await getAllIncidents());
-            // setReports(reportsJson);
-            // setIncidents(incidentsJson);
             setIsLoading(false);
         })();
     }, [isFocused]);

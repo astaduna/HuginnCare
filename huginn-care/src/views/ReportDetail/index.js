@@ -1,23 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import { Image, Linking, SafeAreaView, Text, TouchableOpacity, View, ScrollView, TextInput, Keyboard } from 'react-native';
-import { getAllClients } from '../../services/clientService';
-import { getAllDepartments } from '../../services/departmentService';
-import { editIncident, getIncidentById } from '../../services/incidentService';
-import { editReport, getReportById } from '../../services/reportService';
-import { FontAwesome } from '@expo/vector-icons';
-import RNPickerSelect from 'react-native-picker-select';
-import Spinner from '../../components/Spinner';
+import { SafeAreaView, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import styles from './styles';
-import reportJson from '../../resources/report.json';
-import incidentJson from '../../resources/incident.json';
-import departmentsJson from '../../resources/departments.json';
-import clientsJson from '../../resources/clients.json';
-import moment from 'moment';
-import RadioButton from '../../components/RadioButton';
-import Checkbox from 'expo-checkbox';
-import { greenBlue } from '../../styles/colors';
-import { beforeOptions, clientOptionsA, departmentOptionsA, shiftOptions, typeOptions } from '../../components/Options';
 import ReportDetailModal from '../../components/ReportDetailModal';
 import IncidentDetailModal from '../../components/IncidentDetailModal';
 
@@ -26,7 +10,6 @@ const ReportDetail = ({ route, navigation: { navigate } }) => {
     const [section2, setSection2] = useState();
     const [section3, setSection3] = useState();
     const { id, type } = route.params;
-    // const [type, setType] = useState('Atvikaskýrsla');
     const isFocused = useIsFocused();
     const [isLoading, setIsLoading] = useState(true);
     const scrollViewRef = useRef();

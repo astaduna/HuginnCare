@@ -60,26 +60,6 @@ export const getDrafts = async () => {
     }
 };
 
-// Function to get aggregated reports
-// export const getAggregatedReports = async () => {
-//     try {
-//         const response = await fetch(`${API_URL}/reports/aggregate`);
-//         return response.data;
-//     } catch (error) {
-//         throw error.response.data;
-//     }
-// };
-
-// Function to get aggregated report list
-// export const getAggregatedReportList = async () => {
-//     try {
-//         const response = await fetch(`${API_URL}/reports/aggregatelist`);
-//         return response.data;
-//     } catch (error) {
-//         throw error.response.data;
-//     }
-// };
-
 // Function to get a single report by ID
 export const getReportById = async (id) => {
     try {
@@ -149,6 +129,28 @@ export const editReport = async (id, reportData) => {
             return true;
         }
         throw new Error('Failed to create report');
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+
+// UNUSED FUNCTIONS
+
+// Function to get aggregated reports
+export const getAggregatedReports = async () => {
+    try {
+        const response = await fetch(`${API_URL}/reports/aggregate`);
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+
+// Function to get aggregated report list
+export const getAggregatedReportList = async () => {
+    try {
+        const response = await fetch(`${API_URL}/reports/aggregatelist`);
+        return response.data;
     } catch (error) {
         throw error.response.data;
     }

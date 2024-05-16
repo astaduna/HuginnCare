@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { SafeAreaView, ScrollView, Text } from 'react-native';
 import { getDrafts } from '../../services/reportService';
 import Spinner from '../../components/Spinner';
 import ReportList from '../../components/ReportList';
 import styles from './styles';
 
-const Drafts = ({ navigation: { navigate } }) => {
+const Drafts = () => {
     const isFocused = useIsFocused();
     const [isLoading, setIsLoading] = useState(true);
     const [reports, setReports] = useState([]);

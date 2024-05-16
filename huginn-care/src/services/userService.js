@@ -22,16 +22,6 @@ export const getAllUsers = async () => {
     }
 };
 
-// Function to get a user by ID
-export const getUserById = async (id) => {
-    try {
-        const response = await fetch(`${API_URL}/users/id/${id}`);
-        return response.data;
-    } catch (error) {
-        throw error.response.data;
-    }
-};
-
 // Function to edit the current user's profile
 export const editSelfProfile = async (userData) => {
     try {
@@ -50,6 +40,18 @@ export const editSelfProfile = async (userData) => {
             return true;
         }
         throw new Error('Failed to create report');
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+
+// UNUSED FUNCTIONS
+
+// Function to get a user by ID
+export const getUserById = async (id) => {
+    try {
+        const response = await fetch(`${API_URL}/users/id/${id}`);
+        return response.data;
     } catch (error) {
         throw error.response.data;
     }

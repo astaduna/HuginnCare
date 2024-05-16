@@ -7,7 +7,6 @@ import { userState } from './user';
 const LoginModal = ({ submit }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    // const [password, setPassword] = useState('NobodyWantsToSeeMeDownLikeIWantsToSeeMeUp');
     const setUser = useSetRecoilState(userState);
     const [errors, setErrors] = useState({});
     const isEmpty = username.length === 0 || password.length === 0;

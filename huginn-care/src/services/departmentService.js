@@ -22,6 +22,8 @@ export const getAllDepartments = async () => {
     }
 };
 
+// UNUSED FUNCTIONS
+
 // Function to add a client to a department
 export const addClientToDepartment = async (departmentId, clientId) => {
     try {

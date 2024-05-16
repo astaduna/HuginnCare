@@ -1,7 +1,5 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
-import { FontAwesome } from '@expo/vector-icons';
 import styles from './styles';
 
 const Staff = ({ name, departments, phone, type }) => {

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { userState } from '../../components/LoginModal/user';
 import { useIsFocused } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import { View, Text, TextInput, Keyboard } from 'react-native';
 import Checkbox from 'expo-checkbox';
-import { FontAwesome } from '@expo/vector-icons';
 import RadioButton from '../../components/RadioButton';
 import styles from './styles';
 import { createReport } from '../../services/reportService';
@@ -13,9 +12,6 @@ import { getAllClients } from '../../services/clientService';
 import { getAllDepartments } from '../../services/departmentService';
 import { greenBlue } from '../../styles/colors';
 import { clientOptionsA, departmentOptionsA, shiftOptions } from '../../components/Options';
-import departmentsJson from '../../resources/departments.json';
-import clientsJson from '../../resources/clients.json';
-import usersJson from '../../resources/users.json';
 
 const ReportModal = ({
     navigate,
@@ -51,11 +47,9 @@ const ReportModal = ({
             const departmentsData = await getAllDepartments();
             const clientsData = await getAllClients();
             setDepartments(currentUser.thisUser.type === 'user' ? currentUser.thisUser.departments : departmentsData);
-            setClients(clientsData.filter(client => client.client_department_pivot.departmentId === departmentID));
-            // setDepartments(departmentsJson);
-            // setClients(clientsJson);
+            setClients(clientsData.filter(client => client.departments.some(department => department.id === departmentID)));
         })();
-    }, [isFocused, departmentID]);
+    }, [isFocused, departmentID, clientID]);
 
     const createNewReport = async (isDraft) => {
         const report = {
@@ -120,11 +114,8 @@ const ReportModal = ({
                     }}
                     onValueChange={(value) => setDepartmentID(value)}
                     items={departmentOptionsA(departments)}
-                    Icon={() => {
-                        return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                    }}
                 />
-                <Text style={styles.inputTitle}>þjónustuþegi</Text>
+                <Text style={styles.inputTitle}>Þjónustuþegi</Text>
                 <RNPickerSelect
                     useNativeAndroidPickerStyle={false}
                     style={{
@@ -141,9 +132,6 @@ const ReportModal = ({
                     }}
                     onValueChange={(value) => setClientID(value)}
                     items={clientOptionsA(clients)}
-                    Icon={() => {
-                        return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                    }}
                 />
                 <Text style={styles.inputTitle}>Tegund vaktar</Text>
                 <RNPickerSelect
@@ -162,9 +150,6 @@ const ReportModal = ({
                     }}
                     onValueChange={(value) => setShift(value)}
                     items={shiftOptions}
-                    Icon={() => {
-                        return <FontAwesome name='chevron-down' size={15} color={greenBlue} />;
-                    }}
                 />
                 <Text style={styles.inputTitle}>Starfsmenn á vakt</Text>
                 <TextInput

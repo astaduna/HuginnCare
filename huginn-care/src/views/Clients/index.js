@@ -2,17 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, SafeAreaView } from 'react-native';
 import { getAllClients } from '../../services/clientService';
 import styles from './styles';
-import clientsJson from '../../resources/clients.json';
 import ClientList from '../../components/ClientList';
 
-const Clients = ({ navigation: { navigate } }) => {
+const Clients = () => {
     const [clients, setClients] = useState([]);
 
     useEffect(() => {
         (async () => {
             setClients(await getAllClients() || []);
-            // console.log(clients)
-            // setClients(clientsJson);
         })();
     }, []);
 

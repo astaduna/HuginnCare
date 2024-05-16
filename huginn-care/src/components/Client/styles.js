@@ -1,12 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-    container: {
-        margin: 0
-    },
-    title: {
-        color: 'gray'
-    },
     tableRow: {
         flexDirection: 'row',
         borderTopWidth: 1,

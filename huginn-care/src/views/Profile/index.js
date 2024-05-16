@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import FloatingActionButton from '../../components/FloatingActionButton';
 import staffs from '../../resources/group.png';
-import plus from '../../resources/plus.png';
 import next from '../../resources/right-arrow.png';
 import setting from '../../resources/setting.png';
 import exit from '../../resources/exit.png';

@@ -23,16 +23,6 @@ export const getAllIncidents = async () => {
     }
 };
 
-// Function to get all coercions
-export const getAllCoercions = async () => {
-    try {
-        const response = await fetch(`${API_URL}/coercions/all`);
-        return response.data;
-    } catch (error) {
-        throw error.response.data;
-    }
-};
-
 // Function to get a single incident by ID
 export const getIncidentById = async (id) => {
     try {
@@ -94,6 +84,18 @@ export const editIncident = async (id, incidentData) => {
             return true;
         }
         throw new Error('Failed to create report');
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+
+// UNUSED FUNCTIONS
+
+// Function to get all coercions
+export const getAllCoercions = async () => {
+    try {
+        const response = await fetch(`${API_URL}/coercions/all`);
+        return response.data;
     } catch (error) {
         throw error.response.data;
     }

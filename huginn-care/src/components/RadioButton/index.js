@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import styles from './styles';
 
 const RadioButton = ({ value, status, onPress }) => {

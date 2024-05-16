@@ -5,7 +5,7 @@ import { userState } from '../../components/LoginModal/user';
 import { editSelfProfile } from '../../services/userService';
 import styles from './styles';
 
-const Settings = ({ navigation }) => {
+const Settings = () => {
     const currentUser = useRecoilValue(userState);
     const setUser = useSetRecoilState(userState);
     const [userDetails, setUserDetails] = useState(currentUser?.thisUser || {});
@@ -27,10 +27,6 @@ const Settings = ({ navigation }) => {
         setCity(userDetails?.city);
     }, [currentUser]);
 
-    const handleChange = (name, value) => {
-        setUserDetails(prev => ({ ...prev, [name]: value }));
-    };
-
     const handleSave = async () => {
         try {
             const user = {
@@ -42,9 +38,7 @@ const Settings = ({ navigation }) => {
                 postal,
                 city
             };
-            console.log(user);
-            const updatedUser = await editSelfProfile(user);
-            // setUser({ ...currentUser, thisUser: updatedUser }); // Update the global state if the server update was successful
+            await editSelfProfile(user);
             Alert.alert('Success', 'User data updated successfully.');
         } catch (error) {
             Alert.alert('Error', error.message || 'Failed to update user data.');

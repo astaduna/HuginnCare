@@ -10,8 +10,6 @@ import Spinner from '../../components/Spinner';
 import ReportList from '../../components/ReportList';
 import { getAllReports } from '../../services/reportService';
 import { getAllIncidents } from '../../services/incidentService';
-import reportsJson from '../../resources/reports.json';
-import incidentsJson from '../../resources/incidents.json';
 
 const Reports = ({ navigation: { navigate } }) => {
     const isFocused = useIsFocused();
@@ -23,15 +21,13 @@ const Reports = ({ navigation: { navigate } }) => {
         (async () => {
             setReports(await getAllReports());
             setIncidents(await getAllIncidents());
-            // setReports(reportsJson);
-            // setIncidents(incidentsJson);
             setIsLoading(false);
         })();
     }, [isFocused]);
 
     return (
         <SafeAreaView style={styles.container}>
-            { reports.length <= 0 // isLoading
+            { isLoading
                 ? <Spinner /> 
                 : <ScrollView style={styles.scrollContainer}>
                     <Text style={styles.title}>Yfirlit</Text>
@@ -70,19 +66,6 @@ const Reports = ({ navigation: { navigate } }) => {
                             </View>
                             <View style={styles.navText}>
                                 <Text style={styles.buttonText}>Sjá öll drög</Text>
-                                <Image source={next} style={styles.nextIcon} />
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => { navigate('Reports'); }}>
-                        <View style={styles.section}>
-                            <View style={styles.redIcon}>
-                                <Image source={report} style={styles.icon} />
-                            </View>
-                            <View style={styles.navText}>
-                                <Text style={styles.buttonText}>Samantekt</Text>
                                 <Image source={next} style={styles.nextIcon} />
                             </View>
                         </View>
